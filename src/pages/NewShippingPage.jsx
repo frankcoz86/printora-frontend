@@ -1,0 +1,436 @@
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { motion } from 'framer-motion';
+import { toast } from '@/components/ui/use-toast';
+import { useSupabase } from '@/context/SupabaseContext';
+import { useCart } from '@/context/CartContext';
+import { getShippingRate } from '@/config/shippingRates';
+import ShippingAddressForm from '@/components/shipping/ShippingAddressForm';
+import OrderSummary from '@/components/shipping/OrderSummary';
+
+// Map cart -> canonical invoice items (euros)
+function toInvoiceItems(cart) {
+  return (cart || []).map(it => {
+    const d = it.details || {};
+    const variant = [d.dimensions, d.lamination, d.cut].filter(Boolean).join(', ');
+    const name = variant ? `${it.name} — ${variant}` : it.name;
+    const qty  = Number(it.quantity || 1);
+    const unit = Number((it.price ?? (it.total / (it.quantity || 1)) ?? 0));
+    return { name, quantity: qty, unit_amount: unit };
+  });
+}
+
+/** CORS-safe ping to Apps Script (non-blocking) */
+async function fireAppsScript(order, address, printFiles, totals, payMethod, cart) {
+  try {
+    const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
+    if (!appsUrl) return;
+
+    const payload = {
+      event: 'ORDER_CREATED',
+      id: order.id,
+      order_code: order.order_code,
+      created_at: order.created_at,
+      planned_drive_path: order.planned_drive_path,
+      shipping: address,
+      print_files: printFiles,
+      amount: Math.round((totals?.total || 0) * 100),
+      payment_method: payMethod || 'card',
+      items: toInvoiceItems(cart),
+      shipping_total: totals?.shippingPrice ?? 0,
+      discount_total: 0,
+      tax_rate: 22,
+      tax_cents: Math.round((totals?.vatAmount ?? 0) * 100),
+      amount_total_cents: Math.round((totals?.total ?? 0) * 100),
+    };
+
+    fetch(appsUrl, { method: 'POST', mode: 'no-cors', keepalive: true, body: JSON.stringify(payload) }).catch(() => {});
+  } catch {}
+}
+
+/** After PayPal capture: tell Apps Script to build & email the invoice */
+async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals, paypalDetails, cart) {
+  try {
+    const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
+    if (!appsUrl) return;
+
+    const payload = {
+      event: 'PAYMENT_SUCCEEDED',
+      id: order.id,
+      order_code: order.order_code,
+      currency: 'EUR',
+
+      // rich info -> improves invoice rows + email fallbacks
+      items: toInvoiceItems(cart),
+      shipping: {
+        name: `${address.name} ${address.surname}`.trim(),
+        email: address.email,
+        company: address.company,
+        address: address.address,
+        city: address.city,
+        province: address.province,
+        postcode: address.zip,
+        country: 'IT'
+      },
+
+      // Stripe-like shape that your Apps Script already understands
+      payment_details: {
+        provider: 'paypal',
+        id: paypalDetails?.id,                   // PayPal capture id
+        status: paypalDetails?.status || 'COMPLETED',
+        customer_email: address.email,
+        amount_total: Math.round(Number(totals.total || 0) * 100), // cents
+        total_details: {
+          amount_tax:      Math.round(Number(totals.vatAmount || 0) * 100),
+          amount_shipping: Math.round(Number(totals.shippingPrice || 0) * 100),
+          amount_discount: 0
+        },
+        line_items: [
+          {
+            description: 'Order from Printora',
+            quantity: 1,
+            amount_total: Math.round(Number(totals.total || 0) * 100),
+            currency: 'eur'
+          }
+        ]
+      },
+
+      // help your Apps Script compute/tie totals precisely
+      shipping_total: totals?.shippingPrice ?? 0,       // euros
+      discount_total: 0,                                // euros
+      tax_rate: 22,
+      tax_cents: Math.round((totals?.vatAmount ?? 0) * 100),
+      amount_total_cents: Math.round((totals?.total ?? 0) * 100),
+
+      // testing convenience
+      force_build: true,
+      force_email: true
+    };
+
+    // normal CORS is fine here; no need for no-cors/keepalive
+    await fetch(appsUrl, { method: 'POST', body: JSON.stringify(payload) });
+  } catch {}
+}
+
+const NewShippingPage = () => {
+  const cartCtx = useCart();
+  const outlet = useOutletContext?.() || {};
+  const cartHook = outlet.cartHook || cartCtx;
+
+  const { cart = [], getCartSubtotal = () => 0, clearCart = () => {}, getCartWeight = () => 0 } = cartHook;
+  const { supabase, saveOrder } = useSupabase();
+  const navigate = useNavigate();
+
+  const [address, setAddress] = useState({ name: '', surname: '', email: '', company: '', address: '', city: '', zip: '', province: '' });
+  const [wantsInvoice, setWantsInvoice] = useState(false);
+  const [billingInfo, setBillingInfo] = useState({ companyName: '', vatId: '', sdiCode: '', pec: '', billingEmail: '' });
+  const [selectedCarrier, setSelectedCarrier] = useState(null);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('paypal');
+
+  useEffect(() => { if (address.email && wantsInvoice) setBillingInfo(p => ({ ...p, billingEmail: address.email })); }, [address.email, wantsInvoice]);
+
+  const addressValid = useMemo(() => {
+    const { company, ...req } = address;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return Object.values(req).every(v => v && v.trim() !== '') && emailRegex.test(address.email);
+  }, [address]);
+
+  const billingInfoValid = useMemo(() => {
+    if (!wantsInvoice) return true;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const hasReq = billingInfo.companyName && billingInfo.vatId && (billingInfo.sdiCode || billingInfo.pec);
+    return hasReq && billingInfo.billingEmail && emailRegex.test(billingInfo.billingEmail);
+  }, [wantsInvoice, billingInfo]);
+
+  const isReadyForPayment = useMemo(() => addressValid && billingInfoValid, [addressValid, billingInfoValid]);
+
+  const subtotal = getCartSubtotal();
+  const weight = getCartWeight();
+
+  useEffect(() => {
+    if (cart.length === 0 && !isCheckingOut) {
+      toast({ title: 'Carrello vuoto', description: 'Aggiungi prodotti al carrello prima di procedere.', variant: 'destructive' });
+      navigate('/carrello');
+    }
+  }, [cart, navigate, isCheckingOut]);
+
+  useEffect(() => { setSelectedCarrier(getShippingRate(weight)); }, [weight]);
+
+  const orderTotals = useMemo(() => {
+    const shippingPrice = selectedCarrier ? selectedCarrier.price : 0;
+    const taxableAmount = subtotal + shippingPrice;
+    const vatAmount = taxableAmount * 0.22;
+    const total = taxableAmount + vatAmount;
+    return { productsSubtotal: subtotal, shippingPrice, taxableAmount, vatAmount, total };
+  }, [subtotal, selectedCarrier]);
+
+  /** Build a clean, deduped print_files array (ignore any data-URL legacy fields) */
+  const buildPrintFiles = (items) => {
+    const out = [];
+    const seen = new Set();
+    const pushSafe = (item, pf) => {
+      const fid = pf?.driveFileId || pf?.drive_file_id;
+      if (!fid) return; // ignore blob/fileUrl entries
+      const key = fid + '|' + (pf.kind || 'client-upload');
+      if (seen.has(key)) return;
+      seen.add(key);
+      out.push({
+        productName: item.name,
+        fileName: pf.fileName || item.details?.fileName || 'file',
+        kind: (pf.kind || item.details?.kind || 'client-upload').toLowerCase(),
+        driveFileId: fid,
+        driveLink: pf.driveLink || item.details?.driveLink,
+        mimeType: pf.mimeType || item.details?.mimeType,
+        size: pf.size || item.details?.size,
+        productId: item.product?.id,
+      });
+    };
+
+    items.forEach((item) => {
+      const d = item.details || {};
+      if (d.driveFileId) pushSafe(item, d);
+      (Array.isArray(d.printFiles) ? d.printFiles : []).forEach(p => pushSafe(item, p));
+      // IMPORTANT: do NOT push d.fileUrl / d.fileUrls (legacy data URLs) — they are not Drive files.
+    });
+    return out;
+  };
+
+  // Saves the order record used by your “Thank you” page (PayPal path)
+  const handleSaveOrder = useCallback(async (paymentMethod, paymentDetails) => {
+    const printFiles = buildPrintFiles(cart);
+
+    const orderDetails = {
+      shipping_address: address,
+      billing_info: wantsInvoice ? billingInfo : null,
+      cart_items: cart,
+      print_files: printFiles, // deduped, only Drive IDs
+      subtotal: orderTotals.productsSubtotal,
+      shipping_cost: orderTotals.shippingPrice,
+      vat_amount: orderTotals.vatAmount,
+      total_amount: orderTotals.total,
+      carrier_info: selectedCarrier ? { name: selectedCarrier.name, price: selectedCarrier.price } : null,
+      status: 'pagato',
+      payment_method: paymentMethod,
+      payment_details: paymentDetails,
+    };
+
+    const { data: savedOrder, error } = await saveOrder(orderDetails);
+    if (error || !savedOrder) {
+      console.error('Error saving order:', error);
+      toast({ title: "Errore nel salvataggio dell'ordine", description: 'Non è stato possibile salvare il tuo ordine. Contatta l’assistenza.', variant: 'destructive' });
+      navigate('/payment-cancel');
+      return null;
+    }
+
+    // NOTE: No ORDER_CREATED ping here. We send it once in onApprove (PayPal) or in Stripe flow below.
+    return savedOrder;
+  }, [cart, address, wantsInvoice, billingInfo, orderTotals, selectedCarrier, saveOrder, navigate]);
+
+  /** ---- PayPal ---- */
+  const createOrderForPaypal = useCallback((_data, actions) => {
+    if (!isReadyForPayment) {
+      toast({
+        title: 'Dati incompleti',
+        description: 'Completa tutti i campi obbligatori per procedere.',
+        variant: 'destructive',
+      });
+      return Promise.reject(new Error('Form invalid'));
+    }
+  
+    const totalValue = orderTotals.total.toFixed(2);
+  
+    // Build items with per-unit pricing
+    const items = cart.map((item) => {
+      const qty = Number(item.quantity || 1);
+      const perUnit = Number(
+        item.price ?? (qty ? (Number(item.total || 0) / qty) : 0)
+      );
+      return {
+        name: String(item.name || '').substring(0, 127),
+        unit_amount: { currency_code: 'EUR', value: perUnit.toFixed(2) },
+        quantity: String(qty),
+        category: 'PHYSICAL_GOODS',
+      };
+    });
+  
+    const purchaseUnit = {
+      amount: {
+        currency_code: 'EUR',
+        value: totalValue,
+        breakdown: {
+          item_total: { currency_code: 'EUR', value: orderTotals.productsSubtotal.toFixed(2) },
+          shipping:   { currency_code: 'EUR', value: orderTotals.shippingPrice.toFixed(2) },
+          tax_total:  { currency_code: 'EUR', value: orderTotals.vatAmount.toFixed(2) },
+        },
+      },
+      items,
+      shipping: {
+        name: { full_name: `${address.name} ${address.surname}`.trim() },
+        address: {
+          address_line_1: address.address,
+          admin_area_2:    address.city,       // city
+          admin_area_1:    address.province,   // province code like "BO"
+          postal_code:     address.zip,
+          country_code:   'IT',
+        },
+      },
+    };
+  
+    // Debug: verify the sums you send to PayPal
+    const computedItemTotal = items
+      .reduce((a, it) => a + Number(it.unit_amount.value) * Number(it.quantity), 0)
+      .toFixed(2);
+    console.log('[PP] create payload', {
+      totalValue,
+      breakdown: purchaseUnit.amount.breakdown,
+      computedItemTotal,
+      productsSubtotal: orderTotals.productsSubtotal.toFixed(2),
+      grand: (orderTotals.productsSubtotal + orderTotals.shippingPrice + orderTotals.vatAmount).toFixed(2),
+      items,
+    });
+  
+    return actions.order
+      .create({
+        application_context: { shipping_preference: 'SET_PROVIDED_ADDRESS', user_action: 'PAY_NOW' },
+        purchase_units: [purchaseUnit],
+      })
+      .then((id) => {
+        console.log('[PP] order.create OK id=', id);
+        return id;
+      })
+      .catch((err) => {
+        console.error('[PP] order.create FAILED', err);
+        throw err;
+      });
+  }, [isReadyForPayment, orderTotals, cart, address]);
+  
+
+  const onApproveOrder = useCallback(async (data, actions) => {
+    setIsCheckingOut(true);
+    try {
+      const details = await actions.order.capture();                      // PayPal capture
+  
+      const savedOrder = await handleSaveOrder('PayPal', details);
+      if (!savedOrder) throw new Error('Salvataggio ordine fallito');
+  
+      const printFiles = buildPrintFiles(cart);
+  
+      // ✅ Keep ORDER_CREATED so Drive folder & file moves happen
+      fireAppsScript(savedOrder, address, printFiles, orderTotals, 'paypal', cart);
+  
+      // ✅ NEW: immediately trigger invoice build + email
+      await fireAppsScriptPaymentSucceeded(savedOrder, address, printFiles, orderTotals, details, cart);
+  
+      clearCart();
+      navigate(`/payment-success?order_id=${savedOrder.id}&transaction_id=${details.id}`);
+    } catch (error) {
+      console.error('Error capturing order: ', error);
+      toast({ title: 'Errore nella transazione', description: 'Pagamento non completato. Riprova o contatta l’assistenza.', variant: 'destructive' });
+      if (!window.location.pathname.includes('payment-cancel')) navigate('/payment-cancel');
+    } finally { setIsCheckingOut(false); }
+  }, [handleSaveOrder, clearCart, navigate, cart, address, orderTotals]);  
+
+  /** ---- Stripe ---- */
+  const handleStripeCheckout = async () => {
+    if (!isReadyForPayment) {
+      toast({ title: 'Dati incompleti', description: 'Completa tutti i campi obbligatori per procedere.', variant: 'destructive' });
+      return;
+    }
+    setIsCheckingOut(true);
+    try {
+      const printFiles = buildPrintFiles(cart);
+
+      const payload = {
+        customer: { first_name: address.name, last_name: address.surname, email: address.email, phone: address.phone || undefined },
+        // include company + email so DB row is richer for invoice fallbacks
+        shipping: {
+          name: `${address.name} ${address.surname}`,
+          email: address.email,
+          company: address.company,
+          address: address.address,
+          city: address.city,
+          postcode: address.zip,
+          province: address.province,
+          country: 'IT'
+        },
+        items: toInvoiceItems(cart),
+        print_files: printFiles,
+        amount: Math.round(orderTotals.total * 100),
+        currency: 'EUR',
+        payment_method: 'card',
+        shipping_total: orderTotals.shippingPrice,     // euros
+        discount_total: 0,                             // euros
+        tax_rate: 22,
+        tax_cents: Math.round(orderTotals.vatAmount * 100),
+        amount_total_cents: Math.round(orderTotals.total * 100),
+      };
+
+      const { data, error } = await supabase.functions.invoke('create-order', { body: payload });
+      if (error) throw new Error(error.message || 'create-order failed');
+      const order = data?.order;
+
+      const orderData = {
+        cart,
+        shippingAddress: address,
+        billingInfo: wantsInvoice ? billingInfo : null,
+        orderTotals,
+        carrier: selectedCarrier,
+        order_id: order?.id,
+        order_code: order?.order_code,
+        planned_drive_path: order?.planned_drive_path,
+      };
+      sessionStorage.setItem('stripe_order_data', JSON.stringify(orderData));
+
+      fireAppsScript(order, address, printFiles, orderTotals, 'card', cart);
+      navigate('/stripe-redirect');
+    } catch (err) {
+      console.error(err);
+      toast({ title: "Errore nell'inizializzazione ordine", description: err?.message || 'Impossibile creare l’ordine. Riprova.', variant: 'destructive' });
+      setIsCheckingOut(false);
+    }
+  };
+
+  const onError = (err) => { console.error('PayPal onError', err); toast({ title: 'Errore PayPal', description: 'Si è verificato un errore durante il pagamento.', variant: 'destructive' }); setIsCheckingOut(false); };
+  const onCancel = (data) => { console.log('PayPal onCancel', data); toast({ title: 'Pagamento annullato', description: 'Hai annullato il processo di pagamento.' }); setIsCheckingOut(false); };
+
+  return (
+    <>
+      <Helmet>
+        <title>Checkout | Pagamento Sicuro | Printora</title>
+        <meta name="description" content="Completa il tuo ordine inserendo i dati di spedizione e fatturazione. Pagamento sicuro con PayPal e Stripe." />
+        <meta name="keywords" content="checkout, spedizione, pagamento, fatturazione, printora, paypal, stripe, carta di credito" />
+      </Helmet>
+      <div className="container mx-auto px-4 py-12">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <h1 className="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-white to slate-400">Finalizza il tuo Ordine</h1>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
+            <div className="lg:col-span-2">
+              <ShippingAddressForm
+                address={address}
+                setAddress={setAddress}
+                billingInfo={billingInfo}
+                setBillingInfo={setBillingInfo}
+                wantsInvoice={wantsInvoice}
+                setWantsInvoice={setWantsInvoice}
+              />
+            </div>
+            <div className="lg:col-span-1">
+            <OrderSummary
+  orderTotals={orderTotals}
+  selectedCarrier={selectedCarrier}
+  isCheckingOut={isCheckingOut}
+  isReadyForPayment={isReadyForPayment}
+  handleStripeCheckout={handleStripeCheckout}
+/>
+
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </>
+  );
+};
+
+export default NewShippingPage;

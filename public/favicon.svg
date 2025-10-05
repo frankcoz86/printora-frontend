@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="icon-gradient">
+            <stop stop-color="#2DD4BF" offset="0%"></stop>
+            <stop stop-color="#3B82F6" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(8.000000, 8.000000)" fill="url(#icon-gradient)">
+            <path d="M24,0 C37.254834,0 48,10.745166 48,24 C48,37.254834 37.254834,48 24,48 C10.745166,48 0,37.254834 0,24 C0,10.745166 10.745166,0 24,0 Z M24,4 C12.954305,4 4,12.954305 4,24 C4,35.045695 12.954305,44 24,44 C35.045695,44 44,35.045695 44,24 C44,12.954305 35.045695,4 24,4 Z M24,12 C29.522847,12 34,16.4771525 34,22 C34,27.5228475 29.522847,32 24,32 C18.4771525,32 14,27.5228475 14,22 C14,16.4771525 18.4771525,12 24,12 Z M24,16 C27.3137085,16 30,18.6862915 30,22 C30,25.3137085 27.3137085,28 24,28 C20.6862915,28 18,25.3137085 18,22 C18,18.6862915 20.6862915,16 24,16 Z" fill-rule="nonzero"></path>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="white">P</text>
+        </g>
+    </g>
+</svg>
