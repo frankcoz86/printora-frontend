@@ -17,7 +17,17 @@ function toInvoiceItems(cart) {
     const name = variant ? `${it.name} — ${variant}` : it.name;
     const qty  = Number(it.quantity || 1);
     const unit = Number((it.price ?? (it.total / (it.quantity || 1)) ?? 0));
-    return { name, quantity: qty, unit_amount: unit };
+
+    // Optional: expose width/height for easier downstream storage
+    let width_cm, height_cm;
+    const dims = String(d.dimensions || '').trim(); // e.g. "85x200 cm"
+    const m = dims.match(/(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)/i);
+    if (m) {
+      width_cm  = parseFloat(m[1].replace(',', '.'));
+      height_cm = parseFloat(m[2].replace(',', '.'));
+    }
+
+    return { name, quantity: qty, unit_amount: unit, width_cm, height_cm, details: d };
   });
 }
 
@@ -33,11 +43,19 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
       order_code: order.order_code,
       created_at: order.created_at,
       planned_drive_path: order.planned_drive_path,
-      shipping: address,
+
+      // include phone & notes
+      shipping: {
+        ...address,
+        country: 'IT',
+      },
+
       print_files: printFiles,
       amount: Math.round((totals?.total || 0) * 100),
       payment_method: payMethod || 'card',
       items: toInvoiceItems(cart),
+
+      // totals that Apps Script already uses
       shipping_total: totals?.shippingPrice ?? 0,
       discount_total: 0,
       tax_rate: 22,
@@ -71,13 +89,16 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
         city: address.city,
         province: address.province,
         postcode: address.zip,
-        country: 'IT'
+        country: 'IT',
+        // NEW:
+        phone: address.phone || '',
+        notes: address.notes || '',
       },
 
       // Stripe-like shape that your Apps Script already understands
       payment_details: {
         provider: 'paypal',
-        id: paypalDetails?.id,                   // PayPal capture id
+        id: paypalDetails?.id,
         status: paypalDetails?.status || 'COMPLETED',
         customer_email: address.email,
         amount_total: Math.round(Number(totals.total || 0) * 100), // cents
@@ -108,7 +129,6 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
       force_email: true
     };
 
-    // normal CORS is fine here; no need for no-cors/keepalive
     await fetch(appsUrl, { method: 'POST', body: JSON.stringify(payload) });
   } catch {}
 }
@@ -122,17 +142,26 @@ const NewShippingPage = () => {
   const { supabase, saveOrder } = useSupabase();
   const navigate = useNavigate();
 
-  const [address, setAddress] = useState({ name: '', surname: '', email: '', company: '', address: '', city: '', zip: '', province: '' });
+  // NEW: include phone & notes in state
+  const [address, setAddress] = useState({
+    name: '', surname: '', email: '', company: '',
+    address: '', city: '', zip: '', province: '',
+    phone: '', notes: ''
+  });
+
   const [wantsInvoice, setWantsInvoice] = useState(false);
   const [billingInfo, setBillingInfo] = useState({ companyName: '', vatId: '', sdiCode: '', pec: '', billingEmail: '' });
   const [selectedCarrier, setSelectedCarrier] = useState(null);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('paypal');
 
-  useEffect(() => { if (address.email && wantsInvoice) setBillingInfo(p => ({ ...p, billingEmail: address.email })); }, [address.email, wantsInvoice]);
+  useEffect(() => {
+    if (address.email && wantsInvoice) setBillingInfo(p => ({ ...p, billingEmail: address.email }));
+  }, [address.email, wantsInvoice]);
 
+  // Make phone & notes optional (exclude from required set)
   const addressValid = useMemo(() => {
-    const { company, ...req } = address;
+    const { company, phone, notes, ...req } = address;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return Object.values(req).every(v => v && v.trim() !== '') && emailRegex.test(address.email);
   }, [address]);
@@ -172,7 +201,7 @@ const NewShippingPage = () => {
     const seen = new Set();
     const pushSafe = (item, pf) => {
       const fid = pf?.driveFileId || pf?.drive_file_id;
-      if (!fid) return; // ignore blob/fileUrl entries
+      if (!fid) return;
       const key = fid + '|' + (pf.kind || 'client-upload');
       if (seen.has(key)) return;
       seen.add(key);
@@ -192,7 +221,6 @@ const NewShippingPage = () => {
       const d = item.details || {};
       if (d.driveFileId) pushSafe(item, d);
       (Array.isArray(d.printFiles) ? d.printFiles : []).forEach(p => pushSafe(item, p));
-      // IMPORTANT: do NOT push d.fileUrl / d.fileUrls (legacy data URLs) — they are not Drive files.
     });
     return out;
   };
@@ -202,10 +230,10 @@ const NewShippingPage = () => {
     const printFiles = buildPrintFiles(cart);
 
     const orderDetails = {
-      shipping_address: address,
+      shipping_address: address,                 // includes phone & notes
       billing_info: wantsInvoice ? billingInfo : null,
       cart_items: cart,
-      print_files: printFiles, // deduped, only Drive IDs
+      print_files: printFiles,
       subtotal: orderTotals.productsSubtotal,
       shipping_cost: orderTotals.shippingPrice,
       vat_amount: orderTotals.vatAmount,
@@ -223,8 +251,6 @@ const NewShippingPage = () => {
       navigate('/payment-cancel');
       return null;
     }
-
-    // NOTE: No ORDER_CREATED ping here. We send it once in onApprove (PayPal) or in Stripe flow below.
     return savedOrder;
   }, [cart, address, wantsInvoice, billingInfo, orderTotals, selectedCarrier, saveOrder, navigate]);
 
@@ -238,10 +264,9 @@ const NewShippingPage = () => {
       });
       return Promise.reject(new Error('Form invalid'));
     }
-  
+
     const totalValue = orderTotals.total.toFixed(2);
-  
-    // Build items with per-unit pricing
+
     const items = cart.map((item) => {
       const qty = Number(item.quantity || 1);
       const perUnit = Number(
@@ -254,7 +279,7 @@ const NewShippingPage = () => {
         category: 'PHYSICAL_GOODS',
       };
     });
-  
+
     const purchaseUnit = {
       amount: {
         currency_code: 'EUR',
@@ -270,59 +295,38 @@ const NewShippingPage = () => {
         name: { full_name: `${address.name} ${address.surname}`.trim() },
         address: {
           address_line_1: address.address,
-          admin_area_2:    address.city,       // city
-          admin_area_1:    address.province,   // province code like "BO"
+          admin_area_2:    address.city,
+          admin_area_1:    address.province,
           postal_code:     address.zip,
           country_code:   'IT',
         },
       },
     };
-  
-    // Debug: verify the sums you send to PayPal
-    const computedItemTotal = items
-      .reduce((a, it) => a + Number(it.unit_amount.value) * Number(it.quantity), 0)
-      .toFixed(2);
-    console.log('[PP] create payload', {
-      totalValue,
-      breakdown: purchaseUnit.amount.breakdown,
-      computedItemTotal,
-      productsSubtotal: orderTotals.productsSubtotal.toFixed(2),
-      grand: (orderTotals.productsSubtotal + orderTotals.shippingPrice + orderTotals.vatAmount).toFixed(2),
-      items,
-    });
-  
+
     return actions.order
       .create({
         application_context: { shipping_preference: 'SET_PROVIDED_ADDRESS', user_action: 'PAY_NOW' },
         purchase_units: [purchaseUnit],
       })
-      .then((id) => {
-        console.log('[PP] order.create OK id=', id);
-        return id;
-      })
-      .catch((err) => {
-        console.error('[PP] order.create FAILED', err);
-        throw err;
-      });
+      .then((id) => id);
   }, [isReadyForPayment, orderTotals, cart, address]);
-  
 
   const onApproveOrder = useCallback(async (data, actions) => {
     setIsCheckingOut(true);
     try {
-      const details = await actions.order.capture();                      // PayPal capture
-  
+      const details = await actions.order.capture();
+
       const savedOrder = await handleSaveOrder('PayPal', details);
       if (!savedOrder) throw new Error('Salvataggio ordine fallito');
-  
+
       const printFiles = buildPrintFiles(cart);
-  
-      // ✅ Keep ORDER_CREATED so Drive folder & file moves happen
+
+      // Drive folder & file moves
       fireAppsScript(savedOrder, address, printFiles, orderTotals, 'paypal', cart);
-  
-      // ✅ NEW: immediately trigger invoice build + email
+
+      // Build & email invoice
       await fireAppsScriptPaymentSucceeded(savedOrder, address, printFiles, orderTotals, details, cart);
-  
+
       clearCart();
       navigate(`/payment-success?order_id=${savedOrder.id}&transaction_id=${details.id}`);
     } catch (error) {
@@ -330,7 +334,7 @@ const NewShippingPage = () => {
       toast({ title: 'Errore nella transazione', description: 'Pagamento non completato. Riprova o contatta l’assistenza.', variant: 'destructive' });
       if (!window.location.pathname.includes('payment-cancel')) navigate('/payment-cancel');
     } finally { setIsCheckingOut(false); }
-  }, [handleSaveOrder, clearCart, navigate, cart, address, orderTotals]);  
+  }, [handleSaveOrder, clearCart, navigate, cart, address, orderTotals]);
 
   /** ---- Stripe ---- */
   const handleStripeCheckout = async () => {
@@ -344,7 +348,6 @@ const NewShippingPage = () => {
 
       const payload = {
         customer: { first_name: address.name, last_name: address.surname, email: address.email, phone: address.phone || undefined },
-        // include company + email so DB row is richer for invoice fallbacks
         shipping: {
           name: `${address.name} ${address.surname}`,
           email: address.email,
@@ -353,7 +356,10 @@ const NewShippingPage = () => {
           city: address.city,
           postcode: address.zip,
           province: address.province,
-          country: 'IT'
+          country: 'IT',
+          // NEW:
+          phone: address.phone || '',
+          notes: address.notes || '',
         },
         items: toInvoiceItems(cart),
         print_files: printFiles,
@@ -417,14 +423,13 @@ const NewShippingPage = () => {
               />
             </div>
             <div className="lg:col-span-1">
-            <OrderSummary
-  orderTotals={orderTotals}
-  selectedCarrier={selectedCarrier}
-  isCheckingOut={isCheckingOut}
-  isReadyForPayment={isReadyForPayment}
-  handleStripeCheckout={handleStripeCheckout}
-/>
-
+              <OrderSummary
+                orderTotals={orderTotals}
+                selectedCarrier={selectedCarrier}
+                isCheckingOut={isCheckingOut}
+                isReadyForPayment={isReadyForPayment}
+                handleStripeCheckout={handleStripeCheckout}
+              />
             </div>
           </div>
         </motion.div>
