@@ -96,7 +96,7 @@ const ContactPage = () => {
 
   const emails = {
     ordini: 'ordini@printora.it',
-    supporto: 'supporto@prinora.it',
+    supporto: 'supporto@printora.it',
   };
 
   return (
