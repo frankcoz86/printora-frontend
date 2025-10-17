@@ -32,7 +32,7 @@ function toInvoiceItems(cart) {
 }
 
 /** CORS-safe ping to Apps Script (non-blocking) */
-async function fireAppsScript(order, address, printFiles, totals, payMethod, cart) {
+async function fireAppsScript(order, address, printFiles, totals, payMethod, cart, billingInfo) {
   try {
     const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
     if (!appsUrl) return;
@@ -48,6 +48,14 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
       shipping: {
         ...address,
         country: 'IT',
+      },
+
+      // NEW → send billing (null if empty)
+      billing: {
+        company: (billingInfo?.companyName || address.company || null) || null,
+        vat_number: (billingInfo?.vatId || '').trim() || null,
+        tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
+        email: (billingInfo?.billingEmail || '').trim() || null
       },
 
       print_files: printFiles,
@@ -68,7 +76,7 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
 }
 
 /** After PayPal capture: tell Apps Script to build & email the invoice */
-async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals, paypalDetails, cart) {
+async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals, paypalDetails, cart, billingInfo) {
   try {
     const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
     if (!appsUrl) return;
@@ -93,6 +101,14 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
         // NEW:
         phone: address.phone || '',
         notes: address.notes || '',
+      },
+
+      // NEW → send billing (null if empty)
+      billing: {
+        company: (billingInfo?.companyName || address.company || null) || null,
+        vat_number: (billingInfo?.vatId || '').trim() || null,
+        tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
+        email: (billingInfo?.billingEmail || '').trim() || null
       },
 
       // Stripe-like shape that your Apps Script already understands
@@ -150,7 +166,14 @@ const NewShippingPage = () => {
   });
 
   const [wantsInvoice, setWantsInvoice] = useState(false);
-  const [billingInfo, setBillingInfo] = useState({ companyName: '', vatId: '', sdiCode: '', pec: '', billingEmail: '' });
+  const [billingInfo, setBillingInfo] = useState({
+    companyName: '',
+    vatId: '',
+    codiceFiscale: '',  // ← keep in state
+    sdiCode: '',
+    pec: '',
+    billingEmail: ''
+  });
   const [selectedCarrier, setSelectedCarrier] = useState(null);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('paypal');
@@ -262,9 +285,7 @@ const NewShippingPage = () => {
         description: 'Completa tutti i campi obbligatori per procedere.',
         variant: 'destructive',
       });
-      return Promise.reject(new Error('Form invalid'));
     }
-
     const totalValue = orderTotals.total.toFixed(2);
 
     const items = cart.map((item) => {
@@ -322,10 +343,10 @@ const NewShippingPage = () => {
       const printFiles = buildPrintFiles(cart);
 
       // Drive folder & file moves
-      fireAppsScript(savedOrder, address, printFiles, orderTotals, 'paypal', cart);
+      fireAppsScript(savedOrder, address, printFiles, orderTotals, 'paypal', cart, billingInfo);
 
       // Build & email invoice
-      await fireAppsScriptPaymentSucceeded(savedOrder, address, printFiles, orderTotals, details, cart);
+      await fireAppsScriptPaymentSucceeded(savedOrder, address, printFiles, orderTotals, details, cart, billingInfo);
 
       clearCart();
       navigate(`/payment-success?order_id=${savedOrder.id}&transaction_id=${details.id}`);
@@ -334,7 +355,7 @@ const NewShippingPage = () => {
       toast({ title: 'Errore nella transazione', description: 'Pagamento non completato. Riprova o contatta l’assistenza.', variant: 'destructive' });
       if (!window.location.pathname.includes('payment-cancel')) navigate('/payment-cancel');
     } finally { setIsCheckingOut(false); }
-  }, [handleSaveOrder, clearCart, navigate, cart, address, orderTotals]);
+  }, [handleSaveOrder, clearCart, navigate, cart, address, orderTotals, billingInfo]);
 
   /** ---- Stripe ---- */
   const handleStripeCheckout = async () => {
@@ -361,6 +382,7 @@ const NewShippingPage = () => {
           phone: address.phone || '',
           notes: address.notes || '',
         },
+        // (Stripe function payload unchanged otherwise)
         items: toInvoiceItems(cart),
         print_files: printFiles,
         amount: Math.round(orderTotals.total * 100),
@@ -389,7 +411,9 @@ const NewShippingPage = () => {
       };
       sessionStorage.setItem('stripe_order_data', JSON.stringify(orderData));
 
-      fireAppsScript(order, address, printFiles, orderTotals, 'card', cart);
+      // Send ORDER_CREATED (includes billing) to Apps Script
+      fireAppsScript(order, address, printFiles, orderTotals, 'card', cart, billingInfo);
+
       navigate('/stripe-redirect');
     } catch (err) {
       console.error(err);
