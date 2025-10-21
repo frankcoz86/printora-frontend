@@ -33,7 +33,6 @@ const ContactInfoCard = ({ icon: Icon, title, href, cta, children }) => {
   );
 };
 
-
 const EmailItem = ({ label, email }) => {
   const { toast } = useToast();
   const copyToClipboard = () => {
@@ -56,7 +55,6 @@ const EmailItem = ({ label, email }) => {
     </div>
   );
 };
-
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -85,18 +83,44 @@ const cardVariants = {
 const ContactPage = () => {
   const { toast } = useToast();
 
-  const handleFormSubmit = (e) => {
+  // ── NEW: form state + sending flag ─────────────────────────────────────
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    order_code: "", // optional; set it if you want to pass an order code
+  });
+  const [sending, setSending] = useState(false);
+
+  // ── NEW: submit handler to call /api/contact ───────────────────────────
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    toast({
-      title: "🚧 Funzione non disponibile",
-      description: "L'invio di messaggi non è ancora attivo. Per favore, usa uno dei metodi di contatto.",
-      variant: "destructive",
-    });
+    if (!form.name || !form.email || !form.message) {
+      toast({ title: "Compila i campi obbligatori", variant: "destructive" });
+      return;
+    }
+    try {
+      setSending(true);
+      const resp = await fetch(`${import.meta.env.VITE_API_BASE || ""}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const j = await resp.json();
+      if (!resp.ok || !j.ok) throw new Error(j.error || "Invio non riuscito");
+      toast({ title: "✅ Messaggio inviato", description: "Ti risponderemo al più presto." });
+      setForm({ name: "", email: "", subject: "", message: "", order_code: "" });
+    } catch (err) {
+      toast({ title: "❌ Errore", description: err.message, variant: "destructive" });
+    } finally {
+      setSending(false);
+    }
   };
 
   const emails = {
     ordini: 'ordini@printora.it',
-    supporto: 'supporto@printora.it',
+    supporto: 'supporto@printora.it', // ✅ fixed typo
   };
 
   return (
@@ -148,24 +172,64 @@ const ContactPage = () => {
                 Inviaci un Messaggio
               </h2>
               <form onSubmit={handleFormSubmit} className="space-y-6">
+                {/* Nome */}
                 <motion.div variants={cardVariants} className="relative">
                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                   <Input placeholder="Il tuo nome" type="text" className="pl-12 h-12 bg-slate-800/70 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500" required />
+                   <Input
+                     placeholder="Il tuo nome"
+                     type="text"
+                     className="pl-12 h-12 bg-slate-800/70 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500"
+                     required
+                     value={form.name}
+                     onChange={(e) => setForm(f => ({ ...f, name: e.target.value }))}
+                   />
                 </motion.div>
+
+                {/* Email */}
                 <motion.div variants={cardVariants} className="relative">
                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                   <Input placeholder="La tua email" type="email" className="pl-12 h-12 bg-slate-800/70 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500" required />
+                   <Input
+                     placeholder="La tua email"
+                     type="email"
+                     className="pl-12 h-12 bg-slate-800/70 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500"
+                     required
+                     value={form.email}
+                     onChange={(e) => setForm(f => ({ ...f, email: e.target.value }))}
+                   />
                 </motion.div>
-                 <motion.div variants={cardVariants} className="relative">
+
+                {/* Oggetto */}
+                <motion.div variants={cardVariants} className="relative">
                    <Hash className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                   <Input placeholder="Oggetto del messaggio" type="text" className="pl-12 h-12 bg-slate-800/70 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500" />
+                   <Input
+                     placeholder="Oggetto del messaggio"
+                     type="text"
+                     className="pl-12 h-12 bg-slate-800/70 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500"
+                     value={form.subject}
+                     onChange={(e) => setForm(f => ({ ...f, subject: e.target.value }))}
+                   />
                 </motion.div>
+
+                {/* Messaggio */}
                 <motion.div variants={cardVariants}>
-                   <Textarea placeholder="Come possiamo aiutarti?" className="min-h-[120px] bg-slate-800/70 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500" required />
+                   <Textarea
+                     placeholder="Come possiamo aiutarti?"
+                     className="min-h-[120px] bg-slate-800/70 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500"
+                     required
+                     value={form.message}
+                     onChange={(e) => setForm(f => ({ ...f, message: e.target.value }))}
+                   />
                 </motion.div>
+
+                {/* Submit */}
                 <motion.div variants={cardVariants}>
-                  <Button type="submit" size="lg" className="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-bold text-lg h-14">
-                    Invia Messaggio
+                  <Button
+                    type="submit"
+                    size="lg"
+                    disabled={sending}
+                    className="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-bold text-lg h-14"
+                  >
+                    {sending ? "Invio in corso..." : "Invia Messaggio"}
                   </Button>
                 </motion.div>
               </form>
