@@ -31,11 +31,17 @@ function toInvoiceItems(cart) {
   });
 }
 
-/** CORS-safe ping to Apps Script (non-blocking) - ORDER_CREATED */
-async function fireAppsScript(order, address, printFiles, totals, payMethod, cart, wantsInvoice, billingInfo) {
+/** CORS-safe ping to Apps Script (non-blocking) */
+async function fireAppsScript(order, address, printFiles, totals, payMethod, cart, billingInfo) {
   try {
     const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
     if (!appsUrl) return;
+
+    // Normalize optional billing fields
+    const sdi =
+      (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim();
+    const pec =
+      (billingInfo?.pec || billingInfo?.pecAddress || '').trim();
 
     const payload = {
       event: 'ORDER_CREATED',
@@ -44,26 +50,28 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
       created_at: order.created_at,
       planned_drive_path: order.planned_drive_path,
 
+      // include phone & notes (your code already spreads address)
       shipping: {
         ...address,
         country: 'IT',
       },
 
-      // ✅ FIX: Use wantsInvoice to determine if billing should be sent
-      billing: wantsInvoice ? {
+      // ✅ Send billing with SDI + PEC so Apps Script → FIC uses them
+      billing: {
         company: (billingInfo?.companyName || address.company || null) || null,
-        vat_number: (billingInfo?.vatId || '').trim() || null,
-        tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
+        vat_number: (billingInfo?.vatId || '').trim() || null,          // already wired
+        tax_code: (billingInfo?.codiceFiscale || '').trim() || null,    // already wired
         email: (billingInfo?.billingEmail || '').trim() || null,
-        sdiCode: (billingInfo?.sdiCode || '').trim() || null,
-        pec: (billingInfo?.pec || '').trim() || null,
-      } : null,
+        recipient_code: sdi || null,   // 👈 SDI / Codice Destinatario
+        pec: pec || null               // 👈 PEC address
+      },
 
       print_files: printFiles,
       amount: Math.round((totals?.total || 0) * 100),
       payment_method: payMethod || 'card',
       items: toInvoiceItems(cart),
 
+      // totals that Apps Script already uses
       shipping_total: totals?.shippingPrice ?? 0,
       discount_total: 0,
       tax_rate: 22,
@@ -80,12 +88,14 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
   } catch {}
 }
 
-/** After PayPal capture: tell Apps Script to build & email the invoice - PAYMENT_SUCCEEDED */
-async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals, paypalDetails, cart, wantsInvoice, billingInfo) {
+/** After PayPal capture: tell Apps Script to build & email the invoice */
+/** After PayPal capture: tell Apps Script to build & email the invoice */
+async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals, paypalDetails, cart, billingInfo) {
   try {
     const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
     if (!appsUrl) return;
 
+    // ✅ CRITICAL: Normalize billing fields to match Apps Script expectations
     const payload = {
       event: 'PAYMENT_SUCCEEDED',
       id: order.id,
@@ -107,15 +117,17 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
         notes: address.notes || '',
       },
 
-      // ✅ FIX: Use wantsInvoice instead of Object.keys check
-      billing: wantsInvoice ? {
+      // ✅ THIS IS THE KEY FIX: Send billing with proper field names
+      billing: billingInfo && Object.keys(billingInfo).length > 0 ? {
         company: (billingInfo?.companyName || address.company || null) || null,
         vat_number: (billingInfo?.vatId || '').trim() || null,
         tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
         email: (billingInfo?.billingEmail || '').trim() || null,
-        sdiCode: (billingInfo?.sdiCode || '').trim() || null,
-        pec: (billingInfo?.pec || '').trim() || null,
-      } : null,
+        
+        // ✅ CRITICAL FIELDS: Use the exact names Apps Script expects
+        sdiCode: (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim() || null,
+        pec: (billingInfo?.pec || billingInfo?.pecAddress || '').trim() || null,
+      } : null,  // ← If no billing info, send null
 
       payment_details: {
         provider: 'paypal',
@@ -344,8 +356,10 @@ const NewShippingPage = () => {
       const printFiles = buildPrintFiles(cart);
 
       // Drive folder & file moves
-      fireAppsScript(savedOrder, address, printFiles, orderTotals, 'paypal', cart, wantsInvoice, billingInfo);
-      await fireAppsScriptPaymentSucceeded(savedOrder, address, printFiles, orderTotals, details, cart, wantsInvoice, billingInfo);
+      fireAppsScript(savedOrder, address, printFiles, orderTotals, 'paypal', cart, billingInfo);
+
+      // Build & email invoice
+      await fireAppsScriptPaymentSucceeded(savedOrder, address, printFiles, orderTotals, details, cart, billingInfo);
 
       clearCart();
       navigate(`/payment-success?order_id=${savedOrder.id}&transaction_id=${details.id}`);
@@ -411,7 +425,7 @@ const NewShippingPage = () => {
       sessionStorage.setItem('stripe_order_data', JSON.stringify(orderData));
 
       // Send ORDER_CREATED (includes billing) to Apps Script
-      fireAppsScript(order, address, printFiles, orderTotals, 'card', cart, wantsInvoice, billingInfo);
+      fireAppsScript(order, address, printFiles, orderTotals, 'card', cart, billingInfo);
 
       navigate('/stripe-redirect');
     } catch (err) {
