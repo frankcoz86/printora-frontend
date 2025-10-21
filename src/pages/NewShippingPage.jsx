@@ -94,13 +94,16 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
     const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
     if (!appsUrl) return;
 
+    // Normalize optional billing fields from your Billing form
+    const sdi = (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim();
+    const pec = (billingInfo?.pec || billingInfo?.pecAddress || '').trim();
+
     const payload = {
       event: 'PAYMENT_SUCCEEDED',
       id: order.id,
       order_code: order.order_code,
       currency: 'EUR',
 
-      // rich info -> improves invoice rows + email fallbacks
       items: toInvoiceItems(cart),
       shipping: {
         name: `${address.name} ${address.surname}`.trim(),
@@ -111,49 +114,45 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
         province: address.province,
         postcode: address.zip,
         country: 'IT',
-        // NEW:
         phone: address.phone || '',
         notes: address.notes || '',
       },
 
-      // NEW → send billing (null if empty)
+      // ✅ include SDI + PEC so Apps Script → FIC uses them
       billing: {
         company: (billingInfo?.companyName || address.company || null) || null,
         vat_number: (billingInfo?.vatId || '').trim() || null,
         tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
-        email: (billingInfo?.billingEmail || '').trim() || null
+        email: (billingInfo?.billingEmail || '').trim() || null,
+        recipient_code: sdi || null,   // 👈 SDI (codice destinatario)
+        pec: pec || null               // 👈 PEC address
       },
 
-      // Stripe-like shape that your Apps Script already understands
       payment_details: {
         provider: 'paypal',
         id: paypalDetails?.id,
         status: paypalDetails?.status || 'COMPLETED',
         customer_email: address.email,
-        amount_total: Math.round(Number(totals.total || 0) * 100), // cents
+        amount_total: Math.round(Number(totals.total || 0) * 100),
         total_details: {
           amount_tax:      Math.round(Number(totals.vatAmount || 0) * 100),
           amount_shipping: Math.round(Number(totals.shippingPrice || 0) * 100),
           amount_discount: 0
         },
-        line_items: [
-          {
-            description: 'Order from Printora',
-            quantity: 1,
-            amount_total: Math.round(Number(totals.total || 0) * 100),
-            currency: 'eur'
-          }
-        ]
+        line_items: [{
+          description: 'Order from Printora',
+          quantity: 1,
+          amount_total: Math.round(Number(totals.total || 0) * 100),
+          currency: 'eur'
+        }]
       },
 
-      // help your Apps Script compute/tie totals precisely
       shipping_total: totals?.shippingPrice ?? 0,       // euros
-      discount_total: 0,                                // euros
+      discount_total: 0,
       tax_rate: 22,
       tax_cents: Math.round((totals?.vatAmount ?? 0) * 100),
       amount_total_cents: Math.round((totals?.total ?? 0) * 100),
 
-      // testing convenience
       force_build: true,
       force_email: true
     };
