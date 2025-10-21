@@ -37,6 +37,12 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
     const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
     if (!appsUrl) return;
 
+    // Normalize optional billing fields
+    const sdi =
+      (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim();
+    const pec =
+      (billingInfo?.pec || billingInfo?.pecAddress || '').trim();
+
     const payload = {
       event: 'ORDER_CREATED',
       id: order.id,
@@ -44,18 +50,20 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
       created_at: order.created_at,
       planned_drive_path: order.planned_drive_path,
 
-      // include phone & notes
+      // include phone & notes (your code already spreads address)
       shipping: {
         ...address,
         country: 'IT',
       },
 
-      // NEW → send billing (null if empty)
+      // ✅ Send billing with SDI + PEC so Apps Script → FIC uses them
       billing: {
         company: (billingInfo?.companyName || address.company || null) || null,
-        vat_number: (billingInfo?.vatId || '').trim() || null,
-        tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
-        email: (billingInfo?.billingEmail || '').trim() || null
+        vat_number: (billingInfo?.vatId || '').trim() || null,          // already wired
+        tax_code: (billingInfo?.codiceFiscale || '').trim() || null,    // already wired
+        email: (billingInfo?.billingEmail || '').trim() || null,
+        recipient_code: sdi || null,   // 👈 SDI / Codice Destinatario
+        pec: pec || null               // 👈 PEC address
       },
 
       print_files: printFiles,
@@ -71,7 +79,12 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
       amount_total_cents: Math.round((totals?.total ?? 0) * 100),
     };
 
-    fetch(appsUrl, { method: 'POST', mode: 'no-cors', keepalive: true, body: JSON.stringify(payload) }).catch(() => {});
+    fetch(appsUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      keepalive: true,
+      body: JSON.stringify(payload)
+    }).catch(() => {});
   } catch {}
 }
 
