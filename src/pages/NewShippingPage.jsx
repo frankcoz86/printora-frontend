@@ -117,17 +117,14 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
         notes: address.notes || '',
       },
 
-      // ✅ THIS IS THE KEY FIX: Send billing with proper field names
-      billing: billingInfo && Object.keys(billingInfo).length > 0 ? {
-        company: (billingInfo?.companyName || address.company || null) || null,
-        vat_number: (billingInfo?.vatId || '').trim() || null,
-        tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
-        email: (billingInfo?.billingEmail || '').trim() || null,
-        
-        // ✅ CRITICAL FIELDS: Use the exact names Apps Script expects
-        sdiCode: (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim() || null,
-        pec: (billingInfo?.pec || billingInfo?.pecAddress || '').trim() || null,
-      } : null,  // ← If no billing info, send null
+billing: wantsInvoice ? {
+  company: (billingInfo?.companyName || address.company || null) || null,
+  vat_number: (billingInfo?.vatId || '').trim() || null,
+  tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
+  email: (billingInfo?.billingEmail || '').trim() || null,
+  sdiCode: (billingInfo?.sdiCode || '').trim() || null,
+  pec: (billingInfo?.pec || '').trim() || null,
+} : null,
 
       payment_details: {
         provider: 'paypal',
