@@ -32,7 +32,7 @@ function toInvoiceItems(cart) {
 }
 
 /** CORS-safe ping to Apps Script (non-blocking) */
-async function fireAppsScript(order, address, printFiles, totals, payMethod, cart, billingInfo) {
+async function fireAppsScript(order, address, printFiles, totals, payMethod, cart, billingInfo, wantsInvoice) {
   try {
     const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
     if (!appsUrl) return;
@@ -80,6 +80,8 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
     };
     
 console.debug('→ AppsScript payload', payload);
+window.__lastAppsPayload = payload;
+    
     fetch(appsUrl, {
       method: 'POST',
       mode: 'no-cors',
@@ -161,6 +163,8 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
     };
 
 console.debug('→ AppsScript payload', payload);
+window.__lastAppsPayload = payload;
+    
     await fetch(appsUrl, { method: 'POST', body: JSON.stringify(payload) });
   } catch {}
 }
@@ -359,7 +363,7 @@ const NewShippingPage = () => {
       const printFiles = buildPrintFiles(cart);
 
       // Drive folder & file moves
-      fireAppsScript(savedOrder, address, printFiles, orderTotals, 'paypal', cart, billingInfo);
+      fireAppsScript(savedOrder, address, printFiles, orderTotals, 'paypal', cart, billingInfo, wantsInvoice);
 
       // Build & email invoice
       await fireAppsScriptPaymentSucceeded(savedOrder, address, printFiles, orderTotals, details, cart, billingInfo, wantsInvoice);
@@ -428,7 +432,7 @@ const NewShippingPage = () => {
       sessionStorage.setItem('stripe_order_data', JSON.stringify(orderData));
 
       // Send ORDER_CREATED (includes billing) to Apps Script
-      fireAppsScript(order, address, printFiles, orderTotals, 'card', cart, billingInfo);
+      fireAppsScript(order, address, printFiles, orderTotals, 'card', cart, billingInfo, wantsInvoice);
 
       navigate('/stripe-redirect');
     } catch (err) {
