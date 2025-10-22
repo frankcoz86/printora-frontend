@@ -38,10 +38,8 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
     if (!appsUrl) return;
 
     // Normalize optional billing fields
-    const sdi =
-      (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim();
-    const pec =
-      (billingInfo?.pec || billingInfo?.pecAddress || '').trim();
+    const sdi = (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim();
+    const pec = (billingInfo?.pec || billingInfo?.pecAddress || '').trim();
 
     const payload = {
       event: 'ORDER_CREATED',
@@ -50,7 +48,7 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
       created_at: order.created_at,
       planned_drive_path: order.planned_drive_path,
 
-      // include phone & notes (your code already spreads address)
+      // include phone & notes (spread address)
       shipping: {
         ...address,
         country: 'IT',
@@ -59,11 +57,11 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
       // ✅ Send billing with SDI + PEC so Apps Script → FIC uses them
       billing: wantsInvoice ? {
         company: (billingInfo?.companyName || address.company || null) || null,
-        vat_number: (billingInfo?.vatId || '').trim() || null,          // already wired
-        tax_code: (billingInfo?.codiceFiscale || '').trim() || null,    // already wired
+        vat_number: (billingInfo?.vatId || '').trim() || null,       // already wired
+        tax_code: (billingInfo?.codiceFiscale || '').trim() || null, // already wired
         email: (billingInfo?.billingEmail || '').trim() || null,
-        recipient_code: sdi || null,   // 👈 SDI / Codice Destinatario
-        pec: pec || null               // 👈 PEC address
+        recipient_code: sdi || null,  // 👈 SDI / Codice Destinatario
+        pec: pec || null              // 👈 PEC address
       } : null,
 
       print_files: printFiles,
@@ -78,10 +76,12 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
       tax_cents: Math.round((totals?.vatAmount ?? 0) * 100),
       amount_total_cents: Math.round((totals?.total ?? 0) * 100),
     };
-    
-console.debug('→ AppsScript payload', payload);
-window.__lastAppsPayload = payload;
-    
+
+    // Debug probes
+    try { window.__lastAppsPayload = payload; } catch {}
+    try { sessionStorage.setItem('last_apps_payload', JSON.stringify(payload)); } catch {}
+    console.debug('→ AppsScript payload (ORDER_CREATED)', payload);
+
     fetch(appsUrl, {
       method: 'POST',
       mode: 'no-cors',
@@ -92,7 +92,6 @@ window.__lastAppsPayload = payload;
 }
 
 /** After PayPal capture: tell Apps Script to build & email the invoice */
-/** After PayPal capture: tell Apps Script to build & email the invoice */
 async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals, paypalDetails, cart, billingInfo, wantsInvoice) {
   try {
     const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
@@ -101,7 +100,7 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
     const sdi = (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim();
     const pec = (billingInfo?.pec || billingInfo?.pecAddress || '').trim();
 
-    // ✅ CRITICAL: Normalize billing fields to match Apps Script expectations
+    // ✅ Normalize billing fields to match Apps Script expectations
     const payload = {
       event: 'PAYMENT_SUCCEEDED',
       id: order.id,
@@ -109,7 +108,7 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
       currency: 'EUR',
 
       items: toInvoiceItems(cart),
-      
+
       shipping: {
         name: `${address.name} ${address.surname}`.trim(),
         email: address.email,
@@ -123,15 +122,15 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
         notes: address.notes || '',
       },
 
-     // ✅ send only when invoicing, with the keys Apps Script expects
-     billing: wantsInvoice ? {
-       company: (billingInfo?.companyName || address.company || null) || null,
-       vat_number: (billingInfo?.vatId || '').trim() || null,
-       tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
-       email: (billingInfo?.billingEmail || '').trim() || null,
-       recipient_code: sdi || null,   // 👈 CORRECT KEY
-      pec: pec || null               // 👈 CORRECT KEY
-     } : null,
+      // ✅ send only when invoicing, with the keys Apps Script expects
+      billing: wantsInvoice ? {
+        company: (billingInfo?.companyName || address.company || null) || null,
+        vat_number: (billingInfo?.vatId || '').trim() || null,
+        tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
+        email: (billingInfo?.billingEmail || '').trim() || null,
+        recipient_code: sdi || null,  // 👈 CORRECT KEY
+        pec: pec || null              // 👈 CORRECT KEY
+      } : null,
 
       payment_details: {
         provider: 'paypal',
@@ -162,9 +161,11 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
       force_email: true
     };
 
-console.debug('→ AppsScript payload', payload);
-window.__lastAppsPayload = payload;
-    
+    // Debug probes
+    try { window.__lastAppsPayload = payload; } catch {}
+    try { sessionStorage.setItem('last_apps_payload', JSON.stringify(payload)); } catch {}
+    console.debug('→ AppsScript payload (PAYMENT_SUCCEEDED)', payload);
+
     await fetch(appsUrl, { method: 'POST', body: JSON.stringify(payload) });
   } catch {}
 }
@@ -189,7 +190,7 @@ const NewShippingPage = () => {
   const [billingInfo, setBillingInfo] = useState({
     companyName: '',
     vatId: '',
-    codiceFiscale: '',  // ← keep in state
+    codiceFiscale: '',
     sdiCode: '',
     pec: '',
     billingEmail: ''
@@ -232,7 +233,7 @@ const NewShippingPage = () => {
 
   const orderTotals = useMemo(() => {
     const shippingPrice = selectedCarrier ? selectedCarrier.price : 0;
-    const taxableAmount = subtotal + shippingPrice;
+    the taxableAmount = subtotal + shippingPrice;
     const vatAmount = taxableAmount * 0.22;
     const total = taxableAmount + vatAmount;
     return { productsSubtotal: subtotal, shippingPrice, taxableAmount, vatAmount, total };
@@ -375,7 +376,7 @@ const NewShippingPage = () => {
       toast({ title: 'Errore nella transazione', description: 'Pagamento non completato. Riprova o contatta l’assistenza.', variant: 'destructive' });
       if (!window.location.pathname.includes('payment-cancel')) navigate('/payment-cancel');
     } finally { setIsCheckingOut(false); }
-  }, [handleSaveOrder, clearCart, navigate, cart, address, orderTotals, billingInfo]);
+  }, [handleSaveOrder, clearCart, navigate, cart, address, orderTotals, billingInfo, wantsInvoice]);
 
   /** ---- Stripe ---- */
   const handleStripeCheckout = async () => {
