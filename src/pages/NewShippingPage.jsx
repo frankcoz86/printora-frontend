@@ -78,8 +78,7 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
       tax_cents: Math.round((totals?.vatAmount ?? 0) * 100),
       amount_total_cents: Math.round((totals?.total ?? 0) * 100),
     };
-    
-console.debug('→ AppsScript payload', payload);
+
     fetch(appsUrl, {
       method: 'POST',
       mode: 'no-cors',
@@ -156,7 +155,6 @@ billing: wantsInvoice ? {
       force_email: true
     };
 
-console.debug('→ AppsScript payload', payload);
     await fetch(appsUrl, { method: 'POST', body: JSON.stringify(payload) });
   } catch {}
 }
