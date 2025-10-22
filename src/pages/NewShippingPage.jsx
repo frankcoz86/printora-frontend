@@ -233,7 +233,7 @@ const NewShippingPage = () => {
 
   const orderTotals = useMemo(() => {
     const shippingPrice = selectedCarrier ? selectedCarrier.price : 0;
-    the taxableAmount = subtotal + shippingPrice;
+    const taxableAmount = subtotal + shippingPrice;
     const vatAmount = taxableAmount * 0.22;
     const total = taxableAmount + vatAmount;
     return { productsSubtotal: subtotal, shippingPrice, taxableAmount, vatAmount, total };
