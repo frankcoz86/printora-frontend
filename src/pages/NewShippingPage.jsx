@@ -57,14 +57,14 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
       },
 
       // ✅ Send billing with SDI + PEC so Apps Script → FIC uses them
-      billing: {
+      billing: wantsInvoice ? {
         company: (billingInfo?.companyName || address.company || null) || null,
         vat_number: (billingInfo?.vatId || '').trim() || null,          // already wired
         tax_code: (billingInfo?.codiceFiscale || '').trim() || null,    // already wired
         email: (billingInfo?.billingEmail || '').trim() || null,
         recipient_code: sdi || null,   // 👈 SDI / Codice Destinatario
         pec: pec || null               // 👈 PEC address
-      },
+      } : null,
 
       print_files: printFiles,
       amount: Math.round((totals?.total || 0) * 100),
@@ -91,10 +91,13 @@ console.debug('→ AppsScript payload', payload);
 
 /** After PayPal capture: tell Apps Script to build & email the invoice */
 /** After PayPal capture: tell Apps Script to build & email the invoice */
-async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals, paypalDetails, cart, billingInfo) {
+async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals, paypalDetails, cart, billingInfo, wantsInvoice) {
   try {
     const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
     if (!appsUrl) return;
+
+    const sdi = (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim();
+    const pec = (billingInfo?.pec || billingInfo?.pecAddress || '').trim();
 
     // ✅ CRITICAL: Normalize billing fields to match Apps Script expectations
     const payload = {
@@ -118,14 +121,15 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
         notes: address.notes || '',
       },
 
-billing: wantsInvoice ? {
-  company: (billingInfo?.companyName || address.company || null) || null,
-  vat_number: (billingInfo?.vatId || '').trim() || null,
-  tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
-  email: (billingInfo?.billingEmail || '').trim() || null,
-  sdiCode: (billingInfo?.sdiCode || '').trim() || null,
-  pec: (billingInfo?.pec || '').trim() || null,
-} : null,
+     // ✅ send only when invoicing, with the keys Apps Script expects
+     billing: wantsInvoice ? {
+       company: (billingInfo?.companyName || address.company || null) || null,
+       vat_number: (billingInfo?.vatId || '').trim() || null,
+       tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
+       email: (billingInfo?.billingEmail || '').trim() || null,
+       recipient_code: sdi || null,   // 👈 CORRECT KEY
+      pec: pec || null               // 👈 CORRECT KEY
+     } : null,
 
       payment_details: {
         provider: 'paypal',
@@ -358,7 +362,7 @@ const NewShippingPage = () => {
       fireAppsScript(savedOrder, address, printFiles, orderTotals, 'paypal', cart, billingInfo);
 
       // Build & email invoice
-      await fireAppsScriptPaymentSucceeded(savedOrder, address, printFiles, orderTotals, details, cart, billingInfo);
+      await fireAppsScriptPaymentSucceeded(savedOrder, address, printFiles, orderTotals, details, cart, billingInfo, wantsInvoice);
 
       clearCart();
       navigate(`/payment-success?order_id=${savedOrder.id}&transaction_id=${details.id}`);
