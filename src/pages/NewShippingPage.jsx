@@ -62,7 +62,8 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
         vat_number: (billingInfo?.vatId || '').trim() || null,          // already wired
         tax_code: (billingInfo?.codiceFiscale || '').trim() || null,    // already wired
         email: (billingInfo?.billingEmail || '').trim() || null,
-        recipient_code: sdi || null,   // 👈 SDI / Codice Destinatario
+        recipient_code: sdi || null,
+        sdiCode: sdi || null,// 👈 SDI / Codice Destinatario
         pec: pec || null               // 👈 PEC address
       },
 
@@ -117,14 +118,16 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
         notes: address.notes || '',
       },
 
-billing: wantsInvoice ? {
-  company: (billingInfo?.companyName || address.company || null) || null,
-  vat_number: (billingInfo?.vatId || '').trim() || null,
-  tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
-  email: (billingInfo?.billingEmail || '').trim() || null,
-  sdiCode: (billingInfo?.sdiCode || '').trim() || null,
-  pec: (billingInfo?.pec || '').trim() || null,
-} : null,
+ billing: {
+   company: (billingInfo?.companyName || address.company || null) || null,
+   vat_number: (billingInfo?.vatId || '').trim() || null,
+   tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
+   email: (billingInfo?.billingEmail || address.email || '').trim() || null,
+   // send BOTH keys that Apps Script understands:
+   recipient_code: (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim() || null,
+   sdiCode: (billingInfo?.sdiCode || '').trim() || null,
+   pec: (billingInfo?.pec || billingInfo?.pecAddress || '').trim() || null
+ },
 
       payment_details: {
         provider: 'paypal',
