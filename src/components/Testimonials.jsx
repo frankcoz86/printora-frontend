@@ -4,21 +4,21 @@ import { Star, Quote } from 'lucide-react';
 
 const testimonials = [
   {
-    name: 'Marco Rossi',
+    name: 'Francesco Russo',
     company: 'Agenzia Creativa',
     avatar: 'Avatar di un uomo sorridente con occhiali',
     rating: 5,
     text: 'Qualità di stampa eccezionale e tempi di consegna rapidissimi. I banner in PVC che abbiamo ordinato erano perfetti per l\'evento del nostro cliente. Printora è diventato il nostro partner di fiducia!',
   },
   {
-    name: 'Giulia Bianchi',
+    name: 'Alessia Romano',
     company: 'T-Shirt Designer',
     avatar: 'Avatar di una donna con capelli ricci',
     rating: 5,
     text: 'Ho provato la stampa DTF con colori fluo e il risultato è stato sbalorditivo. I colori sono incredibilmente brillanti e resistenti ai lavaggi. I miei clienti sono entusiasti!',
   },
   {
-    name: 'Alessandro Verdi',
+    name: 'Antonio D’Amato',
     company: 'Ristorante "La Brace"',
     avatar: 'Avatar di un uomo con la barba',
     rating: 5,
