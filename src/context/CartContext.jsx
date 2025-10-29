@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { gtmPush } from '@/lib/gtm';
 
 const CartContext = createContext();
 
@@ -96,6 +97,26 @@ export const CartProvider = ({ children }) => {
 
     setCart(prevCart => [...prevCart, newItem]);
     setIsCartOpen(true);
+     try {
+     const item = {
+       item_id: String(newItem.productId ?? newItem.id ?? newItem.name ?? 'custom'),
+       item_name: String(newItem.name ?? 'Item'),
+       price: Number(newItem.price ?? 0),
+       quantity: Number(newItem.quantity ?? 1),
+       item_category: newItem.details?.category || 'custom',
+       item_brand: 'Printora',
+       image_url: newItem.image || undefined,
+     };
+
+     gtmPush({
+       event: 'add_to_cart',
+       ecommerce: {
+         currency: 'EUR',
+         value: Number(newItem.total ?? (item.price * item.quantity) ?? 0),
+         items: [item],
+       },
+     });
+   } catch {}
   };
 
   /**
@@ -131,6 +152,34 @@ export const CartProvider = ({ children }) => {
       return [...prevCart, ...newItems];
     });
     setIsCartOpen(true);
+    try {
+     (items || []).forEach((it) => {
+       const product = it.product || {};
+       const qty = Math.max(1, Number(it.quantity ?? 1));
+       const unitPrice = Number(it.price ?? product.price ?? 0) || 0;
+       const total = Number(it.total ?? unitPrice * qty) || 0;
+       const name = it.name ?? product.name ?? 'Item';
+
+       const dlItem = {
+         item_id: String(product.id ?? name ?? 'custom'),
+         item_name: String(name),
+         price: unitPrice,
+         quantity: qty,
+         item_category: it?.details?.category || 'custom',
+         item_brand: 'Printora',
+         image_url: it.image || it.details?.fileUrl || product.image || undefined,
+       };
+
+       gtmPush({
+         event: 'add_to_cart',
+         ecommerce: {
+         currency: 'EUR',
+         value: total,
+         items: [dlItem],
+       },
+     });
+   });
+   } catch {}
   };
 
   const updateCartItemQuantity = (itemId, quantity) => {
