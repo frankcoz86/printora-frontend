@@ -88,12 +88,12 @@ const PaymentSuccessPage = () => {
         }
 
         // 1) Try to fetch Stripe Session from your backend (optional best-effort)
-        let session = null;
-        try {
-          const API = import.meta.env.VITE_BACKEND_URL;
-          fetch(`${API}/api/checkout-session/${sessionId}`)          
-          if (r.ok) session = await r.json();
-        } catch {}
+          let session = null;
+          try {
+            const API = import.meta.env.VITE_BACKEND_URL;
+            const r = await fetch(`${API}/api/checkout-session/${sessionId}`);
+            if (r.ok) session = await r.json();
+          } catch {}
 
         // 2) Look for a pre-created order id (set before redirect)
         const orderDataString = sessionStorage.getItem('stripe_order_data');
