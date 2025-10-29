@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { gtmPush } from '@/lib/gtm';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
@@ -29,6 +30,7 @@ const PaymentSuccessPage = () => {
 
   // run-once guard (prevents StrictMode/remount double-fire)
   const ranRef = useRef(false);
+  const purchasePushedRef = useRef(false);
 
   // Build an order object purely from Stripe data (fallback legacy flow)
   const buildOrderFromStripe = (session, lineItems, sessionId) => {
@@ -179,6 +181,48 @@ const PaymentSuccessPage = () => {
     ranRef.current = true;
     processStripeSession(stripeSessionId);
   }, [location.search, navigate, processStripeSession]);
+
+  useEffect(() => {
+    if (!order || purchasePushedRef.current) return;
+
+    try {
+    // Normalize items from your saved order shape
+        const rawItems = order.cart_items || order.items || [];
+        const items = rawItems.map((it, idx) => {
+        const qty = Number(it?.quantity ?? 1) || 1;
+        const unit =
+          Number(it?.price) ??
+          (Number(it?.total) && qty ? Number(it.total) / qty : 0);
+  
+        return {
+          item_id: String(it?.product?.id ?? it?.sku ?? it?.id ?? `item_${idx+1}`),
+          item_name: String(it?.name ?? `Item ${idx+1}`),
+          price: Number(unit || 0),
+          quantity: qty,
+          item_category: it?.category || 'custom',
+          item_brand: 'Printora',
+        };
+      });
+
+      const transactionId = String(
+        order?.id ?? order?.order_code ?? order?.payment_details?.session_id ?? Date.now()
+      );
+
+      gtmPush({
+        event: 'purchase',
+        ecommerce: {
+          transaction_id: transactionId,
+          currency: (order?.payment_details?.currency || 'EUR').toUpperCase(),
+          value: Number(order?.total_amount ?? order?.total ?? 0),
+          tax: Number(order?.vat_amount ?? 0),
+          shipping: Number(order?.shipping_cost ?? 0),
+          items,
+        },
+      });
+  
+      purchasePushedRef.current = true;
+    } catch {}
+  }, [order]);
 
   const handleDownloadInvoice = () => {
     toast({ title: 'Funzione in arrivo!', description: 'La generazione della fattura sarà presto disponibile.' });
