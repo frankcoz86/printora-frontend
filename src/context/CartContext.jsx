@@ -116,7 +116,9 @@ export const CartProvider = ({ children }) => {
          items: [item],
        },
      });
-   } catch {}
+   } catch (e) {
+      console.debug('GTM add_to_cart push failed:', e);
+    }
   };
 
   /**
@@ -179,7 +181,9 @@ export const CartProvider = ({ children }) => {
        },
      });
    });
-   } catch {}
+  } catch (e) {
+      console.debug('GTM add_to_cart push failed:', e);
+    }
   };
 
   const updateCartItemQuantity = (itemId, quantity) => {
