@@ -205,7 +205,7 @@ const NewShippingPage = () => {
   const billingInfoValid = useMemo(() => {
     if (!wantsInvoice) return true;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const hasReq = billingInfo.companyName && billingInfo.vatId && (billingInfo.sdiCode || billingInfo.pec);
+    const hasReq = billingInfo.codiceFiscale && billingInfo.sdiCode;
     return hasReq && billingInfo.billingEmail && emailRegex.test(billingInfo.billingEmail);
   }, [wantsInvoice, billingInfo]);
 
