@@ -34,9 +34,9 @@ export const rigidMediaProducts = [
       { label: '70x100 cm', width: 70, height: 100 },
       { label: '100x140 cm', width: 100, height: 140 },
     ],
-    image: 'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/a45893e44af9a708f63185e3312cdeb8.png',
+    image: '/assets/forex1.png',
     imageAlt: 'Pannelli Forex PVC Semiespanso, disponibili negli spessori 3-5-10 mm, con icone per editor personalizzato, stampa UV a colori e spessori.',
-    secondImage: 'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/f9c0d1997062cdbb22f0f41fad3d72dd.png',
+    secondImage: '/assets/forex3.png',
     secondImageAlt: 'Tre pannelli Forex PVC stampati con un paesaggio montano, mostrando i diversi spessori di 3mm, 5mm e 10mm.'
   },
   {

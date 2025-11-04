@@ -39,7 +39,7 @@ export const products = [
       'Montaggio e smontaggio in meno di 30 secondi',
       'Comoda borsa per il trasporto inclusa nel prezzo'
     ],
-    image: 'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/017eefa149a15c8d93ed48f3d22f8b19.jpg',
+    image: '/assets/rollUp1.jpg',
     imageAlt: 'Espositore roll-up 85x200cm con telo personalizzato e borsa da trasporto nera',
     weight: 3.5,
     formats: [
@@ -67,19 +67,19 @@ export const dtfProduct = {
     images: [
         {
           id: 1,
-          src: 'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/23b8816b6a0fd8ef10e079d9ca1cee13.jpg',
+          src: '/assets/dtf1.jpg',
           title: 'Stampa DTF Personalizzata',
           alt: 'T-shirt rossa con grafica colorata e testo "CREATE YOUR DESIGN", che illustra la personalizzazione con stampa DTF. Accanto, icone che rappresentano alta qualità, colori fluo, prezzi trasparenti e editor online.',
         },
         {
           id: 2,
-          src: 'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/9948b4611fb63285ece4830414b55e4d.jpg',
+          src: '/assets/dtf2.jpg',
           title: 'DTF Transfers',
           alt: 'Un rotolo di pellicola DTF con un transfer stampato di una testa di tigre dai colori vividi e la scritta "DTF TRANSFERS", con un taglierino e una spatola gialla accanto.',
         },
         {
           id: 3,
-          src: 'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/80d55532926dad977fae05845cd191bb.jpg',
+          src: '/assets/dtf3 (2).jpg',
           title: 'Applicazione DTF su Tessuti Diversi',
           alt: 'Una persona che applica un transfer DTF con una termopressa su una t-shirt, con altri capi personalizzati come un cappellino e una borsa sullo sfondo.',
         },
@@ -100,7 +100,7 @@ export const vinylProduct = {
         'Opzione di plastificazione per una maggiore durata e protezione: Per applicazioni esterne o soggette a usura, la plastificazione (lucida o opaca) offre una protezione extra contro raggi UV, abrasioni e agenti atmosferici, prolungando la vita del tuo adesivo.',
         'Ideale per superfici piane e vetrine: I nostri vinili sono perfetti per decorare vetrine, pannelli, insegne, veicoli e qualsiasi superficie liscia. Facili da applicare e rimuovere senza lasciare residui, garantendo versatilità e praticità.'
     ],
-    image: 'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/462d1d81ee61587041789d301c4a06e3.png',
+    image: '/assets/vinile.png',
     imageAlt: 'PVC Adesivo Lucido, Opaco, One Way - Stampa con girasoli e interfaccia di design con testo "Crea i tuoi adesivi facilmente".',
     types: [
         { id: 'monomeric-matte', name: 'Vinile Adesivo Bianco Opaco Monomerico', price: 9.90, unit: 'mq', description: 'Finitura opaca, ideale per interni e superfici piane.' },

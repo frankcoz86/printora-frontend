@@ -55,7 +55,7 @@ const RollupPage = () => {
                                 </p>
                             </div>
                             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: "easeOut" }} className="space-y-8">
-                                <img  alt="Due roll-up pubblicitari affiancati, uno da 85x200 cm e uno da 100x200 cm, entrambi con grafica 'HAI BISOGNO DI UN ROLL-UP? EDITOR GRAFICO PERSONALIZZATO Tela in PVC 510 gr'." src="https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/aceeefc529147d50a2dd75c203d82f18.jpg" />
+                                <img  alt="Due roll-up pubblicitari affiancati, uno da 85x200 cm e uno da 100x200 cm, entrambi con grafica 'HAI BISOGNO DI UN ROLL-UP? EDITOR GRAFICO PERSONALIZZATO Tela in PVC 510 gr'." src="/assets/rollUp2.jpg" />
                             </motion.div>
                         </motion.div>
                         <div className="sticky top-24">

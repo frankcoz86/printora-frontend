@@ -48,21 +48,21 @@ const BannerPage = () => {
                 <div className="container mx-auto px-4">
                     <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
                         <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: "easeOut" }} className="space-y-8">
-                            <img loading="lazy" src="https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/76719e5dc1714953fbf4c3ac32b10f65.png" alt="Striscione promozionale blu con logo camaleonte, prezzo promo €8,90/mq, editor facile e occhielli inclusi ogni 50cm" className="rounded-2xl shadow-2xl w-full h-auto border-4 border-slate-800" />
+                            <img loading="lazy" src="/assets/banner1.png" alt="Striscione promozionale blu con logo camaleonte, prezzo promo €8,90/mq, editor facile e occhielli inclusi ogni 50cm" className="rounded-2xl shadow-2xl w-full h-auto border-4 border-slate-800" />
                             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
                                 <h3 className="text-xl font-bold text-white mb-3">Qualità che si Vede e si Sente</h3>
                                 <p className="text-gray-400">
                                     Utilizziamo solo PVC da 510gr di alta qualità, stampato con inchiostri ecosolventi che garantiscono colori vividi e una resistenza eccezionale agli agenti atmosferici e ai raggi UV. Perfetto per interni ed esterni.
                                 </p>
                             </div>
-                            <img  class="rounded-2xl shadow-2xl w-full h-auto border-4 border-slate-800" alt="Striscione promozionale in PVC con logo in un contesto urbano per eventi o pubblicità" src="https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/09a5c5ab6c7fd8209e2e275725faf797.png" />
+                            <img  class="rounded-2xl shadow-2xl w-full h-auto border-4 border-slate-800" alt="Striscione promozionale in PVC con logo in un contesto urbano per eventi o pubblicità" src="/assets/banner2.png" />
                             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
                                 <h3 className="text-xl font-bold text-white mb-3">Il Tuo Messaggio, Ovunque</h3>
                                 <p className="text-gray-400">
                                     Dai cantieri alle fiere, dagli eventi sportivi alle promozioni in negozio, i nostri banner sono lo strumento perfetto per catturare l'attenzione. Grazie alla loro versatilità, puoi installarli facilmente su recinzioni, ponteggi, pareti o transenne, garantendo massima visibilità al tuo brand.
                                 </p>
                             </div>
-                            <img  class="rounded-2xl shadow-2xl w-full h-auto border-4 border-slate-800" alt="Banner PVC 510g occhiellato su recinzione, con dettagli su stampa HD, occhielli inclusi e prezzo promozionale." src="https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/c29ee024eaeac78d43b59a66601921e6.png" />
+                            <img  class="rounded-2xl shadow-2xl w-full h-auto border-4 border-slate-800" alt="Banner PVC 510g occhiellato su recinzione, con dettagli su stampa HD, occhielli inclusi e prezzo promozionale." src="/assets/banner3.png" />
                         </motion.div>
                         <div className="sticky top-24">
                            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: "easeOut" }}>

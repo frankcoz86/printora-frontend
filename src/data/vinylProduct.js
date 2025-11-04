@@ -15,9 +15,9 @@ export const vinylProduct = {
   unit: 'mq',
   basePrice: 0, // Price is now determined by finish
   minArea: 0.5,
-  image: 'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/5c66142a5e907ecd13d341ca2879b7b9.png',
+  image: '/assets/vinile.png',
   imageAlt: 'Rotolo di PVC adesivo con icone per editor personalizzato, finitura lucida/opaca e laminazione su richiesta.',
-  secondImage: 'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/0e65648da470ab23be3ad442f7aa7803.png',
+  secondImage: '/assets/vinile2.png',
   secondImageAlt: 'Esempi di finiture per vinile adesivo: Lucido, Opaco, One Way, applicati su un paesaggio montano.',
   finishOptions: [
     { value: 'lucido', label: 'Lucido', pricePerSqm: 8, rollWidth: 152, description: 'Finitura brillante, colori vivaci.' },
