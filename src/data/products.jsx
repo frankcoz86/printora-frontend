@@ -16,7 +16,7 @@ export const products = [
       'Qualità di stampa fotografica ad alta risoluzione con inchiostri Ecosolvent',
       'Termosaldatura per formati extra large'
     ],
-    image: 'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/8b824a4794218f72e8c5b7dadac748c9.png',
+    image: '/assets/banner1.png',
     imageAlt: 'Striscione promozionale in PVC con prezzo di 8,90 euro al metro quadro e occhiellatura inclusa.',
     weight: 0.51,
     extras: [
