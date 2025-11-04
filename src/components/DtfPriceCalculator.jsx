@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { toast } from '@/components/ui/use-toast';
-import { Info, Sparkles, Plus, Minus, ThumbsUp, ShieldCheck, Download, Brush } from 'lucide-react';
+import { Info, Sparkles, Plus, Minus, ThumbsUp, ShieldCheck, Download, Brush, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
 
@@ -214,6 +214,11 @@ const DtfPriceCalculator = ({ product, onAddToCart }) => {
         <div className="flex items-center justify-center space-x-2 text-green-300 bg-green-900/30 p-2 rounded-lg mt-2">
           <ShieldCheck size={16} />
           <p className="text-xs font-medium">Verifica file professionale OMAGGIO</p>
+        </div>
+        
+        <div className="flex items-center justify-center space-x-2 text-amber-300 bg-amber-900/30 p-2 rounded-lg mt-2">
+          <AlertTriangle size={16} />
+          <p className="text-xs font-medium">Assicurati che il file caricato non contenga contenuti protetti da copyright</p>
         </div>
 
         <div className="flex items-center justify-between pt-4">
