@@ -42,7 +42,7 @@ const ShippingAddressForm = ({ address, setAddress, billingInfo, setBillingInfo,
           <Input
             name="phone"
             type="tel"
-            placeholder="Mobile (Opzionale)"
+            placeholder="Mobile"
             value={address.phone || ''}
             onChange={handleChange}
             className="md:col-span-2 bg-slate-700/50 border-slate-600 h-12"

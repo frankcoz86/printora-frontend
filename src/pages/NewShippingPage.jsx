@@ -195,9 +195,9 @@ const NewShippingPage = () => {
     if (address.email && wantsInvoice) setBillingInfo(p => ({ ...p, billingEmail: address.email }));
   }, [address.email, wantsInvoice]);
 
-  // Make phone & notes optional (exclude from required set)
+  // Make company & notes optional (exclude from required set), but phone is now mandatory
   const addressValid = useMemo(() => {
-    const { company, phone, notes, ...req } = address;
+    const { company, notes, ...req } = address;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return Object.values(req).every(v => v && v.trim() !== '') && emailRegex.test(address.email);
   }, [address]);
