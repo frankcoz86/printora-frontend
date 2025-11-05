@@ -265,7 +265,7 @@ const NewShippingPage = () => {
 
     const orderDetails = {
       shipping_address: address,                 // includes phone & notes
-      billing_info: wantsInvoice ? billingInfo : null,
+      billing_info: billingInfo,
       cart_items: cart,
       print_files: printFiles,
       subtotal: orderTotals.productsSubtotal,
@@ -286,7 +286,7 @@ const NewShippingPage = () => {
       return null;
     }
     return savedOrder;
-  }, [cart, address, wantsInvoice, billingInfo, orderTotals, selectedCarrier, saveOrder, navigate]);
+  }, [cart, address, billingInfo, orderTotals, selectedCarrier, saveOrder, navigate]);
 
   /** ---- PayPal ---- */
   const createOrderForPaypal = useCallback((_data, actions) => {
@@ -413,7 +413,7 @@ const NewShippingPage = () => {
       const orderData = {
         cart,
         shippingAddress: address,
-        billingInfo: wantsInvoice ? billingInfo : null,
+        billingInfo: billingInfo,
         orderTotals,
         carrier: selectedCarrier,
         order_id: order?.id,
