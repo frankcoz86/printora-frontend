@@ -178,6 +178,7 @@ const NewShippingPage = () => {
     phone: '', notes: ''
   });
 
+  const [wantsInvoice, setWantsInvoice] = useState(false);
   const [billingInfo, setBillingInfo] = useState({
     companyName: '',
     vatId: '',
@@ -191,8 +192,8 @@ const NewShippingPage = () => {
   const [paymentMethod, setPaymentMethod] = useState('paypal');
 
   useEffect(() => {
-    if (address.email) setBillingInfo(p => ({ ...p, billingEmail: address.email }));
-  }, [address.email]);
+    if (address.email && wantsInvoice) setBillingInfo(p => ({ ...p, billingEmail: address.email }));
+  }, [address.email, wantsInvoice]);
 
   // Make company & notes optional (exclude from required set), but phone is now mandatory
   const addressValid = useMemo(() => {
@@ -202,10 +203,11 @@ const NewShippingPage = () => {
   }, [address]);
 
   const billingInfoValid = useMemo(() => {
+    if (!wantsInvoice) return true;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const hasReq = billingInfo.codiceFiscale;
     return hasReq && billingInfo.billingEmail && emailRegex.test(billingInfo.billingEmail);
-  }, [billingInfo]);
+  }, [wantsInvoice, billingInfo]);
 
   const isReadyForPayment = useMemo(() => addressValid && billingInfoValid, [addressValid, billingInfoValid]);
 
@@ -453,6 +455,8 @@ const NewShippingPage = () => {
                 setAddress={setAddress}
                 billingInfo={billingInfo}
                 setBillingInfo={setBillingInfo}
+                wantsInvoice={wantsInvoice}
+                setWantsInvoice={setWantsInvoice}
               />
             </div>
             <div className="lg:col-span-1">
