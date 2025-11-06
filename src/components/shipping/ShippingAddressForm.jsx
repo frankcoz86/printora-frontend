@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Package } from 'lucide-react';
+import { Package, Shield } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import BillingInfoForm from './BillingInfoForm';
@@ -86,6 +86,11 @@ const ShippingAddressForm = ({ address, setAddress, billingInfo, setBillingInfo 
         <p className="text-xs text-gray-400 mt-4 text-center">
           Le tariffe di spedizione verranno calcolate automaticamente non appena inserirai un indirizzo valido.
         </p>
+        
+        <div className="flex items-center justify-center gap-2 mt-3 text-xs text-blue-400">
+          <Shield size={14} className="text-blue-400" />
+          <span>Il Codice Fiscale è obbligatorio per accedere ai pagamenti</span>
+        </div>
       </div>
 
       <div className="border-t border-slate-700"></div>
