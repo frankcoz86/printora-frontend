@@ -87,7 +87,7 @@ const ShippingAddressForm = ({ address, setAddress, billingInfo, setBillingInfo 
           Le tariffe di spedizione verranno calcolate automaticamente non appena inserirai un indirizzo valido.
         </p>
         
-        <div className="flex items-center justify-center gap-2 mt-3 text-xs text-blue-400">
+        <div className="flex items-center justify-center gap-2 mt-3 text-xs text-blue-400 text-center md:text-left">
           <Shield size={14} className="text-blue-400" />
           <span>Il Codice Fiscale è obbligatorio per accedere ai pagamenti</span>
         </div>
