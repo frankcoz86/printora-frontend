@@ -34,7 +34,7 @@ const BillingInfoForm = ({ billingInfo, setBillingInfo }) => {
         {/* NEW: Codice Fiscale */}
         <Input
           name="codiceFiscale"
-          placeholder="Codice Fiscale"
+          placeholder="Codice Fiscale *"
           value={billingInfo.codiceFiscale || ''}
           onChange={handleChange}
           className="bg-slate-700/50 border-slate-600 h-12"
@@ -59,7 +59,7 @@ const BillingInfoForm = ({ billingInfo, setBillingInfo }) => {
         <Input
           name="billingEmail"
           type="email"
-          placeholder="Email per fatturazione"
+          placeholder="Email per fatturazione *"
           value={billingInfo.billingEmail}
           onChange={handleChange}
           className="md:col-span-2 bg-slate-700/50 border-slate-600 h-12"

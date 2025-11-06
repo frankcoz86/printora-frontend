@@ -33,32 +33,32 @@ const ShippingAddressForm = ({ address, setAddress, billingInfo, setBillingInfo 
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Input name="name" placeholder="Nome" value={address.name} onChange={handleChange} className="bg-slate-700/50 border-slate-600 h-12" />
-          <Input name="surname" placeholder="Cognome" value={address.surname} onChange={handleChange} className="bg-slate-700/50 border-slate-600 h-12" />
+          <Input name="name" placeholder="Nome *" value={address.name} onChange={handleChange} className="bg-slate-700/50 border-slate-600 h-12" />
+          <Input name="surname" placeholder="Cognome *" value={address.surname} onChange={handleChange} className="bg-slate-700/50 border-slate-600 h-12" />
 
-          <Input name="email" type="email" placeholder="Email" value={address.email} onChange={handleChange} className="md:col-span-2 bg-slate-700/50 border-slate-600 h-12" />
+          <Input name="email" type="email" placeholder="Email *" value={address.email} onChange={handleChange} className="md:col-span-2 bg-slate-700/50 border-slate-600 h-12" />
 
           {/* NEW: Mobile */}
           <Input
             name="phone"
             type="tel"
-            placeholder="Mobile"
+            placeholder="Mobile *"
             value={address.phone || ''}
             onChange={handleChange}
             className="md:col-span-2 bg-slate-700/50 border-slate-600 h-12"
           />
 
           <Input name="company" placeholder="Azienda (Opzionale)" value={address.company} onChange={handleChange} className="md:col-span-2 bg-slate-700/50 border-slate-600 h-12" />
-          <Input name="address" placeholder="Indirizzo" value={address.address} onChange={handleChange} className="md:col-span-2 bg-slate-700/50 border-slate-600 h-12" />
+          <Input name="address" placeholder="Indirizzo *" value={address.address} onChange={handleChange} className="md:col-span-2 bg-slate-700/50 border-slate-600 h-12" />
 
-          <Input name="city" placeholder="Città" value={address.city} onChange={handleChange} className="bg-slate-700/50 border-slate-600 h-12" />
-          <Input name="zip" placeholder="CAP" value={address.zip} onChange={handleChange} className="bg-slate-700/50 border-slate-600 h-12" />
+          <Input name="city" placeholder="Città *" value={address.city} onChange={handleChange} className="bg-slate-700/50 border-slate-600 h-12" />
+          <Input name="zip" placeholder="CAP *" value={address.zip} onChange={handleChange} className="bg-slate-700/50 border-slate-600 h-12" />
 
           <div className="flex flex-col space-y-2">
             <Label htmlFor="province" className="text-gray-400 sr-only">Provincia</Label>
             <Select onValueChange={handleProvinceChange} value={address.province} name="province">
               <SelectTrigger className="bg-slate-700/50 border-slate-600 h-12">
-                <SelectValue placeholder="Provincia" />
+                <SelectValue placeholder="Provincia *" />
               </SelectTrigger>
               <SelectContent className="bg-slate-800 text-white border-slate-600 max-h-60">
                 {provinces.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
