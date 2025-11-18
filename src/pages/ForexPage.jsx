@@ -12,6 +12,7 @@ import { toast } from '@/components/ui/use-toast';
 import FileUpload from '@/components/FileUpload';
 import { cn } from '@/lib/utils';
 import { generateLayoutPdf } from '@/lib/pdfGenerator';
+import { gtmPush } from '@/lib/gtm';
 
 const ForexPage = () => {
   const forexProduct = rigidMediaProducts.find(p => p.id === 'forex');
@@ -129,6 +130,15 @@ const ForexPage = () => {
       name: `Forex® PVC ${selectedThickness.label}`,
       price: pricePerPanel,
     };
+
+    try {
+      gtmPush({
+        event: 'editor_click',
+        editor_product: 'forex',
+        thickness_mm: selectedThickness?.value,
+        size_label: selectedPredefinedFormat?.label,
+      });
+    } catch (e) {}
 
     navigate(`/designer/forex`, { 
       state: { 

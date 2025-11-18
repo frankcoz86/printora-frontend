@@ -13,6 +13,7 @@ import { products } from '@/data/products';
 import { rigidMediaProducts } from '@/data/rigidMediaProducts';
 import { generateLayoutPdf } from '@/lib/pdfGenerator';
 import Loader from '@/components/Loader';
+import { gtmPush } from '@/lib/gtm';
 
 const Faq = lazy(() => import('@/components/Faq'));
 const ImageScroller = lazy(() => import('@/components/ImageScroller'));
@@ -127,6 +128,15 @@ const NewRigidMediaPage = () => {
       const cncExtra = selectedMaterial.extras.find(e => e.name.includes('Sagomatura CNC'));
       if (cncExtra) selectedExtras.push(cncExtra);
     }
+
+    try {
+      gtmPush({
+        event: 'editor_click',
+        editor_product: 'rigid-new',
+        material: selectedMaterial?.value,
+        size_label: selectedSize?.label,
+      });
+    } catch (e) {}
 
     navigate('/designer', { state: { 
       designState: {

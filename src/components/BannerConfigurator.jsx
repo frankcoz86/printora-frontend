@@ -7,6 +7,7 @@ import { toast } from '@/components/ui/use-toast';
 import { Info, Plus, Minus, ThumbsUp, ShieldCheck, Download, Brush, Settings2, CheckCircle, Eye, Wind, Scissors, Pocket, ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
+import { gtmPush } from '@/lib/gtm';
 
 const presetSizes = [
   { label: '300x100 cm', width: 300, height: 100 },
@@ -132,6 +133,16 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
     if (sleeveExtra && Object.values(sleeveSides).some(s => s)) {
       selectedExtras.push(sleeveExtra);
     }
+
+    try {
+      gtmPush({
+        event: 'editor_click',
+        editor_product: 'banner-configurator',
+        format: `${width}x${height}`,
+        width_cm: width,
+        height_cm: height,
+      });
+    } catch (e) {}
 
     navigate(`/designer/${product.type.toLowerCase()}`, {
       state: {

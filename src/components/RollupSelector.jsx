@@ -6,6 +6,7 @@ import { Plus, Minus, Clock, ShieldCheck, ShoppingCart, Download, Brush, Setting
 import { toast } from '@/components/ui/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
+import { gtmPush } from '@/lib/gtm';
 
 const RollupSelector = ({ product, onAddToCart }) => {
   const [selectedFormat, setSelectedFormat] = useState(product.formats[0]);
@@ -15,6 +16,13 @@ const RollupSelector = ({ product, onAddToCart }) => {
 
   const handleDesign = useCallback(() => {
     const [width] = selectedFormat.label.split('x').map(dim => parseInt(dim.trim(), 10));
+    try {
+      gtmPush({
+        event: 'editor_click',
+        editor_product: 'rollup',
+        variant: selectedFormat.name,
+      });
+    } catch (e) {}
     navigate(`/designer/${product.type.toLowerCase()}`, { state: { 
       designState: {
         product: { ...product, name: `${product.name} ${selectedFormat.label}`, price: selectedFormat.promo_price },

@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
 import { Switch } from '@/components/ui/switch';
 import { Checkbox } from '@/components/ui/checkbox';
+import { gtmPush } from '@/lib/gtm';
 
 const presetSizes = [
   { label: '100x70 cm', width: 100, height: 70 },
@@ -143,6 +144,16 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
         selectedExtras.push({ name: `Asola (${sleeveSides}, ${sleeveSize} cm)`, price: 0 });
       }
     }
+
+    try {
+      gtmPush({
+        event: 'editor_click',
+        editor_product: 'banner',
+        format: `${width}x${height} cm`,
+        width_cm: width,
+        height_cm: height,
+      });
+    } catch (e) {}
 
     navigate(`/designer/${product.type.toLowerCase()}`, {
       state: { 

@@ -13,6 +13,7 @@ import FileUpload from '@/components/FileUpload';
 import { cn } from '@/lib/utils';
 import { generateLayoutPdf } from '@/lib/pdfGenerator';
 import Loader from '@/components/Loader';
+import { gtmPush } from '@/lib/gtm';
 
 const MAX_HEIGHT_CONTINUOUS = 5000; // 50 metri
 
@@ -152,6 +153,15 @@ const VinylPage = () => {
       name: `Vinile Adesivo ${selectedFinish.label}`,
       price: pricePerItem,
     };
+
+    try {
+      gtmPush({
+        event: 'editor_click',
+        editor_product: 'vinile-adesivo',
+        finish: selectedFinish?.value,
+        size_label: selectedPredefinedFormat?.label,
+      });
+    } catch (e) {}
 
     navigate(`/designer/vinyl`, { 
       state: { 
