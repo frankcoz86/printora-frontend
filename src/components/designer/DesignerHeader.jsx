@@ -20,7 +20,7 @@ const DesignerHeader = ({
     onDelete,
     activeObject
 }) => (
-    <header className="flex items-center justify-between p-3 bg-slate-900 shadow-md z-30 shrink-0">
+    <header className="flex items-center justify-between p-3 bg-slate-900 shadow-md z-30 shrink-0 flex-col md:flex-row">
         <div className="flex items-center gap-2">
             <Button variant="ghost" onClick={onNavigateBack} className="flex items-center gap-2">
                 <ArrowLeft className="h-4 w-4" /> Torna
