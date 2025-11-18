@@ -4,7 +4,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { ArrowLeft, Save, Loader2, BookOpen, Download, AlertTriangle } from 'lucide-react';
 
 const DtfEditorHeader = ({ designState, onNavigateBack, onOpenHelp, onSave, isSaving, onDownloadPng, hasDownloadedPngs }) => (
-    <header className="flex items-center justify-between p-3 bg-slate-900 shadow-md z-10 shrink-0">
+    <header className="flex flex-col md:flex-row items-center md:justify-between justify-start p-2 md:p-3 gap-2 md:gap-0 bg-slate-900 shadow-md z-10 shrink-0">
         <Button variant="ghost" onClick={onNavigateBack} className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" /> Torna
         </Button>

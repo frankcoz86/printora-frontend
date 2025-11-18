@@ -96,7 +96,7 @@ const DesignerCanvas = forwardRef(({ fabricCanvas, isReady }, ref) => {
     }, [fabricCanvas, isReady]);
 
     return (
-        <main className="flex-1 flex items-center justify-center p-8 bg-gray-800/50 relative overflow-auto" style={{backgroundImage: 'radial-gradient(#475569 1px, transparent 1px)', backgroundSize: '20px 20px'}}>
+        <main className="flex-1 flex items-center justify-center p-2 md:p-8 bg-gray-800/50 relative overflow-auto" style={{backgroundImage: 'radial-gradient(#475569 1px, transparent 1px)', backgroundSize: '20px 20px'}}>
             {isReady && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
                     <canvas ref={horizontalRulerRef} className="absolute bg-slate-700 z-10" />

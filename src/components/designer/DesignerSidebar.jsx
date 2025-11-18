@@ -32,12 +32,30 @@ const DesignerSidebar = ({
 
     return (
         <motion.aside 
-            className="flex-shrink-0 h-full w-80 bg-slate-900/80 backdrop-blur-sm border-r border-slate-700 shadow-2xl z-20"
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: isVisible ? 0 : -120, opacity: isVisible ? 1 : 0 }}
+            className={`
+                flex-shrink-0 h-full w-80 bg-slate-900/80 backdrop-blur-sm border-r border-slate-700 shadow-2xl z-20
+                fixed md:static top-0 left-0 md:w-80 w-full max-w-xs md:max-w-none
+                transition-transform duration-300
+                ${isVisible ? 'translate-x-0' : '-translate-x-full'}
+                md:translate-x-0
+            `}
+            style={{ zIndex: 50 }}
+            initial={false}
+            animate={{ x: isVisible ? 0 : '-100%' }}
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <div className="p-4 space-y-4 overflow-y-auto h-full custom-scrollbar">
+            {/* Mobile close button */}
+            <div className="md:hidden flex items-center p-2 border-b border-slate-700 bg-slate-900">
+                <button
+                    aria-label="Chiudi pannello"
+                    className="text-white text-xl p-2 rounded hover:bg-slate-800 focus:outline-none"
+                    onClick={() => { if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('closeSidebar')); }}
+                >
+                    <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+                <span className="ml-2 font-bold">Strumenti</span>
+            </div>
+            <div className="p-2 md:p-4 space-y-4 overflow-y-auto h-full custom-scrollbar">
                 <Tabs defaultValue="tools" className="w-full">
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="tools"><Shapes className="w-4 h-4 mr-2"/>Strumenti</TabsTrigger>

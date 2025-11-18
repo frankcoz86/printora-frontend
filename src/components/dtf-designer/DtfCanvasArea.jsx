@@ -88,7 +88,7 @@ const DtfCanvasArea = ({ canvases, canvasRefs, fabricCanvasRefs, currentCanvasIn
     const currentFabricCanvas = fabricCanvasRefs.current[currentCanvasIndex];
 
     return (
-        <main className="flex-1 flex items-center justify-center p-8 bg-slate-800/50 relative overflow-auto dtf-canvas-container" style={{backgroundImage: 'radial-gradient(#475569 1px, transparent 1px)', backgroundSize: '20px 20px'}}>
+        <main className="flex-1 flex items-center justify-center p-2 md:p-8 bg-slate-800/50 relative overflow-auto dtf-canvas-container" style={{backgroundImage: 'radial-gradient(#475569 1px, transparent 1px)', backgroundSize: '20px 20px'}}>
             <div className="relative">
                 <div className="absolute bottom-full left-0 bg-slate-700" style={{ left: '0', top: '-20px' }}>
                     <DtfRulerCanvas ref={horizontalRulerRef} fabricCanvas={currentFabricCanvas} orientation="horizontal" />

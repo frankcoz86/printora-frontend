@@ -38,8 +38,24 @@ const DtfEditorSidebar = ({
     };
 
     return (
-        <aside className="w-[450px] bg-slate-900 p-4 overflow-y-auto shrink-0 custom-scrollbar">
-            <Tabs defaultValue="tools" className="w-full">
+        <aside className={`
+            w-[450px] bg-slate-900 p-4 overflow-y-auto shrink-0 custom-scrollbar
+            fixed md:static top-0 left-0 md:w-[450px] w-full max-w-xs md:max-w-none
+            transition-transform duration-300
+            z-30
+        `} style={{ zIndex: 50 }}>
+            {/* Mobile close button */}
+            <div className="md:hidden flex items-center p-2 border-b border-slate-700 bg-slate-900">
+                <button
+                    aria-label="Chiudi pannello"
+                    className="text-white text-xl p-2 rounded hover:bg-slate-800 focus:outline-none"
+                    onClick={() => { if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('closeSidebar')); }}
+                >
+                    <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+                <span className="ml-2 font-bold">Strumenti</span>
+            </div>
+            <Tabs defaultValue="tools" className="w-full p-2 md:p-0">
                 <TabsList className="grid w-full grid-cols-4 bg-slate-800">
                     <TabsTrigger value="tools"><Layers className="w-4 h-4 mr-1"/>Strumenti</TabsTrigger>
                     <TabsTrigger value="text"><Type className="w-4 h-4 mr-1"/>Testo</TabsTrigger>
