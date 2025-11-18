@@ -147,7 +147,7 @@ const DtfDesignerPage = () => {
                 <title>Crea Layout DTF | Printora</title>
                 <meta name="description" content="Editor grafico avanzato per creare e impaginare le tue grafiche per la stampa DTF."/>
             </Helmet>
-            <div className="flex flex-col h-screen bg-slate-800 text-white font-sans">
+            <div className="flex flex-col md:flex-row h-screen bg-slate-800 text-white font-sans">
                 <DtfEditorHeader
                     designState={designState}
                     onNavigateBack={() => navigate(-1)}
@@ -157,7 +157,7 @@ const DtfDesignerPage = () => {
                     onDownloadPng={handleDownloadPngAndTrack}
                     hasDownloadedPngs={hasDownloadedPngs}
                 />
-                <div className="flex flex-1 overflow-hidden">
+                <div className="flex-1 flex flex-col md:flex-row relative overflow-hidden">
                     <DtfEditorSidebar
                         activeObject={activeObject}
                         onAddImage={addImage}
@@ -175,7 +175,6 @@ const DtfDesignerPage = () => {
                         onAddText={addText}
                         alignActiveObject={alignActiveObject}
                         moveLayer={moveLayer}
-                        // Removed updateBackground prop as it's no longer needed
                         onOpenTemplates={() => setIsTemplatesOpen(true)}
                     />
                     <DtfCanvasArea
@@ -187,7 +186,7 @@ const DtfDesignerPage = () => {
                     />
                 </div>
             </div>
-            
+
             <HelpModal isOpen={isHelpOpen} onOpenChange={setIsHelpOpen} productType="dtf" />
 
             <DtfTemplateBrowser
