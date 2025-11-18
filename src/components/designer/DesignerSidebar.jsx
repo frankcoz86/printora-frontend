@@ -33,7 +33,6 @@ const DesignerSidebar = ({
     return (
         <motion.aside 
             className="flex-shrink-0 h-full bg-slate-900/80 backdrop-blur-sm border-r border-slate-700 shadow-2xl z-20"
-            style={{ width: '100%', '@media (min-width: 768px)': { width: '80px' } }}
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: isVisible ? 0 : -120, opacity: isVisible ? 1 : 0 }}
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}

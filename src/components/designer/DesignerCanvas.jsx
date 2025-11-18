@@ -101,8 +101,7 @@ const DesignerCanvas = forwardRef(({ fabricCanvas, isReady }, ref) => {
                 backgroundImage: 'radial-gradient(#475569 1px, transparent 1px)',
                 backgroundSize: '20px 20px',
                 width: '100%',
-                height: '100%',
-                '@media (min-width: 768px)': { width: 'auto', height: 'auto' }
+                height: '100%'
             }}
         >
             {isReady && (

@@ -44,7 +44,6 @@ const DesignerToolbar = ({
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: isVisible ? 0 : -100, opacity: isVisible ? 1 : 0 }}
         transition={{ type: 'spring', stiffness: 260, damping: 25 }}
-        style={{ flexDirection: 'column', '@media (min-width: 768px)': { flexDirection: 'row' } }}
     >
       <TooltipProvider>
         <div className="flex items-center justify-between p-2 space-x-2 h-16">
