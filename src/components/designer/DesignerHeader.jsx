@@ -20,8 +20,8 @@ const DesignerHeader = ({
     onDelete,
     activeObject
 }) => (
-    <header className="flex items-center justify-between p-3 bg-slate-900 shadow-md z-30 shrink-0 md:flex-row flex-col">
-        <div className="flex items-center gap-2 mb-2 md:mb-0">
+    <header className="flex items-center justify-between p-3 bg-slate-900 shadow-md z-30 shrink-0">
+        <div className="flex items-center gap-2">
             <Button variant="ghost" onClick={onNavigateBack} className="flex items-center gap-2">
                 <ArrowLeft className="h-4 w-4" /> Torna
             </Button>
@@ -54,7 +54,7 @@ const DesignerHeader = ({
                 </TooltipProvider>
             </div>
         </div>
-        <div className="text-center mb-2 md:mb-0 md:hidden">
+        <div className="text-center hidden md:block">
             <h1 className="text-xl font-bold">Editor Grafico: {designState.product.name}</h1>
             <p className="text-sm text-gray-400">Dimensioni Finali: {designState.width}cm x {designState.height}cm</p>
         </div>
