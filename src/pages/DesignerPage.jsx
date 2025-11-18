@@ -282,7 +282,7 @@ const DesignerPage = () => {
           content={`Crea la tua grafica personalizzata per ${designState.product.name} con il nostro editor avanzato.`}
         />
       </Helmet>
-      <div className="flex flex-col md:flex-row h-screen bg-slate-800 text-white font-sans">
+      <div className="flex flex-col h-screen bg-slate-800 text-white font-sans">
         <DesignerHeader
           designState={designState}
           onSave={handleSaveInitiation}
@@ -300,7 +300,7 @@ const DesignerPage = () => {
           onDelete={deleteActiveObject}
           activeObject={activeObject}
         />
-        <div className="flex-1 flex flex-col md:flex-row relative overflow-hidden">
+        <div className="flex-1 flex relative overflow-hidden">
           <DesignerSidebar
             onAddImage={addImage}
             onAddText={handleAddText}
