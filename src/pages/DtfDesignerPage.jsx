@@ -148,6 +148,18 @@ const DtfDesignerPage = () => {
                 <meta name="description" content="Editor grafico avanzato per creare e impaginare le tue grafiche per la stampa DTF."/>
             </Helmet>
             <div className="flex flex-col h-screen bg-slate-800 text-white font-sans">
+                {/* Mobile sidebar slider button */}
+                {!isSidebarVisible && (
+                  <button
+                    type="button"
+                    className="fixed left-0 top-1/2 -translate-y-1/2 z-40 md:hidden flex items-center justify-center w-8 h-16 rounded-r-full bg-black/40 hover:bg-black/60 text-white focus:outline-none transition"
+                    aria-label="Apri strumenti"
+                    style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+                    onClick={() => setIsSidebarVisible(true)}
+                  >
+                    <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-right"><polyline points="9 18 15 12 9 6" /></svg>
+                  </button>
+                )}
                 <DtfEditorHeader
                     designState={designState}
                     onNavigateBack={() => navigate(-1)}
