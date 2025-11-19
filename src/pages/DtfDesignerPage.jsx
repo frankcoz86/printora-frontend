@@ -31,6 +31,7 @@ const DtfDesignerPage = () => {
     const [isComponentReady, setIsComponentReady] = useState(false);
     const [isTemplatesOpen, setIsTemplatesOpen] = useState(false);
     const [hasDownloadedPngs, setHasDownloadedPngs] = useState(false);
+    const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
     useEffect(() => {
         if (!location.state || !location.state.designState) {
@@ -140,6 +141,16 @@ const DtfDesignerPage = () => {
     if (!isComponentReady || !designState || !cartHook) {
         return <Loader />;
     }
+
+    React.useEffect(() => {
+        const handler = () => setIsSidebarVisible(false);
+        window.addEventListener('closeSidebar', handler);
+        return () => window.removeEventListener('closeSidebar', handler);
+    }, []);
+
+    React.useEffect(() => {
+        if (isComponentReady && !isSidebarVisible) setIsSidebarVisible(true);
+    }, [isComponentReady]);
 
     return (
         <>
