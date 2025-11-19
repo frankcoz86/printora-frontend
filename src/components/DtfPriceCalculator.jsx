@@ -135,7 +135,7 @@ const DtfPriceCalculator = ({ product, onAddToCart }) => {
   }
 
   return (
-    <div className="bg-slate-900/50 p-8 rounded-2xl border border-white/10 shadow-2xl shadow-black/30">
+    <div className="bg-slate-900/50 p-6 md:p-8 rounded-2xl border border-white/10 shadow-2xl shadow-black/30">
       <div className="space-y-4">
         <h3 className="text-3xl font-bold text-white">{product.name}</h3>
         <p className="text-gray-300">{product.description}</p>

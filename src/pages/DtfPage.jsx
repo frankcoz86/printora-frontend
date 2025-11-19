@@ -59,7 +59,18 @@ const DtfPage = () => {
         <meta name="keywords" content="stampa dtf, dtf al metro, stampa transfer, dtf fluo, stampa tessuti, personalizzazione abbigliamento" />
       </Helmet>
       
-      <div className="py-16 bg-slate-900">
+      <div className="bg-slate-950 md:hidden">
+        <div className="container mx-auto px-4 pt-16 pb-12 text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-500">
+              Stampa DTF al Metro
+            </h1>
+            <p className="mt-4 text-base text-gray-300 max-w-3xl mx-auto">{dtfProduct.description}</p>
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="py-12 md:py-16 bg-slate-900">
         <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
                 <div className="space-y-6">
@@ -87,7 +98,7 @@ const DtfPage = () => {
         </div>
       </div>
       
-      <div className="py-16 bg-slate-950">
+      <div className="py-12 md:py-16 bg-slate-950">
         <div className="container mx-auto px-4 space-y-16">
             
             <div className="text-center">
