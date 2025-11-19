@@ -27,6 +27,7 @@ const DtfEditorSidebar = ({
     onAddText,
     alignActiveObject,
     moveLayer,
+    isVisible,
 }) => {
     const fileInputRef = useRef(null);
     
@@ -43,6 +44,8 @@ const DtfEditorSidebar = ({
             fixed md:static top-0 left-0 md:w-[450px] w-full max-w-xs md:max-w-none
             transition-transform duration-300
             z-30
+            ${isVisible ? 'translate-x-0' : '-translate-x-full'}
+            md:translate-x-0
         `} style={{ zIndex: 50 }}>
             {/* Mobile close button */}
             <div className="md:hidden flex items-center p-2 border-b border-slate-700 bg-slate-900">
