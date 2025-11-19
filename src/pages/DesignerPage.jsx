@@ -302,11 +302,12 @@ const DesignerPage = () => {
         {!isSidebarVisible && (
           <button
             type="button"
-            className="fixed left-2 top-4 z-40 md:hidden flex items-center justify-center w-12 h-12 rounded-full bg-slate-900 border border-slate-700 shadow-lg text-white hover:bg-slate-800 focus:outline-none transition"
+            className="fixed left-0 top-1/2 -translate-y-1/2 z-40 md:hidden flex items-center justify-center w-8 h-16 rounded-r-full bg-black/40 hover:bg-black/60 text-white focus:outline-none transition"
             aria-label="Apri strumenti"
+            style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
             onClick={() => setIsSidebarVisible(true)}
           >
-            <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu"><line x1="4" y1="8" x2="24" y2="8"/><line x1="4" y1="16" x2="24" y2="16"/></svg>
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-right"><polyline points="9 18 15 12 9 6" /></svg>
           </button>
         )}
         <DesignerHeader
