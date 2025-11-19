@@ -61,6 +61,7 @@ const DesignerPage = () => {
   const [isClipartOpen, setIsClipartOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(true);
   const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const [isSaveConfirmOpen, setIsSaveConfirmOpen] = useState(false);
   const [hasDownloadedPdf, setHasDownloadedPdf] = useState(false);
 
@@ -273,6 +274,20 @@ const DesignerPage = () => {
     saveState();
   };
 
+  useEffect(() => {
+    // Listen for sidebar close event (mobile only)
+    const handler = () => setIsSidebarVisible(false);
+    window.addEventListener('closeSidebar', handler);
+    return () => window.removeEventListener('closeSidebar', handler);
+  }, []);
+
+  useEffect(() => {
+    // Show sidebar when canvas becomes ready (mobile)
+    if (isCanvasReady && !isSidebarVisible) setIsSidebarVisible(true);
+    // Hide sidebar when preview mode is enabled (mobile)
+    if (isPreviewMode && isSidebarVisible) setIsSidebarVisible(false);
+  }, [isCanvasReady, isPreviewMode]);
+
   return (
     <>
       <Helmet>
@@ -313,7 +328,7 @@ const DesignerPage = () => {
             moveLayer={moveLayer}
             updateBackground={updateBackground}
             fontFamilies={FONT_FAMILIES}
-            isVisible={!isPreviewMode && isCanvasReady}
+            isVisible={!isPreviewMode && isCanvasReady && isSidebarVisible}
           />
           <DesignerCanvas ref={canvasRef} fabricCanvas={fabricCanvasRef.current} isReady={isCanvasReady} />
         </div>
