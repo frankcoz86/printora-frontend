@@ -143,10 +143,10 @@ const DtfDesignerPage = () => {
     }, []);
 
     useEffect(() => {
-        if (isComponentReady && !isSidebarVisible) {
+        if (isComponentReady) {
             setIsSidebarVisible(true);
         }
-    }, [isComponentReady, isSidebarVisible]);
+    }, [isComponentReady]);
 
     if (!isComponentReady || !designState || !cartHook) {
         return <Loader />;

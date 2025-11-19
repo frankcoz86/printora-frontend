@@ -46,6 +46,7 @@ const DtfEditorSidebar = ({
             z-30
             ${isVisible ? 'translate-x-0' : '-translate-x-full'}
             md:translate-x-0
+            md:h-auto h-full
         `} style={{ zIndex: 50 }}>
             {/* Mobile close button */}
             <div className="md:hidden flex items-center p-2 border-b border-slate-700 bg-slate-900">
