@@ -48,7 +48,7 @@ const EmailItem = ({ label, email }) => {
     <div className="relative group flex items-center justify-between">
       <div className='flex flex-col'>
          <span className="text-sm text-gray-400">{label}</span>
-         <a href={`mailto:${email}`} className="text-emerald-300 hover:underline">{email}</a>
+         <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${email}`} target="_blank" rel="noopener noreferrer" className="text-emerald-300 hover:underline">{email}</a>
       </div>
       <Button variant="ghost" size="icon" onClick={copyToClipboard} className="opacity-0 group-hover:opacity-100 transition-opacity absolute right-0 bg-slate-700/50 hover:bg-slate-700">
         <Copy className="w-4 h-4" />
