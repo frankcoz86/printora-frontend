@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { gtmPush } from '@/lib/gtm';
 
 const ContactInfoCard = ({ icon: Icon, title, href, cta, children }) => {
   return (
@@ -109,6 +110,15 @@ const ContactPage = () => {
       });
       const j = await resp.json();
       if (!resp.ok || !j.ok) throw new Error(j.error || "Invio non riuscito");
+
+      try {
+        gtmPush({
+          event: 'contact_form_submit',
+          contact_channel: 'web_form',
+          has_order_code: !!form.order_code,
+        });
+      } catch (err) {}
+
       toast({ title: "✅ Messaggio inviato", description: "Ti risponderemo al più presto." });
       setForm({ name: "", email: "", subject: "", message: "", order_code: "" });
     } catch (err) {
