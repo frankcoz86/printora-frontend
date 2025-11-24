@@ -29,7 +29,7 @@ export const products = [
     id: 2,
     type: 'rollup',
     name: 'Roll-up Alluminio',
-    price: 49.90,
+    price: 54.90,
     list_price: 89.90,
     unit: 'pz',
     description: 'L\'espositore roll-up è lo strumento di marketing definitivo per fiere, eventi e punti vendita. Struttura in alluminio, stampa su PVC 510gr e montaggio istantaneo. Comunica il tuo brand ovunque, con stile e professionalità.',
@@ -43,7 +43,7 @@ export const products = [
     imageAlt: 'Espositore roll-up 85x200cm con telo personalizzato e borsa da trasporto nera',
     weight: 3.5,
     formats: [
-      { label: '85x200 cm', promo_price: 49.90, list_price: 89.90, available: true },
+      { label: '85x200 cm', promo_price: 54.90, list_price: 89.90, available: true },
       { label: '100x200 cm', promo_price: 64.90, list_price: 99.90, available: false }
     ],
     extras: []
