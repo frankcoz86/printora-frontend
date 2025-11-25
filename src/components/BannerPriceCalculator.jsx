@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
-import { Info, Sparkles, Upload, BoxSelect, Plus, Minus, ThumbsUp, ShieldCheck, Download, Brush, Settings2, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Info, Sparkles, Upload, BoxSelect, Plus, Minus, ThumbsUp, ShieldCheck, Download, Brush, Settings2, CheckCircle, AlertTriangle, PhoneCall } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
 import { Switch } from '@/components/ui/switch';
@@ -264,6 +264,17 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
     singleBannerPrice, hasSleeve, sleevePosition, sleeveSize
   ]);
 
+  const handleContactSupport = useCallback(() => {
+    const phoneNumber = '393792775116';
+
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
+    window.open(whatsappUrl, '_blank');
+  }, []);
+
   const applyPreset = useCallback((preset) => {
     setWidth(preset.width);
     setHeight(preset.height);
@@ -423,6 +434,11 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
           </div>
         </div>
         <Button onClick={handleAddToCart} size="lg" className="w-full h-14 text-lg" variant="accent"><ThumbsUp className="w-5 h-5 mr-2" />Conferma e Aggiungi</Button>
+        <Button onClick={handleContactSupport} size="lg" className="w-full h-14 text-lg mt-3" variant="accent">
+          <PhoneCall className="w-5 h-5 mr-2" />
+          <span className="md:hidden">Hai bisogno di aiuto?</span>
+          <span className="hidden md:inline">Hai bisogno di aiuto? WhatsApp</span>
+        </Button>
         <div className="flex items-center justify-center space-x-2 text-green-300 text-xs"><ShieldCheck size={16} />Verifica file professionale inclusa</div>
       </div>
     </div>

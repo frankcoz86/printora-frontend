@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Plus, Minus, Clock, ShieldCheck, ShoppingCart, Download, Brush, Settings2, Package } from 'lucide-react';
+import { Plus, Minus, Clock, ShieldCheck, ShoppingCart, Download, Brush, Settings2, Package, PhoneCall } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
@@ -89,6 +89,17 @@ const RollupSelector = ({ product, onAddToCart }) => {
     });
   }, [product, onAddToCart, selectedFormat, quantity, uploadedFile]);
 
+  const handleContactSupport = useCallback(() => {
+    const phoneNumber = '393792775116';
+
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
+    window.open(whatsappUrl, '_blank');
+  }, []);
+
   return (
     <div className="space-y-6">
       <div className="space-y-3">
@@ -148,6 +159,16 @@ const RollupSelector = ({ product, onAddToCart }) => {
           disabled={!selectedFormat.available}
         >
           <ShoppingCart className="w-6 h-6 mr-3" />Aggiungi al Carrello
+        </Button>
+        <Button
+          onClick={handleContactSupport}
+          size="lg"
+          className="w-full h-14 text-lg mt-3"
+          variant="accent"
+        >
+          <PhoneCall className="w-5 h-5 mr-2" />
+          <span className="md:hidden">Hai bisogno di aiuto?</span>
+          <span className="hidden md:inline">Hai bisogno di aiuto? WhatsApp</span>
         </Button>
         <div className="flex items-center justify-center space-x-2 text-green-300 text-xs"><ShieldCheck size={16} />Verifica file professionale inclusa</div>
       </div>

@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { toast } from '@/components/ui/use-toast';
-import { Info, Sparkles, Plus, Minus, ThumbsUp, ShieldCheck, Download, Brush, AlertTriangle } from 'lucide-react';
+import { Info, Sparkles, Plus, Minus, ThumbsUp, ShieldCheck, Download, Brush, AlertTriangle, PhoneCall } from 'lucide-react';
 import { motion } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
 
@@ -112,6 +112,17 @@ const DtfPriceCalculator = ({ product, onAddToCart }) => {
       total: totalPrice,
       details: itemDetails,
     });
+  };
+
+  const handleContactSupport = () => {
+    const phoneNumber = '393792775116';
+
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   const handleDesign = () => {
@@ -246,6 +257,15 @@ const DtfPriceCalculator = ({ product, onAddToCart }) => {
         >
           <ThumbsUp className="w-5 h-5 mr-2" />
           Conferma e Aggiungi
+        </Button>
+        <Button
+          onClick={handleContactSupport}
+          size="lg"
+          className="w-full mt-3 h-14 text-lg bg-gradient-to-r from-fuchsia-500 to-purple-500 hover:from-fuchsia-600 hover:to-purple-600 text-white font-bold px-8 shadow-lg shadow-fuchsia-500/30 transform hover:scale-105 transition-transform duration-300"
+        >
+          <PhoneCall className="w-5 h-5 mr-2" />
+          <span className="md:hidden">Hai bisogno di aiuto?</span>
+          <span className="hidden md:inline">Hai bisogno di aiuto? WhatsApp</span>
         </Button>
       </div>
     </div>
