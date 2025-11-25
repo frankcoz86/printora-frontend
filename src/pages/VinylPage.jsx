@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useOutletContext, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Settings2, Brush, CheckCircle, ThumbsUp, ShieldCheck, Plus, Minus, AlertTriangle, FileDown, Layers } from 'lucide-react';
+import { Settings2, Brush, CheckCircle, ThumbsUp, ShieldCheck, Plus, Minus, AlertTriangle, FileDown, Layers, PhoneCall } from 'lucide-react';
 import { vinylProduct } from '@/data/vinylProduct';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -133,6 +133,25 @@ const VinylPage = () => {
     // 4-arg signature
     addToCart(productForCart, quantity, [], itemDetails);
   }, [cartHook, width, height, quantity, selectedFinish, selectedCut, selectedLamination, isShapedCut, uploadedFile, cutFile, pricePerItem, panelizingInfo, isLaminationDisabled]);
+
+  const handleContactSupport = useCallback(() => {
+    const phoneNumber = '393792775116';
+
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const nav = window.navigator || {};
+    const userAgent = nav.userAgent || nav.vendor || '';
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+
+    if (isMobile) {
+      window.location.href = `tel:+39${phoneNumber}`;
+    } else {
+      const whatsappUrl = `https://wa.me/${phoneNumber}`;
+      window.open(whatsappUrl, '_blank');
+    }
+  }, []);
 
   const handleDesign = () => {
     if (width < 10 || height < 10) {
@@ -412,6 +431,7 @@ const VinylPage = () => {
                         </div>
                       </div>
                       <Button onClick={handleAddToCart} size="lg" className="w-full h-14 text-lg mt-4" variant="accent"><ThumbsUp className="w-5 h-5 mr-2" />Conferma e Aggiungi</Button>
+                      <Button onClick={handleContactSupport} size="lg" className="w-full h-14 text-lg mt-3" variant="vinile"><PhoneCall className="w-5 h-5 mr-2" />Hai bisogno di aiuto? Chiama / WhatsApp</Button>
                       <div className="flex items-center justify-center space-x-2 text-green-300 text-xs mt-2"><ShieldCheck size={16} />Verifica file professionale inclusa</div>
                     </div>
                   </div>
