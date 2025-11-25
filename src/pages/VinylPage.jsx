@@ -425,7 +425,7 @@ const VinylPage = () => {
                       <Button onClick={handleAddToCart} size="lg" className="w-full h-14 text-lg mt-4" variant="accent"><ThumbsUp className="w-5 h-5 mr-2" />Conferma e Aggiungi</Button>
                       <Button onClick={handleContactSupport} size="lg" className="w-full h-14 text-lg mt-3" variant="accent">
                         <PhoneCall className="w-5 h-5 mr-2" />
-                        <span className="md:hidden">Need help?</span>
+                        <span className="md:hidden">Hai bisogno di aiuto?</span>
                         <span className="hidden md:inline">Hai bisogno di aiuto? WhatsApp</span>
                       </Button>
                       <div className="flex items-center justify-center space-x-2 text-green-300 text-xs mt-2"><ShieldCheck size={16} />Verifica file professionale inclusa</div>
