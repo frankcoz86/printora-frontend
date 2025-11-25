@@ -122,16 +122,8 @@ const ForexPage = () => {
       return;
     }
 
-    const nav = window.navigator || {};
-    const userAgent = nav.userAgent || nav.vendor || '';
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-
-    if (isMobile) {
-      window.location.href = `tel:+39${phoneNumber}`;
-    } else {
-      const whatsappUrl = `https://wa.me/${phoneNumber}`;
-      window.open(whatsappUrl, '_blank');
-    }
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
+    window.open(whatsappUrl, '_blank');
   }, []);
 
   const handleDesign = () => {
@@ -346,7 +338,7 @@ const ForexPage = () => {
                         </div>
                       </div>
                       <Button onClick={handleAddToCart} size="lg" className="w-full h-14 text-lg mt-4" variant="accent"><ThumbsUp className="w-5 h-5 mr-2" />Conferma e Aggiungi</Button>
-                      <Button onClick={handleContactSupport} size="lg" className="w-full h-14 text-lg mt-3" variant="forex"><PhoneCall className="w-5 h-5 mr-2" />Hai bisogno di aiuto? Chiama / WhatsApp</Button>
+                      <Button onClick={handleContactSupport} size="lg" className="w-full h-14 text-lg mt-3" variant="accent"><PhoneCall className="w-5 h-5 mr-2" />Hai bisogno di aiuto? Chiama / WhatsApp</Button>
                       <div className="flex items-center justify-center space-x-2 text-green-300 text-xs mt-2"><ShieldCheck size={16} />Verifica file professionale inclusa</div>
                     </div>
                   </div>
