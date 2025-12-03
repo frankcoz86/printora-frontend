@@ -1,3 +1,4 @@
+/*
 import React, { useState, useMemo, useCallback } from 'react';
 import { useOutletContext, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -357,3 +358,4 @@ const ForexPage = () => {
 };
 
 export default ForexPage;
+*/
