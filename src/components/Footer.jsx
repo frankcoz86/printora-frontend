@@ -37,8 +37,8 @@ const Footer = () => {
               <li><Link to="/dtf" className="text-gray-400 hover:text-primary transition">Stampa DTF</Link></li>
               <li><Link to="/banner" className="text-gray-400 hover:text-primary transition">Stampa Banner</Link></li>
               <li><Link to="/rollup" className="text-gray-400 hover:text-primary transition">Stampa Roll-up</Link></li>
-              <li><Link to="/vinile-adesivo" className="text-gray-400 hover:text-primary transition">Stampa Vinile</Link></li>
-              <li><Link to="/forex-pvc" className="text-gray-400 hover:text-primary transition">Stampa Forex</Link></li>
+              {/* <li><Link to="/vinile-adesivo" className="text-gray-400 hover:text-primary transition">Stampa Vinile</Link></li> */}
+              {/* <li><Link to="/forex-pvc" className="text-gray-400 hover:text-primary transition">Stampa Forex</Link></li> */}
             </ul>
           </div>
           <div>

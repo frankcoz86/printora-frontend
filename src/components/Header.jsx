@@ -57,18 +57,22 @@ const Header = () => {
                                 Roll-up
                             </Link>
                         </Button>
-                        <Button asChild variant="vinile" size="sm">
-                            <Link to="/vinile-adesivo" className="flex items-center">
-                                <Sticker className="w-4 h-4 mr-2" />
-                                Vinile
-                            </Link>
-                        </Button>
-                        <Button asChild variant="forex" size="sm">
-                            <Link to="/forex-pvc" className="flex items-center">
-                                <Square className="w-4 h-4 mr-2" />
-                                Forex
-                            </Link>
-                        </Button>
+                        {/*
+<Button asChild variant="vinile" size="sm">
+    <Link to="/vinile-adesivo" className="flex items-center">
+        <Sticker className="w-4 h-4 mr-2" />
+        Vinile
+    </Link>
+</Button>
+*/}
+                        {/*
+<Button asChild variant="forex" size="sm">
+    <Link to="/forex-pvc" className="flex items-center">
+        <Square className="w-4 h-4 mr-2" />
+        Forex
+    </Link>
+</Button>
+*/}
                         
                         <Button asChild variant="dtf" size="sm">
                             <Link to="/dtf" className="flex items-center">
@@ -113,12 +117,16 @@ const Header = () => {
                             <Link to="/rollup" className="flex items-center text-gray-300 hover:text-white" onClick={() => setIsMenuOpen(false)}>
                                 <RectangleVertical className="w-4 h-4 mr-2" />Roll-up
                             </Link>
-                            <Link to="/vinile-adesivo" className="flex items-center text-gray-300 hover:text-white" onClick={() => setIsMenuOpen(false)}>
-                                <Sticker className="w-4 h-4 mr-2" />Vinile
-                            </Link>
-                            <Link to="/forex-pvc" className="flex items-center text-gray-300 hover:text-white" onClick={() => setIsMenuOpen(false)}>
-                                <Square className="w-4 h-4 mr-2" />Forex
-                            </Link>
+                            {/*
+<Link to="/vinile-adesivo" className="flex items-center text-gray-300 hover:text-white" onClick={() => setIsMenuOpen(false)}>
+    <Sticker className="w-4 h-4 mr-2" />Vinile
+</Link>
+*/}
+                            {/*
+<Link to="/forex-pvc" className="flex items-center text-gray-300 hover:text-white" onClick={() => setIsMenuOpen(false)}>
+    <Square className="w-4 h-4 mr-2" />Forex
+</Link>
+*/}
                             <Link to="/dtf" className="flex items-center text-gray-300 hover:text-white" onClick={() => setIsMenuOpen(false)}>
                                 <Sparkles className="w-4 h-4 mr-2" />DTF
                             </Link>
