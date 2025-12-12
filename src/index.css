@@ -105,3 +105,20 @@ body {
     display: none;
   }
 }
+
+/* Custom shapes for reviews gallery */
+.gallery-hero-shape {
+  border-radius: 999px;
+  clip-path: polygon(6% 0, 100% 0, 100% 78%, 94% 100%, 0 100%, 0 22%);
+}
+
+@media (max-width: 768px) {
+  .gallery-hero-shape {
+    clip-path: polygon(4% 0, 100% 0, 100% 86%, 96% 100%, 0 100%, 0 14%);
+  }
+}
+
+.gallery-thumb-shape {
+  border-radius: 999px;
+  clip-path: polygon(16% 0, 100% 0, 100% 82%, 86% 100%, 0 100%, 0 20%);
+}
