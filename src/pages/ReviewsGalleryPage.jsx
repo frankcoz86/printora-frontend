@@ -127,8 +127,11 @@ const ReviewsGalleryPage = () => {
                     <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                     <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                   </div>
-                  <span className="text-[11px] font-medium text-slate-200 whitespace-nowrap">
+                  <span className="reviews-pill-short text-[11px] font-medium text-slate-200 whitespace-nowrap">
                     Verificati
+                  </span>
+                  <span className="hidden lg:inline text-[11px] font-medium text-slate-200 whitespace-nowrap">
+                    Clienti verificati
                   </span>
                 </div>
               </div>
