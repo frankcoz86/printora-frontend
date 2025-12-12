@@ -1,6 +1,4 @@
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 
 const reviews = [
   { name: 'Giovanni Rossi', comment: 'Avevo dubbi sulla qualità, ma il risultato è stato eccezionale! Consigliato.' },
@@ -40,10 +38,9 @@ const galleryImages = [
 
 const ReviewsGalleryPage = () => {
   return (
-    <>
-      <Header />
-      <main className="bg-slate-950 min-h-screen py-12 px-4">
-        <section className="max-w-3xl mx-auto mb-16">
+    <div className="bg-slate-950 py-16">
+      <div className="container mx-auto px-4 space-y-16">
+        <section className="max-w-3xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold text-center text-white mb-8">Cosa dicono i nostri clienti</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {reviews.map((review, idx) => (
@@ -64,9 +61,8 @@ const ReviewsGalleryPage = () => {
             ))}
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
+      </div>
+    </div>
   );
 };
 

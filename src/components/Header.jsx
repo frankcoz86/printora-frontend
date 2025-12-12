@@ -81,6 +81,7 @@ const Header = () => {
                             </Link>
                         </Button>
 
+                        <NavItem to="/recensioni-lavori">Recensioni</NavItem>
                         <NavItem to="/contatti">Contatti</NavItem>
                     </nav>
 
@@ -130,6 +131,7 @@ const Header = () => {
                             <Link to="/dtf" className="flex items-center text-gray-300 hover:text-white" onClick={() => setIsMenuOpen(false)}>
                                 <Sparkles className="w-4 h-4 mr-2" />DTF
                             </Link>
+                            <Link to="/recensioni-lavori" className="text-gray-300 hover:text-white" onClick={() => setIsMenuOpen(false)}>Recensioni</Link>
                             <Link to="/contatti" className="text-gray-300 hover:text-white" onClick={() => setIsMenuOpen(false)}>Contatti</Link>
                         </nav>
                     </motion.div>
