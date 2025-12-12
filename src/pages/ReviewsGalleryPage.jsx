@@ -61,6 +61,8 @@ const ReviewsGalleryPage = () => {
   };
 
   const quickReviews = reviews.slice(0, 6);
+  const featuredImage = galleryImages[0];
+  const otherImages = galleryImages.slice(1);
 
   return (
     <div className="bg-slate-950 py-16">
@@ -313,38 +315,102 @@ const ReviewsGalleryPage = () => {
         </section>
 
         {/* Gallery of previous work */}
-        <section className="space-y-6">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
-            <div>
+        <section className="relative space-y-8 rounded-3xl border border-slate-800 bg-slate-950/60 p-6 md:p-8 overflow-hidden">
+          <div className="pointer-events-none absolute -top-32 right-0 h-64 w-64 bg-cyan-500/15 blur-3xl rounded-full" />
+          <div className="pointer-events-none absolute -bottom-32 left-0 h-64 w-64 bg-fuchsia-500/15 blur-3xl rounded-full" />
+
+          <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div className="space-y-2">
               <h2 className="text-2xl md:text-3xl font-bold text-white">
                 Alcuni dei nostri lavori
               </h2>
-              <p className="mt-2 text-sm md:text-base text-slate-300 max-w-xl">
-                Utilizza questa sezione per mostrare esempi reali di banner, DTF e altri materiali stampati: aiuta il cliente a visualizzare il risultato finale.
+              <p className="mt-1 text-sm md:text-base text-slate-300 max-w-xl">
+                Una selezione di esempi reali: banner, DTF e altri supporti stampati per negozi, eventi e brand.
               </p>
             </div>
+            <p className="text-[11px] md:text-xs text-slate-400 max-w-xs">
+              Usa queste immagini nelle tue comunicazioni per mostrare al cliente finale il livello di qualità che può aspettarsi.
+            </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {galleryImages.map((src, idx) => (
+
+          <div className="relative grid gap-4 md:grid-cols-[1.7fr,1.3fr]">
+            {featuredImage && (
               <motion.div
-                key={src + idx}
-                className="group relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/70 shadow-lg"
-                initial={{ opacity: 0, y: 18 }}
+                className="group relative h-64 md:h-80 rounded-2xl overflow-hidden border border-slate-800 bg-slate-900/80 shadow-2xl"
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.35, delay: idx * 0.04 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.45 }}
               >
                 <img
-                  src={src}
-                  alt={`Lavoro ${idx + 1}`}
-                  className="w-full h-40 md:h-44 object-cover transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[0.5deg]"
+                  src={featuredImage}
+                  alt="Lavoro in evidenza"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[0.6deg]"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="pointer-events-none absolute bottom-3 left-3 text-[11px] font-medium text-slate-100 tracking-wide">
-                  Lavoro #{idx + 1}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent" />
+                <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-300">
+                      Progetto in evidenza
+                    </p>
+                    <p className="text-sm md:text-base font-medium text-slate-50">
+                      Esempio di applicazione reale dei servizi Printora
+                    </p>
+                  </div>
+                  <span className="hidden md:inline-flex items-center rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-[11px] text-slate-200">
+                    Galleria lavori
+                  </span>
                 </div>
               </motion.div>
-            ))}
+            )}
+
+            <div className="grid grid-cols-2 gap-3">
+              {otherImages.map((src, idx) => (
+                <motion.div
+                  key={src + idx}
+                  className="group relative h-28 md:h-32 rounded-2xl overflow-hidden border border-slate-800 bg-slate-900/80 shadow-lg"
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.35, delay: idx * 0.05 }}
+                >
+                  <img
+                    src={src}
+                    alt={`Lavoro ${idx + 2}`}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[0.4deg]"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="pointer-events-none absolute bottom-2 left-2 text-[10px] font-medium text-slate-100 tracking-wide">
+                    Lavoro #{idx + 2}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative pt-3 md:pt-4">
+            <p className="text-[11px] text-slate-400 mb-2">
+              Scorri la galleria qui sotto per vedere altri dettagli e formati.
+            </p>
+            <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0">
+              {galleryImages.map((src, idx) => (
+                <motion.div
+                  key={src + 'thumb-' + idx}
+                  className="group relative h-16 w-28 md:h-20 md:w-32 shrink-0 overflow-hidden rounded-xl border border-slate-800 bg-slate-900/80"
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.3, delay: idx * 0.03 }}
+                >
+                  <img
+                    src={src}
+                    alt={`Dettaglio lavoro ${idx + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
       </div>
