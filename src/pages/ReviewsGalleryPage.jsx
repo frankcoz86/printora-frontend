@@ -347,30 +347,28 @@ const ReviewsGalleryPage = () => {
         </section>
 
         {/* Gallery of previous work */}
-        <section className="space-y-6">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
-            <div className="space-y-2">
-              <h2 className="text-2xl md:text-3xl font-bold text-white">
-                Alcuni dei nostri lavori
-              </h2>
-              <p className="mt-1 text-sm md:text-base text-slate-300 max-w-xl">
-                Una galleria dinamica di esempi reali: banner, roll-up, DTF e supporti stampati per negozi, eventi e brand.
-              </p>
+        <section className="space-y-4">
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-2xl md:text-3xl font-bold text-white">
+              Alcuni dei nostri lavori
+            </h2>
+            <div className="hidden sm:flex items-center gap-2 text-[11px] text-slate-400">
+              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-700 bg-slate-900/80 text-slate-200">
+                ●
+              </span>
+              <span>Galleria interattiva</span>
             </div>
-            <p className="text-[11px] md:text-xs text-slate-400 max-w-xs">
-              Scorri o seleziona le anteprime per mostrare rapidamente al cliente diversi tipi di applicazioni.
-            </p>
           </div>
 
           <div className="relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-950/60 shadow-[0_18px_60px_rgba(15,23,42,0.9)]">
             <div className="pointer-events-none absolute -top-32 right-0 h-64 w-64 bg-cyan-500/20 blur-3xl rounded-full" />
             <div className="pointer-events-none absolute -bottom-32 left-0 h-64 w-64 bg-fuchsia-500/25 blur-3xl rounded-full" />
 
-            <div className="relative grid gap-6 lg:grid-cols-[1.7fr,1.1fr] p-5 md:p-7 lg:p-8 items-stretch">
+            <div className="relative p-4 md:p-6 lg:p-7 space-y-4">
               {activeWork && (
                 <motion.div
                   key={activeWorkIndex}
-                  className="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900/80"
+                  className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80"
                   initial={{ opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, type: 'spring', stiffness: 120, damping: 22 }}
@@ -380,66 +378,37 @@ const ReviewsGalleryPage = () => {
                   <img
                     src={activeWork.src}
                     alt={activeWork.title}
-                    className="w-full h-64 md:h-80 object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[0.4deg]"
+                    className="w-full h-64 md:h-80 lg:h-[380px] object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[0.4deg]"
                   />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent" />
-                  <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3">
-                    <div className="space-y-1">
-                      <p className="inline-flex items-center rounded-full border border-emerald-400/60 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-200">
-                        {activeWork.tag}
-                      </p>
-                      <p className="text-sm md:text-base font-semibold text-slate-50">
-                        {activeWork.title}
-                      </p>
-                    </div>
-                    <div className="hidden md:flex flex-col items-end text-[11px] text-slate-200">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-slate-900/80 px-3 py-1 border border-slate-700/80">
-                        <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                        <span>Progetto reale</span>
-                      </span>
-                      <span className="mt-1 text-slate-400">
-                        {activeWorkIndex + 1} di {totalWorks} esempi
-                      </span>
+                  <div className="pointer-events-none absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
+                    <span className="inline-flex items-center rounded-full border border-emerald-400/60 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-200">
+                      {activeWork.tag}
+                    </span>
+                    <div className="flex items-center gap-1 text-[10px] text-slate-300">
+                      {Array.from({ length: totalWorks }).map((_, dotIdx) => (
+                        <span
+                          key={dotIdx}
+                          className={`h-1.5 w-3 rounded-full transition-colors duration-300 ${
+                            dotIdx === activeWorkIndex ? 'bg-cyan-400' : 'bg-slate-600'
+                          }`}
+                        />
+                      ))}
                     </div>
                   </div>
                 </motion.div>
               )}
 
-              <div className="space-y-4">
-                <p className="text-sm md:text-[15px] text-slate-200">
-                  Mostra ai tuoi clienti come appaiono davvero banner, roll-up e stampe DTF una volta installati: fotografie ambientate rendono più concreta la promessa.
-                </p>
-                <div className="grid grid-cols-2 gap-3 text-[11px] md:text-xs text-slate-200">
-                  <div className="rounded-2xl bg-slate-950/70 border border-cyan-500/40 px-3 py-3 space-y-1">
-                    <p className="font-semibold text-cyan-200">Prima & dopo</p>
-                    <p className="text-slate-400">
-                      Usa le immagini per raccontare il passaggio da uno spazio vuoto a uno spazio brandizzato.
-                    </p>
-                  </div>
-                  <div className="rounded-2xl bg-slate-950/70 border border-emerald-500/40 px-3 py-3 space-y-1">
-                    <p className="font-semibold text-emerald-200">Varietà di supporti</p>
-                    <p className="text-slate-400">
-                      Alterna esempi di interni, esterni, tessuti e pannelli rigidi per coprire più esigenze.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative border-t border-slate-800/80 bg-slate-950/60 px-4 md:px-6 py-3">
-              <p className="text-[11px] text-slate-400 mb-2">
-                Seleziona un esempio o lascia scorrere la galleria automatica per mostrare i lavori principali.
-              </p>
-              <div className="flex gap-3 overflow-x-auto pb-1">
+              <div className="flex gap-3 overflow-x-auto pb-1 pt-1 -mx-1 md:mx-0">
                 {galleryItems.map((item, idx) => (
                   <button
                     key={item.src + idx}
                     type="button"
                     onClick={() => setActiveWorkIndex(idx)}
-                    className={`group relative h-16 w-28 md:h-20 md:w-32 shrink-0 overflow-hidden rounded-xl border transition-colors duration-300 ${
+                    className={`group relative h-16 w-28 md:h-20 md:w-32 shrink-0 overflow-hidden rounded-xl border transition-all duration-300 ${
                       idx === activeWorkIndex
-                        ? 'border-cyan-400 shadow-[0_0_0_1px_rgba(34,211,238,0.6)]'
-                        : 'border-slate-800 hover:border-cyan-400/70'
+                        ? 'border-cyan-400 shadow-[0_0_0_1px_rgba(34,211,238,0.6)] scale-[1.02]'
+                        : 'border-slate-800 hover:border-cyan-400/70 hover:scale-105'
                     }`}
                   >
                     <img
@@ -448,9 +417,7 @@ const ReviewsGalleryPage = () => {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60" />
-                    <div className="pointer-events-none absolute bottom-1 left-1 right-1 text-[10px] font-medium text-slate-100 truncate">
-                      {item.tag}
-                    </div>
+                    <div className="pointer-events-none absolute inset-0 ring-0 ring-cyan-400/0 group-hover:ring-2 group-hover:ring-cyan-400/40 transition duration-300" />
                   </button>
                 ))}
               </div>
