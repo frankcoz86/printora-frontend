@@ -372,7 +372,7 @@ const ReviewsGalleryPage = () => {
               {activeWork && (
                 <motion.div
                   key={activeWorkIndex}
-                  className="group relative overflow-hidden border border-slate-700/80 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 shadow-[0_18px_70px_rgba(15,23,42,1)] gallery-hero-shape"
+                  className="group relative overflow-hidden rounded-2xl border border-slate-700/80 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 shadow-[0_18px_70px_rgba(15,23,42,1)]"
                   initial={{ opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, type: 'spring', stiffness: 120, damping: 22 }}
@@ -409,7 +409,7 @@ const ReviewsGalleryPage = () => {
                     key={item.src + idx}
                     type="button"
                     onClick={() => setActiveWorkIndex(idx)}
-                    className={`group relative h-16 w-28 md:h-20 md:w-32 shrink-0 overflow-hidden border bg-slate-900/80 backdrop-blur-lg transition-all duration-300 gallery-thumb-shape ${
+                    className={`group relative h-16 w-28 md:h-20 md:w-32 shrink-0 overflow-hidden rounded-2xl border bg-slate-900/80 backdrop-blur-lg transition-all duration-300 ${
                       idx === activeWorkIndex
                         ? 'border-cyan-400 shadow-[0_0_25px_rgba(34,211,238,0.6)] scale-[1.04]'
                         : 'border-slate-800 hover:border-cyan-400/70 hover:scale-105'
