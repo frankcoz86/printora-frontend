@@ -249,32 +249,57 @@ const ReviewsGalleryPage = () => {
         </section>
 
         {/* Compact grid of additional reviews */}
-        <section className="space-y-4">
+        <section className="space-y-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-            <h3 className="text-lg md:text-xl font-semibold text-white">
-              Altre opinioni in sintesi
-            </h3>
-            <p className="text-xs md:text-sm text-slate-400 max-w-xl">
-              Una panoramica rapida di altre esperienze dei clienti: assistenza, prezzi, facilità di ordine e controllo file.
-            </p>
+            <div className="space-y-1">
+              <h3 className="text-lg md:text-xl font-semibold text-white">
+                Altre opinioni in sintesi
+              </h3>
+              <p className="text-xs md:text-sm text-slate-400 max-w-xl">
+                Una panoramica rapida di altre esperienze dei clienti: assistenza, prezzi, facilità di ordine e controllo file.
+              </p>
+            </div>
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-[11px] text-slate-200">
+              <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+              <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+              <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+              <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+              <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+              <span className="ml-1">Valutazione media 4,9/5</span>
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {quickReviews.map((review, idx) => (
               <motion.div
                 key={review.name + idx}
-                className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/70 p-4 shadow-lg"
+                className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 p-5 shadow-lg"
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.4 }}
                 transition={{ duration: 0.35, delay: idx * 0.05 }}
               >
-                <div className="absolute -top-6 -right-6 h-16 w-16 rounded-full bg-cyan-500/10 blur-xl" />
-                <div className="relative space-y-2">
-                  <p className="text-sm font-semibold text-white">{review.name}</p>
-                  <p className="text-[12px] text-slate-300">
+                <div className="absolute -top-8 -right-10 h-20 w-20 rounded-full bg-cyan-500/10 blur-xl group-hover:bg-cyan-500/20 transition-colors duration-300" />
+                <div className="relative space-y-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="space-y-1">
+                      <p className="text-sm font-semibold text-white">{review.name}</p>
+                      <p className="text-[11px] uppercase tracking-[0.16em] text-emerald-300">
+                        Cliente verificato
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-0.5 text-yellow-300">
+                      <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                      <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                      <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                      <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                      <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                    </div>
+                  </div>
+                  <p className="text-[13px] leading-relaxed text-slate-200">
                     &quot;{review.comment}&quot;
                   </p>
                 </div>
+                <div className="mt-4 h-px w-full bg-gradient-to-r from-cyan-500/40 via-fuchsia-500/30 to-transparent opacity-70" />
               </motion.div>
             ))}
           </div>
