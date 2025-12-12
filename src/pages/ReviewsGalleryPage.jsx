@@ -347,8 +347,8 @@ const ReviewsGalleryPage = () => {
         </section>
 
         {/* Gallery of previous work */}
-        <section className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <section className="relative py-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
             <div className="space-y-1">
               <h2 className="text-2xl md:text-3xl font-bold text-white">
                 Alcuni dei nostri lavori
@@ -364,68 +364,76 @@ const ReviewsGalleryPage = () => {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-3xl border border-slate-800/80 bg-gradient-to-br from-slate-950 via-slate-950 to-slate-900 shadow-[0_24px_80px_rgba(15,23,42,1)]">
-            <div className="pointer-events-none absolute -top-32 right-0 h-64 w-64 bg-cyan-500/20 blur-3xl rounded-full" />
-            <div className="pointer-events-none absolute -bottom-32 left-0 h-64 w-64 bg-fuchsia-500/25 blur-3xl rounded-full" />
+          <div className="relative flex flex-col items-center" style={{ minHeight: '440px' }}>
+            {/* Floating main image with layered shadow and glow */}
+            {activeWork && (
+              <motion.div
+                key={activeWorkIndex}
+                className="group absolute z-20 top-0 left-1/2 -translate-x-1/2 shadow-2xl rounded-3xl overflow-hidden border-2 border-cyan-400/80 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900"
+                style={{ width: 'min(92vw, 620px)', height: '340px', boxShadow: '0 12px 60px 0 rgba(34,211,238,0.16), 0 2px 32px 0 rgba(236,72,153,0.10)' }}
+                initial={{ opacity: 0, scale: 0.96, rotate: -2 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                transition={{ duration: 0.6, type: 'spring', stiffness: 120, damping: 20 }}
+                onMouseEnter={() => setIsWorkHovered(true)}
+                onMouseLeave={() => setIsWorkHovered(false)}
+              >
+                <img
+                  src={activeWork.src}
+                  alt={activeWork.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[0.6deg]"
+                  style={{ borderRadius: 'inherit' }}
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/10 to-transparent" />
+                <div className="absolute left-4 bottom-4 flex items-center gap-2">
+                  <span className="inline-flex items-center rounded-full border border-emerald-400/60 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-200 backdrop-blur-sm">
+                    {activeWork.tag}
+                  </span>
+                </div>
+                <div className="absolute right-4 bottom-4 flex items-center gap-1 text-[10px]">
+                  {Array.from({ length: totalWorks }).map((_, dotIdx) => (
+                    <span
+                      key={dotIdx}
+                      className={`h-1.5 w-3 rounded-full transition-colors duration-300 ${
+                        dotIdx === activeWorkIndex ? 'bg-cyan-400' : 'bg-slate-700/70'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
-            <div className="relative p-4 md:p-6 lg:p-7 space-y-4">
-              {activeWork && (
-                <motion.div
-                  key={activeWorkIndex}
-                  className="group relative overflow-hidden rounded-2xl border border-slate-700/80 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 shadow-[0_18px_70px_rgba(15,23,42,1)]"
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, type: 'spring', stiffness: 120, damping: 22 }}
-                  onMouseEnter={() => setIsWorkHovered(true)}
-                  onMouseLeave={() => setIsWorkHovered(false)}
+            {/* Modern, spaced-out horizontal thumbnail selector */}
+            <div className="relative z-10 flex items-center justify-center gap-4 mt-10 px-2 overflow-x-auto scrollbar-thin scrollbar-thumb-cyan-400/70" style={{ minHeight: '110px' }}>
+              {galleryItems.map((item, idx) => (
+                <button
+                  key={item.src + idx}
+                  type="button"
+                  onClick={() => setActiveWorkIndex(idx)}
+                  className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-300 shadow-xl bg-slate-900/90 backdrop-blur-lg ${
+                    idx === activeWorkIndex
+                      ? 'border-cyan-400 scale-105 ring-2 ring-cyan-400/30'
+                      : 'border-slate-700/70 hover:border-cyan-400/70'
+                  }`}
+                  style={{
+                    width: '132px', height: '92px',
+                    marginLeft: idx !== 0 ? '0.5rem' : 0,
+                    marginRight: idx !== galleryItems.length-1 ? '0.5rem' : 0,
+                  }}
                 >
                   <img
-                    src={activeWork.src}
-                    alt={activeWork.title}
-                    className="w-full h-64 md:h-80 lg:h-[380px] object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[0.6deg]"
+                    src={item.src}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    style={{ borderRadius: 'inherit' }}
                   />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/10 to-transparent" />
-                  <div className="pointer-events-none absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
-                    <span className="inline-flex items-center rounded-full border border-emerald-400/60 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-200">
-                      {activeWork.tag}
-                    </span>
-                    <div className="flex items-center gap-1 text-[10px] text-slate-300">
-                      {Array.from({ length: totalWorks }).map((_, dotIdx) => (
-                        <span
-                          key={dotIdx}
-                          className={`h-1.5 w-3 rounded-full transition-colors duration-300 ${
-                            dotIdx === activeWorkIndex ? 'bg-cyan-400' : 'bg-slate-600'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
-              <div className="flex gap-3 overflow-x-auto pb-1 pt-1 -mx-1 md:mx-0">
-                {galleryItems.map((item, idx) => (
-                  <button
-                    key={item.src + idx}
-                    type="button"
-                    onClick={() => setActiveWorkIndex(idx)}
-                    className={`group relative h-16 w-28 md:h-20 md:w-32 shrink-0 overflow-hidden rounded-2xl border bg-slate-900/80 backdrop-blur-lg transition-all duration-300 ${
-                      idx === activeWorkIndex
-                        ? 'border-cyan-400 shadow-[0_0_25px_rgba(34,211,238,0.6)] scale-[1.04]'
-                        : 'border-slate-800 hover:border-cyan-400/70 hover:scale-105'
-                    }`}
-                  >
-                    <img
-                      src={item.src}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent opacity-70" />
-                    <div className="pointer-events-none absolute inset-0 ring-0 ring-cyan-400/0 group-hover:ring-2 group-hover:ring-cyan-400/40 transition duration-300" />
-                  </button>
-                ))}
-              </div>
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent opacity-70" />
+                </button>
+              ))}
             </div>
+
+            {/* Neon glow & glass effects */}
+            <div className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 h-96 rounded-full bg-gradient-to-r from-cyan-400/15 via-fuchsia-400/10 to-transparent blur-2xl" />
+            <div className="pointer-events-none absolute inset-0 rounded-3xl border border-cyan-400/10" />
           </div>
         </section>
       </div>
