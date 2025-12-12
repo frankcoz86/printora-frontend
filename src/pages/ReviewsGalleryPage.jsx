@@ -119,7 +119,7 @@ const ReviewsGalleryPage = () => {
                     <span className="text-base font-semibold text-slate-400">/5</span>
                   </p>
                 </div>
-                <div className="flex flex-col items-start lg:flex-row lg:items-center gap-1 lg:gap-1.5 rounded-full bg-slate-900/80 px-3 py-1 border border-slate-700/70">
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-slate-900/80 px-3 py-1 border border-slate-700/70">
                   <div className="flex items-center gap-1">
                     <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                     <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
@@ -127,8 +127,8 @@ const ReviewsGalleryPage = () => {
                     <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                     <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                   </div>
-                  <span className="text-[11px] font-medium text-slate-200 lg:ml-1 whitespace-nowrap">
-                    Clienti verificati
+                  <span className="text-[11px] font-medium text-slate-200 whitespace-nowrap">
+                    Verificati
                   </span>
                 </div>
               </div>
