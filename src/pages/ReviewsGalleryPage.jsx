@@ -364,78 +364,44 @@ const ReviewsGalleryPage = () => {
             </div>
           </div>
 
-          <div className="relative flex flex-col items-center" style={{ minHeight: '440px' }}>
-            {/* Floating main image with layered shadow and glow */}
-            {activeWork && (
-              <motion.div
-                key={activeWorkIndex}
-                className="group absolute z-20 top-0 left-1/2 -translate-x-1/2 shadow-2xl rounded-3xl overflow-hidden border-2 border-cyan-400/80 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900"
-                style={{ width: 'min(92vw, 620px)', height: '340px', boxShadow: '0 12px 60px 0 rgba(34,211,238,0.16), 0 2px 32px 0 rgba(236,72,153,0.10)' }}
-                initial={{ opacity: 0, scale: 0.96, rotate: -2 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ duration: 0.6, type: 'spring', stiffness: 120, damping: 20 }}
-                onMouseEnter={() => setIsWorkHovered(true)}
-                onMouseLeave={() => setIsWorkHovered(false)}
-              >
-                <img
-                  src={activeWork.src}
-                  alt={activeWork.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[0.6deg]"
-                  style={{ borderRadius: 'inherit' }}
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/10 to-transparent" />
-                <div className="absolute left-4 bottom-4 flex items-center gap-2">
-                  <span className="inline-flex items-center rounded-full border border-emerald-400/60 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-200 backdrop-blur-sm">
-                    {activeWork.tag}
-                  </span>
-                </div>
-                <div className="absolute right-4 bottom-4 flex items-center gap-1 text-[10px]">
-                  {Array.from({ length: totalWorks }).map((_, dotIdx) => (
-                    <span
-                      key={dotIdx}
-                      className={`h-1.5 w-3 rounded-full transition-colors duration-300 ${
-                        dotIdx === activeWorkIndex ? 'bg-cyan-400' : 'bg-slate-700/70'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {/* Modern, spaced-out horizontal thumbnail selector */}
-            <div className="relative z-10 flex items-center justify-center gap-4 mt-10 px-2 overflow-x-auto scrollbar-thin scrollbar-thumb-cyan-400/70" style={{ minHeight: '110px' }}>
+          <div className="mx-auto w-full max-w-6xl px-2 md:px-4">
+            <div className="columns-2 md:columns-3 lg:columns-4 gap-4 [column-fill:_balance]">
               {galleryItems.map((item, idx) => (
-                <button
+                <motion.div
                   key={item.src + idx}
-                  type="button"
-                  onClick={() => setActiveWorkIndex(idx)}
-                  className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-300 shadow-xl bg-slate-900/90 backdrop-blur-lg ${
-                    idx === activeWorkIndex
-                      ? 'border-cyan-400 scale-105 ring-2 ring-cyan-400/30'
-                      : 'border-slate-700/70 hover:border-cyan-400/70'
-                  }`}
-                  style={{
-                    width: '132px', height: '92px',
-                    marginLeft: idx !== 0 ? '0.5rem' : 0,
-                    marginRight: idx !== galleryItems.length-1 ? '0.5rem' : 0,
-                  }}
+                  className="mb-4 break-inside-avoid rounded-2xl overflow-hidden shadow-lg border border-slate-900 bg-slate-950 group relative grayscale hover:grayscale-0 transition-all duration-300"
+                  initial={{ opacity: 0, scale: 0.97, y: 32 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.18 }}
+                  transition={{ duration: 0.5, delay: idx * 0.06 }}
                 >
                   <img
                     src={item.src}
                     alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    style={{ borderRadius: 'inherit' }}
+                    className="w-full object-cover max-h-80 min-h-[120px] transition-transform duration-500 group-hover:scale-105"
+                    style={{ aspectRatio: '4/3', borderRadius: 'inherit' }}
                   />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent opacity-70" />
-                </button>
+                  {/* Overlay on hover for proof-of-work */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex flex-col justify-end p-4">
+                    <div className="flex flex-col gap-2">
+                      <span className="inline-block w-fit rounded-full border border-emerald-400/60 bg-emerald-700/30 px-3 py-1 text-xs font-semibold text-emerald-100 shadow backdrop-blur-sm">
+                        {item.tag}
+                      </span>
+                      <button className="inline-block w-fit rounded-full bg-cyan-600/90 hover:bg-cyan-400/90 text-white text-xs font-semibold px-4 py-1.5 shadow-lg transition">
+                        Visualizza prova
+                      </button>
+                    </div>
+                  </div>
+                  {/* Subtle badge for proof */}
+                  <span className="absolute top-3 left-3 bg-white/80 text-slate-900 text-[10px] font-bold tracking-wide px-2 py-0.5 rounded-full shadow-md uppercase">
+                    Prova reale
+                  </span>
+                </motion.div>
               ))}
             </div>
-
-            {/* Neon glow & glass effects */}
-            <div className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 h-96 rounded-full bg-gradient-to-r from-cyan-400/15 via-fuchsia-400/10 to-transparent blur-2xl" />
-            <div className="pointer-events-none absolute inset-0 rounded-3xl border border-cyan-400/10" />
           </div>
         </section>
+
       </div>
     </div>
   );
