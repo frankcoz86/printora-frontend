@@ -347,13 +347,18 @@ const ReviewsGalleryPage = () => {
         </section>
 
         {/* Gallery of previous work */}
-        <section className="relative py-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
-            <div className="space-y-1">
+        <section className="relative py-14">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 md:mb-8">
+            <div className="space-y-2">
               <h2 className="text-2xl md:text-3xl font-bold text-white">
                 Alcuni dei nostri lavori
               </h2>
-              <div className="hidden md:block h-px w-24 bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-transparent rounded-full" />
+              <div className="hidden md:flex items-center gap-3 text-[11px] text-slate-400">
+                <div className="h-px w-20 bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-transparent rounded-full" />
+                <span className="uppercase tracking-[0.16em] text-slate-500">
+                  Prove visive di lavori reali
+                </span>
+              </div>
             </div>
             <div className="hidden sm:flex items-center gap-2 text-[11px] text-slate-400">
               <span className="relative flex h-3 w-3">
@@ -364,40 +369,47 @@ const ReviewsGalleryPage = () => {
             </div>
           </div>
 
-          <div className="mx-auto w-full max-w-6xl px-2 md:px-4">
-            <div className="columns-2 md:columns-3 lg:columns-4 gap-4 [column-fill:_balance]">
-              {galleryItems.map((item, idx) => (
-                <motion.div
-                  key={item.src + idx}
-                  className="mb-4 break-inside-avoid rounded-2xl overflow-hidden shadow-lg border border-slate-900 bg-slate-950 group relative grayscale hover:grayscale-0 transition-all duration-300"
-                  initial={{ opacity: 0, scale: 0.97, y: 32 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.18 }}
-                  transition={{ duration: 0.5, delay: idx * 0.06 }}
-                >
-                  <img
-                    src={item.src}
-                    alt={item.title}
-                    className="w-full object-cover max-h-80 min-h-[120px] transition-transform duration-500 group-hover:scale-105"
-                    style={{ aspectRatio: '4/3', borderRadius: 'inherit' }}
-                  />
-                  {/* Overlay on hover for proof-of-work */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <div className="flex flex-col gap-2">
-                      <span className="inline-block w-fit rounded-full border border-emerald-400/60 bg-emerald-700/30 px-3 py-1 text-xs font-semibold text-emerald-100 shadow backdrop-blur-sm">
-                        {item.tag}
-                      </span>
-                      <button className="inline-block w-fit rounded-full bg-cyan-600/90 hover:bg-cyan-400/90 text-white text-xs font-semibold px-4 py-1.5 shadow-lg transition">
-                        Visualizza prova
-                      </button>
+          <div className="relative mx-auto w-full max-w-6xl px-1 md:px-4">
+            {/* Soft background glow behind the masonry board */}
+            <div className="pointer-events-none absolute -inset-4 md:-inset-6 rounded-[2.5rem] bg-gradient-to-tr from-cyan-500/15 via-fuchsia-500/12 to-transparent blur-3xl" />
+
+            <div className="relative columns-2 md:columns-3 lg:columns-4 gap-5 [column-fill:_balance] pt-2 md:pt-4">
+              {galleryItems.map((item, idx) => {
+                const isTall = idx % 5 === 0;
+                return (
+                  <motion.div
+                    key={item.src + idx}
+                    className="mb-5 break-inside-avoid rounded-3xl overflow-hidden shadow-[0_18px_55px_rgba(15,23,42,0.9)] border border-slate-900/80 bg-slate-950 group relative grayscale hover:grayscale-0 transition-all duration-400"
+                    initial={{ opacity: 0, scale: 0.96, y: 32 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.5, delay: idx * 0.05 }}
+                    whileHover={{ y: -6 }}
+                  >
+                    <img
+                      src={item.src}
+                      alt={item.title}
+                      className="w-full object-cover max-h-80 min-h-[130px] transition-transform duration-500 group-hover:scale-105"
+                      style={{ aspectRatio: isTall ? '3/5' : '4/3', borderRadius: 'inherit' }}
+                    />
+                    {/* Overlay on hover for proof-of-work */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/15 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300 flex flex-col justify-end p-4">
+                      <div className="flex flex-col gap-2">
+                        <span className="inline-block w-fit rounded-full border border-emerald-400/70 bg-emerald-700/40 px-3 py-1 text-[11px] font-semibold text-emerald-100 shadow backdrop-blur-sm">
+                          {item.tag}
+                        </span>
+                        <button className="inline-flex items-center gap-1 rounded-full bg-cyan-500/95 hover:bg-cyan-400 text-white text-[11px] font-semibold px-4 py-1.5 shadow-lg transition">
+                          <span>Visualizza prova</span>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  {/* Subtle badge for proof */}
-                  <span className="absolute top-3 left-3 bg-white/80 text-slate-900 text-[10px] font-bold tracking-wide px-2 py-0.5 rounded-full shadow-md uppercase">
-                    Prova reale
-                  </span>
-                </motion.div>
-              ))}
+                    {/* Subtle badge for proof */}
+                    <span className="absolute top-3 left-3 bg-white/85 text-slate-900 text-[10px] font-bold tracking-wide px-2 py-0.5 rounded-full shadow-md uppercase">
+                      Prova reale
+                    </span>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
