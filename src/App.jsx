@@ -27,6 +27,7 @@ const RollupPage = lazy(() => import('@/pages/RollupPage'));
 const RigidMediaPageV3 = lazy(() => import('@/pages/RigidMediaPageV3'));
 const VinylPage = lazy(() => import('@/pages/VinylPage'));
 const ForexPage = lazy(() => import('@/pages/ForexPage'));
+const ReviewsGalleryPage = lazy(() => import('@/pages/ReviewsGalleryPage'));
 const OrderConfirmationPage = lazy(() => import('@/pages/OrderConfirmationPage'));
 const StripeRedirectPage = lazy(() => import('@/pages/StripeRedirectPage'));
 
@@ -77,6 +78,7 @@ const MainSite = () => {
                     <Route path="/forex-pvc" element={<ForexPage />} />
                     <Route path="/dtf" element={<DtfPage />} />
                     <Route path="/contatti" element={<ContactPage />} />
+<Route path="/recensioni-lavori" element={<ReviewsGalleryPage />} />
                     <Route path="/carrello" element={<CartPage />} />
                     <Route path="/checkout" element={<NewShippingPage />} />
                     <Route path="/stripe-redirect" element={<StripeRedirectPage />} />
