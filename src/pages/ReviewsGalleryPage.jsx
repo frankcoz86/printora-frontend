@@ -348,19 +348,23 @@ const ReviewsGalleryPage = () => {
 
         {/* Gallery of previous work */}
         <section className="space-y-4">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">
-              Alcuni dei nostri lavori
-            </h2>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div className="space-y-1">
+              <h2 className="text-2xl md:text-3xl font-bold text-white">
+                Alcuni dei nostri lavori
+              </h2>
+              <div className="hidden md:block h-px w-24 bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-transparent rounded-full" />
+            </div>
             <div className="hidden sm:flex items-center gap-2 text-[11px] text-slate-400">
-              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-700 bg-slate-900/80 text-slate-200">
-                ●
+              <span className="relative flex h-3 w-3">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-70 animate-ping" />
+                <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-400" />
               </span>
               <span>Galleria interattiva</span>
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-950/60 shadow-[0_18px_60px_rgba(15,23,42,0.9)]">
+          <div className="relative overflow-hidden rounded-3xl border border-slate-800/80 bg-gradient-to-br from-slate-950 via-slate-950 to-slate-900 shadow-[0_24px_80px_rgba(15,23,42,1)]">
             <div className="pointer-events-none absolute -top-32 right-0 h-64 w-64 bg-cyan-500/20 blur-3xl rounded-full" />
             <div className="pointer-events-none absolute -bottom-32 left-0 h-64 w-64 bg-fuchsia-500/25 blur-3xl rounded-full" />
 
@@ -368,7 +372,7 @@ const ReviewsGalleryPage = () => {
               {activeWork && (
                 <motion.div
                   key={activeWorkIndex}
-                  className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80"
+                  className="group relative overflow-hidden rounded-2xl border border-slate-700/80 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 shadow-[0_18px_70px_rgba(15,23,42,1)]"
                   initial={{ opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, type: 'spring', stiffness: 120, damping: 22 }}
@@ -378,9 +382,9 @@ const ReviewsGalleryPage = () => {
                   <img
                     src={activeWork.src}
                     alt={activeWork.title}
-                    className="w-full h-64 md:h-80 lg:h-[380px] object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[0.4deg]"
+                    className="w-full h-64 md:h-80 lg:h-[380px] object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[0.6deg]"
                   />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent" />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/10 to-transparent" />
                   <div className="pointer-events-none absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
                     <span className="inline-flex items-center rounded-full border border-emerald-400/60 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-200">
                       {activeWork.tag}
@@ -405,9 +409,9 @@ const ReviewsGalleryPage = () => {
                     key={item.src + idx}
                     type="button"
                     onClick={() => setActiveWorkIndex(idx)}
-                    className={`group relative h-16 w-28 md:h-20 md:w-32 shrink-0 overflow-hidden rounded-xl border transition-all duration-300 ${
+                    className={`group relative h-16 w-28 md:h-20 md:w-32 shrink-0 overflow-hidden rounded-2xl border bg-slate-900/80 backdrop-blur-lg transition-all duration-300 ${
                       idx === activeWorkIndex
-                        ? 'border-cyan-400 shadow-[0_0_0_1px_rgba(34,211,238,0.6)] scale-[1.02]'
+                        ? 'border-cyan-400 shadow-[0_0_25px_rgba(34,211,238,0.6)] scale-[1.04]'
                         : 'border-slate-800 hover:border-cyan-400/70 hover:scale-105'
                     }`}
                   >
@@ -416,7 +420,7 @@ const ReviewsGalleryPage = () => {
                       alt={item.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60" />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent opacity-70" />
                     <div className="pointer-events-none absolute inset-0 ring-0 ring-cyan-400/0 group-hover:ring-2 group-hover:ring-cyan-400/40 transition duration-300" />
                   </button>
                 ))}
