@@ -402,40 +402,33 @@ const ReviewsGalleryPage = () => {
               </motion.div>
             )}
 
-            {/* Angled/circular thumbnail arrangement */}
-            <div className="relative z-10 mt-[260px] flex flex-wrap items-end justify-center gap-0 md:gap-2" style={{ minHeight: '130px' }}>
-              {galleryItems.map((item, idx) => {
-                // Arrange thumbnails in a slight arc/circle
-                const angle = (idx - (totalWorks-1)/2) * 13; // degrees
-                const y = Math.abs(idx - activeWorkIndex) * 8;
-                return (
-                  <button
-                    key={item.src + idx}
-                    type="button"
-                    onClick={() => setActiveWorkIndex(idx)}
-                    className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-300 shadow-lg bg-slate-900/80 backdrop-blur-md ${
-                      idx === activeWorkIndex
-                        ? 'border-cyan-400 scale-110 z-20'
-                        : 'border-slate-700/70 hover:border-cyan-400/70 scale-95 z-10'
-                    }`}
-                    style={{
-                      width: '100px', height: '70px',
-                      transform: `translateY(${-y}px) rotate(${angle}deg)`,
-                      marginLeft: idx !== 0 ? '-18px' : 0,
-                      marginRight: idx !== totalWorks-1 ? '-18px' : 0,
-                      boxShadow: idx === activeWorkIndex ? '0 0 0 4px rgba(34,211,238,0.18)' : undefined
-                    }}
-                  >
-                    <img
-                      src={item.src}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      style={{ borderRadius: 'inherit' }}
-                    />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent opacity-70" />
-                  </button>
-                );
-              })}
+            {/* Modern, spaced-out horizontal thumbnail selector */}
+            <div className="relative z-10 flex items-center justify-center gap-4 mt-10 px-2 overflow-x-auto scrollbar-thin scrollbar-thumb-cyan-400/70" style={{ minHeight: '110px' }}>
+              {galleryItems.map((item, idx) => (
+                <button
+                  key={item.src + idx}
+                  type="button"
+                  onClick={() => setActiveWorkIndex(idx)}
+                  className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-300 shadow-xl bg-slate-900/90 backdrop-blur-lg ${
+                    idx === activeWorkIndex
+                      ? 'border-cyan-400 scale-105 ring-2 ring-cyan-400/30'
+                      : 'border-slate-700/70 hover:border-cyan-400/70'
+                  }`}
+                  style={{
+                    width: '132px', height: '92px',
+                    marginLeft: idx !== 0 ? '0.5rem' : 0,
+                    marginRight: idx !== galleryItems.length-1 ? '0.5rem' : 0,
+                  }}
+                >
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    style={{ borderRadius: 'inherit' }}
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent opacity-70" />
+                </button>
+              ))}
             </div>
 
             {/* Neon glow & glass effects */}
