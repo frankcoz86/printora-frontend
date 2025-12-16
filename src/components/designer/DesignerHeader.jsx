@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Save, Loader2, Eye, EyeOff, Download, FileText, BookOpen, Undo, Redo, Trash2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Eye, EyeOff, Download, BookOpen, Undo, Redo, Trash2 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const DesignerHeader = ({ 
@@ -11,7 +11,6 @@ const DesignerHeader = ({
     onTogglePreview, 
     isPreviewMode, 
     onDownloadPng, 
-    onDownloadPdf, 
     onOpenHelp,
     onUndo,
     onRedo,
@@ -88,14 +87,6 @@ const DesignerHeader = ({
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent><p>Scarica un'anteprima in formato PNG</p></TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button variant="outline" size="icon" onClick={onDownloadPdf} disabled={isSaving} className="border-yellow-500 text-yellow-400 hover:bg-yellow-900/50 hover:text-yellow-300">
-                            <FileText className="h-5 w-5" />
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent><p>Scarica PDF per approvazione (obbligatorio per salvare)</p></TooltipContent>
                 </Tooltip>
             </TooltipProvider>
             <Button onClick={onSave} variant="accent" size="lg" disabled={isSaving}>

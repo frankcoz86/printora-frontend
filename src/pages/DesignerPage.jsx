@@ -63,7 +63,6 @@ const DesignerPage = () => {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const [isSaveConfirmOpen, setIsSaveConfirmOpen] = useState(false);
-  const [hasDownloadedPdf, setHasDownloadedPdf] = useState(false);
 
   useEffect(() => {
     if (!initialDesignState) {
@@ -98,27 +97,7 @@ const DesignerPage = () => {
     downloadAsPdf,
   } = useDesignerCanvas(designState);
 
-  const handleDownloadPdfAndTrack = () => {
-    downloadAsPdf();
-    setHasDownloadedPdf(true);
-    toast({
-      title: "PDF Scaricato!",
-      description: "Ora puoi salvare il tuo design e aggiungerlo al carrello.",
-      variant: "default",
-      className: "bg-green-700 border-green-600 text-white",
-    });
-  };
-
   const handleSaveInitiation = async () => {
-    if (!hasDownloadedPdf) {
-      toast({
-        title: "Download PDF Obbligatorio",
-        description:
-          "Per favore, scarica un'anteprima PDF della tua grafica prima di salvare. Questo passaggio assicura che il risultato finale sia corretto.",
-        variant: "destructive",
-      });
-      return;
-    }
     setIsSaveConfirmOpen(true);
   };
 
@@ -318,7 +297,6 @@ const DesignerPage = () => {
           onTogglePreview={() => setIsPreviewMode(!isPreviewMode)}
           isPreviewMode={isPreviewMode}
           onDownloadPng={downloadAsPng}
-          onDownloadPdf={handleDownloadPdfAndTrack}
           onOpenHelp={() => setIsHelpOpen(true)}
           onUndo={undo}
           onRedo={redo}
