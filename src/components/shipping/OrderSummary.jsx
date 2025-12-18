@@ -102,9 +102,9 @@ const OrderSummary = ({
         )}
       </div>
 
-      <div className="mt-4 bg-slate-900/60 border border-cyan-400/40 text-xs text-cyan-100 px-4 md:px-2.5 lg:px-4 py-3 rounded-lg flex items-center justify-center gap-2 text-center">
-        <Info size={16} className="opacity-80 flex-shrink-0" />
-        <p className="max-w-xs">
+      <div className="mt-4 bg-slate-900/60 border border-cyan-400/40 text-xs text-cyan-100 px-4 md:px-2.5 lg:px-4 py-3 rounded-lg flex items-start justify-center gap-2">
+        <Info size={16} className="opacity-80 flex-shrink-0 mt-[1px]" />
+        <p className="max-w-xs md:max-w-none text-center md:whitespace-nowrap">
           Durante il periodo delle festività le spedizioni potrebbero subire dei ritardi.
         </p>
       </div>
