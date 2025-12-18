@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CreditCard, ShieldCheck, Loader2, AlertTriangle, FileImage } from 'lucide-react';
+import { CreditCard, ShieldCheck, Loader2, AlertTriangle, FileImage, Info } from 'lucide-react';
+
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 
@@ -101,9 +102,9 @@ const OrderSummary = ({
         )}
       </div>
 
-      <div className="mt-4 bg-slate-900/60 border border-yellow-500/40 text-xs text-yellow-200 px-3 py-2 rounded-lg flex items-start gap-2">
-        <AlertTriangle size={14} className="mt-[2px]" />
-        <p>
+      <div className="mt-4 bg-slate-900/60 border border-cyan-400/40 text-xs text-cyan-100 px-4 py-3 rounded-lg flex flex-col items-center text-center gap-2">
+        <Info size={16} className="opacity-80" />
+        <p className="max-w-xs">
           Durante il periodo delle festività le spedizioni potrebbero subire dei ritardi.
         </p>
       </div>
