@@ -101,7 +101,14 @@ const OrderSummary = ({
         )}
       </div>
 
-      <div className="flex items-center justify-center gap-2 mt-4 text-xs text-green-300">
+      <div className="mt-4 bg-slate-900/60 border border-yellow-500/40 text-xs text-yellow-200 px-3 py-2 rounded-lg flex items-start gap-2">
+        <AlertTriangle size={14} className="mt-[2px]" />
+        <p>
+          Durante il periodo delle festività le spedizioni potrebbero subire dei ritardi.
+        </p>
+      </div>
+
+      <div className="flex items-center justify-center gap-2 mt-3 text-xs text-green-300">
         <ShieldCheck size={14} /> Pagamento sicuro con Stripe
       </div>
     </motion.div>
