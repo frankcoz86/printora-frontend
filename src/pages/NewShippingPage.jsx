@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from '@/components/ui/use-toast';
 import { useSupabase } from '@/context/SupabaseContext';
 import { useCart } from '@/context/CartContext';
@@ -190,9 +190,26 @@ const NewShippingPage = () => {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('paypal');
 
+  const [showXmasNotice, setShowXmasNotice] = useState(false);
+
   useEffect(() => {
     if (address.email) setBillingInfo(p => ({ ...p, billingEmail: address.email }));
   }, [address.email]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      setShowXmasNotice(true);
+      return;
+    }
+    try {
+      const dismissed = window.localStorage.getItem('printora_xmas_shipping_notice_dismissed');
+      if (!dismissed) {
+        setShowXmasNotice(true);
+      }
+    } catch {
+      setShowXmasNotice(true);
+    }
+  }, []);
 
   // Make company & notes optional (exclude from required set), but phone is now mandatory
   const addressValid = useMemo(() => {
@@ -220,6 +237,14 @@ const NewShippingPage = () => {
   }, [cart, navigate, isCheckingOut]);
 
   useEffect(() => { setSelectedCarrier(getShippingRate(weight)); }, [weight]);
+
+  const handleCloseXmasNotice = () => {
+    setShowXmasNotice(false);
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem('printora_xmas_shipping_notice_dismissed', '1');
+    } catch {}
+  };
 
   const orderTotals = useMemo(() => {
     const shippingPrice = selectedCarrier ? selectedCarrier.price : 0;
@@ -443,6 +468,56 @@ const NewShippingPage = () => {
         <meta name="description" content="Completa il tuo ordine inserendo i dati di spedizione e fatturazione. Pagamento sicuro con PayPal e Stripe." />
         <meta name="keywords" content="checkout, spedizione, pagamento, fatturazione, printora, paypal, stripe, carta di credito" />
       </Helmet>
+      <AnimatePresence>
+        {showXmasNotice && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="relative mx-4 max-w-lg w-full rounded-2xl bg-slate-900/90 border border-amber-400/30 shadow-2xl shadow-amber-500/20 p-6 sm:p-8"
+              initial={{ opacity: 0, scale: 0.9, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 12 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+            >
+              <button
+                type="button"
+                onClick={handleCloseXmasNotice}
+                className="absolute top-3 right-3 text-slate-300 hover:text-white bg-slate-800/60 rounded-full w-8 h-8 flex items-center justify-center text-sm border border-white/10 transition-colors"
+                aria-label="Chiudi avviso spedizioni"
+              >
+                ×
+              </button>
+
+              <p className="text-xs uppercase tracking-[0.2em] text-amber-300 mb-2">
+                Avviso spedizioni natalizie
+              </p>
+              <h2 className="text-xl sm:text-2xl font-semibold text-white mb-3">
+                Le consegne potrebbero richiedere più tempo
+              </h2>
+              <p className="text-sm sm:text-base text-slate-200 mb-4">
+                A causa dell'alta richiesta per il periodo di Natale, gli ordini potrebbero richiedere un po' più tempo per essere consegnati. Faremo comunque il possibile per spedire nel minor tempo possibile.
+              </p>
+              <p className="text-xs text-slate-400 mb-6">
+                Ti ringraziamo per la comprensione e la pazienza durante questo periodo di alta richiesta.
+              </p>
+
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleCloseXmasNotice}
+                  className="inline-flex items-center justify-center rounded-full px-5 py-2 text-sm font-medium bg-amber-500 text-slate-900 hover:bg-amber-400 transition-colors shadow-lg shadow-amber-500/30"
+                >
+                  Ho capito
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="container mx-auto px-4 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <h1 className="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-white to slate-400">Finalizza il tuo Ordine</h1>
