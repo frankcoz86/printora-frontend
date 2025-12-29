@@ -23,7 +23,6 @@ const DtfDesignerPage = lazy(() => import('@/pages/DtfDesignerPage'));
 const PrivacyPolicyPage = lazy(() => import('@/pages/PrivacyPolicyPage'));
 const TermsPage = lazy(() => import('@/pages/TermsPage'));
 const BannerPage = lazy(() => import('@/pages/BannerPage'));
-const BannerPageLocal = lazy(() => import('@/pages/BannerPageLocal'));
 const RollupPage = lazy(() => import('@/pages/RollupPage'));
 const RigidMediaPageV3 = lazy(() => import('@/pages/RigidMediaPageV3'));
 const VinylPage = lazy(() => import('@/pages/VinylPage'));
@@ -73,9 +72,6 @@ const MainSite = () => {
                 <Route element={<AppLayout />}>
                     <Route index element={<HomePage />} />
                     <Route path="/banner" element={<BannerPage />} />
-                    {import.meta.env.DEV && (
-                        <Route path="/banner-dev" element={<BannerPageLocal />} />
-                    )}
                     <Route path="/rollup" element={<RollupPage />} />
                     <Route path="/supporti-rigidi" element={<RigidMediaPageV3 />} />
                     <Route path="/vinile-adesivo" element={<VinylPage />} />
