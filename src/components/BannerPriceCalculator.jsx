@@ -326,15 +326,18 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
       <div className="space-y-4">
         <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
           <Label className="font-semibold text-base">Finiture Standard</Label>
+          <p className="mt-2 text-xs text-slate-400">
+            Occhielli metallici ogni 50 cm sono inclusi di serie per garantire un fissaggio professionale e uniforme, anche su grandi formati e in esterno.
+          </p>
           <div className="space-y-3 mt-3">
             <label className="flex items-center justify-between cursor-pointer">
-              <span className="text-sm text-gray-200">Occhielli ogni 50cm (Inclusi nel prezzo promo)</span>
+              <span className="text-sm text-gray-200">Occhielli metallici ogni 50cm (standard professionale, inclusi)</span>
               <Switch checked={hasEyelets} onCheckedChange={setHasEyelets} />
             </label>
             {reinforcementExtra && (
               <div>
                 <label className="flex items-center justify-between cursor-pointer">
-                  <span className="text-sm text-gray-200">Rinforzo perimetrale (+€{reinforcementExtra.price.toFixed(2)}/ml)</span>
+                  <span className="text-sm text-gray-200">Rinforzo perimetrale professionale – consigliato per esterni, vento e grandi dimensioni (+€{reinforcementExtra.price.toFixed(2)}/ml)</span>
                   <Switch checked={hasReinforcement} onCheckedChange={setHasReinforcement} />
                 </label>
                 <AnimatePresence>

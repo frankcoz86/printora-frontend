@@ -287,7 +287,7 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
         <h4 className="text-lg font-semibold text-white flex items-center gap-2"><Wind className="text-blue-300"/> Finiture</h4>
         <div className="space-y-2">
           <label className="flex items-center justify-between cursor-pointer">
-            <span className="text-sm text-gray-200 flex items-center gap-2"><Eye size={16}/>Occhielli ogni 50cm (Inclusi)</span>
+            <span className="text-sm text-gray-200 flex items-center gap-2"><Eye size={16}/>Occhielli metallici ogni 50cm (standard professionale, inclusi)</span>
             <input type="checkbox" checked={hasEyelets} onChange={() => setHasEyelets(p => !p)} className="w-4 h-4 text-emerald-400 rounded-sm focus:ring-emerald-400 bg-slate-700 border-slate-500" />
           </label>
           {!hasEyelets && (
@@ -298,7 +298,7 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
           )}
           {reinforcementExtra && (
             <label className="flex items-center justify-between cursor-pointer">
-              <span className="text-sm text-gray-200">Rinforzo perimetrale (+€{reinforcementExtra.price.toFixed(2)}/ml)</span>
+              <span className="text-sm text-gray-200">Rinforzo perimetrale professionale – consigliato per esterni, vento e grandi dimensioni (+€{reinforcementExtra.price.toFixed(2)}/ml)</span>
               <input type="checkbox" checked={hasReinforcement} onChange={() => setHasReinforcement(p => !p)} className="w-4 h-4 text-emerald-400 rounded-sm focus:ring-emerald-400 bg-slate-700 border-slate-500" />
             </label>
           )}

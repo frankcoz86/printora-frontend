@@ -8,7 +8,7 @@ export const products = [
     price: 8.90,
     list_price: 15.90,
     unit: 'mq',
-    description: 'I nostri striscioni pubblicitari in PVC da 510gr sono la soluzione perfetta per una comunicazione visiva d\'impatto e duratura. Stampati con colori vividi e resistenti, sono ideali per farti notare. Il prezzo promo include già gli occhielli metallici ogni 50cm!',
+    description: 'I nostri striscioni pubblicitari in PVC da 510gr sono la soluzione perfetta per una comunicazione visiva d\'impatto e duratura. Stampati con colori vividi e resistenti, sono ideali per farti notare. Gli occhielli metallici ogni 50 cm sono inclusi di serie per un fissaggio professionale e sicuro, anche all\'esterno.',
     features: [
       'Materiale PVC 510gr/mq, ultra-resistente',
       'Occhielli metallici inclusi ogni 50 cm per un fissaggio facile e sicuro',
@@ -20,7 +20,7 @@ export const products = [
     imageAlt: 'Striscione promozionale in PVC con prezzo di 8,90 euro al metro quadro e occhiellatura inclusa.',
     weight: 0.51,
     extras: [
-      { name: 'Rinforzo perimetrale', price: 2.00, unit: 'ml' },
+      { name: 'Rinforzo perimetrale', price: 3.00, unit: 'ml' },
       { name: 'Occhielli metallici', price: 0, unit: 'inclusi' },
       { name: 'Asola perimetrale', price: 2.50, unit: 'ml' }
     ]

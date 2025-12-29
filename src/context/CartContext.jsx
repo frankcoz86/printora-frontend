@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { gtmPush } from '@/lib/gtm';
+import { products } from '@/data/products';
 
 const CartContext = createContext();
 
@@ -27,8 +28,47 @@ const n = (val, fallback = 0) => {
   return Number.isFinite(num) ? num : fallback;
 };
 
+const rollupProduct = products.find(p => p.type === 'rollup');
+
+const normalizeRollupItem = item => {
+  if (!rollupProduct) return item;
+
+  const baseName = rollupProduct.name || '';
+  const isRollupId = item.productId === rollupProduct.id;
+  const isRollupName = typeof item.name === 'string' && item.name.includes(baseName);
+  if (!isRollupId && !isRollupName) return item;
+
+  const qty = Math.max(1, n(item.quantity, 1));
+  const dims = (item.details && item.details.dimensions) || '';
+
+  let format = null;
+  if (dims) {
+    format = (rollupProduct.formats || []).find(f => f.label === dims);
+  }
+
+  if (!format && typeof item.name === 'string') {
+    format = (rollupProduct.formats || []).find(f => item.name.includes(f.label));
+  }
+
+  if (!format || typeof format.promo_price !== 'number') return item;
+
+  const unitPrice = n(format.promo_price, 0);
+  const total = Number((unitPrice * qty).toFixed(2));
+
+  return {
+    ...item,
+    price: unitPrice,
+    total,
+  };
+};
+
+const normalizeCartItems = items => {
+  if (!Array.isArray(items)) return [];
+  return items.map(normalizeRollupItem);
+};
+
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState(getInitialCart);
+  const [cart, setCart] = useState(() => normalizeCartItems(getInitialCart()));
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
@@ -95,28 +135,28 @@ export const CartProvider = ({ children }) => {
       details: { ...det, weight: n(product.weight, 0.5) },
     };
 
-    setCart(prevCart => [...prevCart, newItem]);
+    setCart(prevCart => normalizeCartItems([...prevCart, newItem]));
     setIsCartOpen(true);
-     try {
-     const item = {
-       item_id: String(newItem.productId ?? newItem.id ?? newItem.name ?? 'custom'),
-       item_name: String(newItem.name ?? 'Item'),
-       price: Number(newItem.price ?? 0),
-       quantity: Number(newItem.quantity ?? 1),
-       item_category: newItem.details?.category || 'custom',
-       item_brand: 'Printora',
-       image_url: newItem.image || undefined,
-     };
+    try {
+      const item = {
+        item_id: String(newItem.productId ?? newItem.id ?? newItem.name ?? 'custom'),
+        item_name: String(newItem.name ?? 'Item'),
+        price: Number(newItem.price ?? 0),
+        quantity: Number(newItem.quantity ?? 1),
+        item_category: newItem.details?.category || 'custom',
+        item_brand: 'Printora',
+        image_url: newItem.image || undefined,
+      };
 
-     gtmPush({
-       event: 'add_to_cart',
-       ecommerce: {
-         currency: 'EUR',
-         value: Number(newItem.total ?? (item.price * item.quantity) ?? 0),
-         items: [item],
-       },
-     });
-   } catch (e) {
+      gtmPush({
+        event: 'add_to_cart',
+        ecommerce: {
+          currency: 'EUR',
+          value: Number(newItem.total ?? (item.price * item.quantity) ?? 0),
+          items: [item],
+        },
+      });
+    } catch (e) {
       console.debug('GTM add_to_cart push failed:', e);
     }
   };
@@ -151,37 +191,37 @@ export const CartProvider = ({ children }) => {
         };
       });
 
-      return [...prevCart, ...newItems];
+      return normalizeCartItems([...prevCart, ...newItems]);
     });
     setIsCartOpen(true);
     try {
-     (items || []).forEach((it) => {
-       const product = it.product || {};
-       const qty = Math.max(1, Number(it.quantity ?? 1));
-       const unitPrice = Number(it.price ?? product.price ?? 0) || 0;
-       const total = Number(it.total ?? unitPrice * qty) || 0;
-       const name = it.name ?? product.name ?? 'Item';
+      (items || []).forEach((it) => {
+        const product = it.product || {};
+        const qty = Math.max(1, Number(it.quantity ?? 1));
+        const unitPrice = Number(it.price ?? product.price ?? 0) || 0;
+        const total = Number(it.total ?? unitPrice * qty) || 0;
+        const name = it.name ?? product.name ?? 'Item';
 
-       const dlItem = {
-         item_id: String(product.id ?? name ?? 'custom'),
-         item_name: String(name),
-         price: unitPrice,
-         quantity: qty,
-         item_category: it?.details?.category || 'custom',
-         item_brand: 'Printora',
-         image_url: it.image || it.details?.fileUrl || product.image || undefined,
-       };
+        const dlItem = {
+          item_id: String(product.id ?? name ?? 'custom'),
+          item_name: String(name),
+          price: unitPrice,
+          quantity: qty,
+          item_category: it?.details?.category || 'custom',
+          item_brand: 'Printora',
+          image_url: it.image || it.details?.fileUrl || product.image || undefined,
+        };
 
-       gtmPush({
-         event: 'add_to_cart',
-         ecommerce: {
-         currency: 'EUR',
-         value: total,
-         items: [dlItem],
-       },
-     });
-   });
-  } catch (e) {
+        gtmPush({
+          event: 'add_to_cart',
+          ecommerce: {
+            currency: 'EUR',
+            value: total,
+            items: [dlItem],
+          },
+        });
+      });
+    } catch (e) {
       console.debug('GTM add_to_cart push failed:', e);
     }
   };
