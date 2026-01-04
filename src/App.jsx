@@ -13,6 +13,8 @@ import Loader from '@/components/Loader';
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const FloatingWhatsapp = lazy(() => import('@/components/FloatingWhatsapp'));
 const DtfPage = lazy(() => import('@/pages/DtfPage'));
+const DtfDev1Page = lazy(() => import('@/pages/DtfDev1Page'));
+const DtfDev2Page = lazy(() => import('@/pages/DtfDev2Page'));
 const ContactPage = lazy(() => import('@/pages/ContactPage'));
 const CartPage = lazy(() => import('@/pages/CartPage'));
 const NewShippingPage = lazy(() => import('@/pages/NewShippingPage'));
@@ -26,7 +28,6 @@ const BannerPage = lazy(() => import('@/pages/BannerPage'));
 const BannerPageLocal = lazy(() => import('@/pages/BannerPageLocal'));
 const BannerDev1Page = lazy(() => import('@/pages/BannerDev1Page'));
 const BannerDev2Page = lazy(() => import('@/pages/BannerDev2Page'));
-const BannerDev3Page = lazy(() => import('@/pages/BannerDev3Page'));
 const RollupPage = lazy(() => import('@/pages/RollupPage'));
 const RollupDev1Page = lazy(() => import('@/pages/RollupDev1Page'));
 const RollupDev2Page = lazy(() => import('@/pages/RollupDev2Page'));
@@ -82,7 +83,6 @@ const MainSite = () => {
                     <Route path="/banner-dev" element={<BannerPageLocal />} />
                     <Route path="/banner-dev1" element={<BannerDev1Page />} />
                     <Route path="/banner-dev2" element={<BannerDev2Page />} />
-                    <Route path="/banner-dev3" element={<BannerDev3Page />} />
                     <Route path="/rollup" element={<RollupPage />} />
                     <Route path="/rollup-dev1" element={<RollupDev1Page />} />
                     <Route path="/rollup-dev2" element={<RollupDev2Page />} />
@@ -91,6 +91,8 @@ const MainSite = () => {
                     <Route path="/vinile-adesivo" element={<VinylPage />} />
                     <Route path="/forex-pvc" element={<ForexPage />} />
                     <Route path="/dtf" element={<DtfPage />} />
+                    <Route path="/dtf-dev1" element={<DtfDev1Page />} />
+                    <Route path="/dtf-dev2" element={<DtfDev2Page />} />
                     <Route path="/contatti" element={<ContactPage />} />
                     <Route path="/recensioni-lavori" element={<ReviewsGalleryPage />} />
                     <Route path="/carrello" element={<CartPage />} />

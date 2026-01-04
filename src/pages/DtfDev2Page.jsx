@@ -44,7 +44,7 @@ const ApplicationCard = ({ icon: Icon, name }) => (
     </div>
 );
 
-const DtfPage = () => {
+const DtfDev2Page = () => {
     const { cartHook } = useOutletContext();
     const { addToCart } = cartHook;
 
@@ -54,9 +54,9 @@ const DtfPage = () => {
     return (
     <>
       <Helmet>
-        <title>Stampa DTF al Metro | Inchiostri Fluo | Printora</title>
-        <meta name="description" content="Stampa DTF personalizzata al metro lineare. Ideale per tessuti, con colori brillanti, bianco coprente e inchiostri fluo opzionali. Calcola il preventivo e ordina online." />
-        <meta name="keywords" content="stampa dtf, dtf al metro, stampa transfer, dtf fluo, stampa tessuti, personalizzazione abbigliamento" />
+        <title>Stampa DTF al Metro DEV2 | Printora</title>
+        <meta name="description" content="Versione DEV2 della pagina DTF al Metro, per testare varianti di layout e stile." />
+        <meta name="keywords" content="stampa dtf dev2, dtf al metro, stampa transfer, dtf fluo, stampa tessuti" />
       </Helmet>
       
       <div className="bg-slate-950 overflow-hidden">
@@ -70,11 +70,11 @@ const DtfPage = () => {
             className="relative z-10"
           >
             <h1 className="relative z-20 text-4xl md:text-6xl font-extrabold leading-[1.25] tracking-tight text-fuchsia-300">
-              <span>Trova una miglior qualita' o prezzo di dtf</span>
-              <span className="block text-fuchsia-100">ed il tuo prossimo ordine e' gratis</span>
+              Stampa fino a 9 colori
+              <span className="block mt-2 text-fuchsia-100">CMYK, Bianco e 4 colori FLUO</span>
             </h1>
             <p className="mt-[21px] text-[23px] text-gray-300 max-w-3xl mx-auto">
-              {"50% di sconto se acquisti ora!"}
+              {"Ricevi il 50% di sconto ordinando da questa pagina adesso !"}
             </p>
           </motion.div>
         </div>
@@ -150,4 +150,4 @@ const DtfPage = () => {
   );
 };
 
-export default DtfPage;
+export default DtfDev2Page;

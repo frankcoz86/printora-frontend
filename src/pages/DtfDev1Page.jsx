@@ -1,10 +1,11 @@
 import React from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Paintbrush, Sparkles, Zap, Package, Edit, Upload, Printer, Shirt, ShoppingBag, HardHat, Award } from 'lucide-react';
 import { dtfProduct } from '@/data/products';
 import DtfPriceCalculator from '@/components/DtfPriceCalculator';
+import { Button } from '@/components/ui/button';
 
 const Feature = ({ icon: Icon, title, description }) => (
   <div className="flex items-start space-x-4">
@@ -44,19 +45,37 @@ const ApplicationCard = ({ icon: Icon, name }) => (
     </div>
 );
 
-const DtfPage = () => {
+const DtfDev1Page = () => {
     const { cartHook } = useOutletContext();
     const { addToCart } = cartHook;
+    const navigate = useNavigate();
 
     const cmykImage = dtfProduct.images.find(img => img.id === 1);
     const fluoImages = dtfProduct.images.filter(img => img.id !== 1);
 
+    const handleOpenEditor = () => {
+        const width = 56;
+        const height = 100;
+        const quantity = 1;
+
+        const designState = {
+            product: dtfProduct,
+            width,
+            height,
+            quantity,
+            extras: [],
+            total: 0,
+        };
+
+        navigate('/dtf-designer', { state: { designState } });
+    };
+
     return (
     <>
       <Helmet>
-        <title>Stampa DTF al Metro | Inchiostri Fluo | Printora</title>
-        <meta name="description" content="Stampa DTF personalizzata al metro lineare. Ideale per tessuti, con colori brillanti, bianco coprente e inchiostri fluo opzionali. Calcola il preventivo e ordina online." />
-        <meta name="keywords" content="stampa dtf, dtf al metro, stampa transfer, dtf fluo, stampa tessuti, personalizzazione abbigliamento" />
+        <title>Stampa DTF al Metro DEV1 | Printora</title>
+        <meta name="description" content="Versione DEV1 della pagina DTF al Metro, per testare varianti di layout e stile." />
+        <meta name="keywords" content="stampa dtf dev1, dtf al metro, stampa transfer, dtf fluo, stampa tessuti" />
       </Helmet>
       
       <div className="bg-slate-950 overflow-hidden">
@@ -70,12 +89,19 @@ const DtfPage = () => {
             className="relative z-10"
           >
             <h1 className="relative z-20 text-4xl md:text-6xl font-extrabold leading-[1.25] tracking-tight text-fuchsia-300">
-              <span>Trova una miglior qualita' o prezzo di dtf</span>
-              <span className="block text-fuchsia-100">ed il tuo prossimo ordine e' gratis</span>
+              {"Crea il tuo dtf con l'"}
+              <span className="text-fuchsia-100">editor gratuito</span>
             </h1>
             <p className="mt-[21px] text-[23px] text-gray-300 max-w-3xl mx-auto">
-              {"50% di sconto se acquisti ora!"}
+              50% di sconto se ordini ora!
+              <br />
+              Spedizione in 24 h
             </p>
+            <div className="mt-[29px] flex justify-center">
+              <Button size="lg" variant="accent" onClick={handleOpenEditor} className="text-[18px]">
+                Apri l'editor gratuito
+              </Button>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -150,4 +176,4 @@ const DtfPage = () => {
   );
 };
 
-export default DtfPage;
+export default DtfDev1Page;

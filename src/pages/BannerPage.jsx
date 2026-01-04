@@ -12,7 +12,7 @@ const WhyChooseUs = lazy(() => import('@/components/WhyChooseUs'));
 const WhyBetter = lazy(() => import('@/components/WhyBetter'));
 const Testimonials = lazy(() => import('@/components/Testimonials'));
 
-const BannerPage = () => {
+const BannerPage = ({ heroTitle, heroSubtitle }) => {
     const { cartHook } = useOutletContext();
     const { addToCart } = cartHook;
     
@@ -35,10 +35,10 @@ const BannerPage = () => {
                     <div className="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative z-10">
                         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-green-300">
-                           Striscioni Pubblicitari in PVC
+                           {heroTitle || 'Striscioni Pubblicitari in PVC'}
                         </h1>
                         <p className="mt-4 text-lg text-gray-300 max-w-3xl mx-auto">
-                            La soluzione ideale per una comunicazione visiva d'impatto. Resistenti, versatili e con una qualità di stampa eccezionale.
+                            {heroSubtitle || "La soluzione ideale per una comunicazione visiva d'impatto. Resistenti, versatili e con una qualità di stampa eccezionale."}
                         </p>
                     </motion.div>
                 </div>

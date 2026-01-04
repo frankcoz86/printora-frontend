@@ -11,7 +11,7 @@ const WhyChooseUs = lazy(() => import('@/components/WhyChooseUs'));
 const WhyBetter = lazy(() => import('@/components/WhyBetter'));
 const Testimonials = lazy(() => import('@/components/Testimonials'));
 
-const RollupPage = () => {
+const RollupPage = ({ heroTitle, heroSubtitle, heroButton }) => {
     const { cartHook } = useOutletContext();
     const { addToCart } = cartHook;
     
@@ -34,11 +34,16 @@ const RollupPage = () => {
                     <div className="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative z-10">
                         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 to-blue-300">
-                           Roll-up Pubblicitari
+                           {heroTitle || 'Roll-up Pubblicitari'}
                         </h1>
                         <p className="mt-4 text-lg text-gray-300 max-w-3xl mx-auto">
-                            Comunica il tuo brand ovunque, con stile e professionalità. Il tuo messaggio, sempre al centro dell'attenzione.
+                            {heroSubtitle || "Comunica il tuo brand ovunque, con stile e professionalità. Il tuo messaggio, sempre al centro dell'attenzione."}
                         </p>
+                        {heroButton && (
+                            <div className="mt-6 flex justify-center">
+                                {heroButton}
+                            </div>
+                        )}
                     </motion.div>
                 </div>
             </div>

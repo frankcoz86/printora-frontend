@@ -44,7 +44,7 @@ const ApplicationCard = ({ icon: Icon, name }) => (
     </div>
 );
 
-const DtfPage = () => {
+const DtfDev3Page = () => {
     const { cartHook } = useOutletContext();
     const { addToCart } = cartHook;
 
@@ -54,28 +54,18 @@ const DtfPage = () => {
     return (
     <>
       <Helmet>
-        <title>Stampa DTF al Metro | Inchiostri Fluo | Printora</title>
-        <meta name="description" content="Stampa DTF personalizzata al metro lineare. Ideale per tessuti, con colori brillanti, bianco coprente e inchiostri fluo opzionali. Calcola il preventivo e ordina online." />
-        <meta name="keywords" content="stampa dtf, dtf al metro, stampa transfer, dtf fluo, stampa tessuti, personalizzazione abbigliamento" />
+        <title>Stampa DTF al Metro DEV3 | Printora</title>
+        <meta name="description" content="Versione DEV3 della pagina DTF al Metro, per testare varianti di layout e stile." />
+        <meta name="keywords" content="stampa dtf dev3, dtf al metro, stampa transfer, dtf fluo, stampa tessuti" />
       </Helmet>
       
-      <div className="bg-slate-950 overflow-hidden">
-        <div className="container mx-auto px-4 pt-16 pb-20 text-center relative">
-          <div className="absolute -top-1/4 -right-1/4 w-96 h-96 bg-fuchsia-500/20 rounded-full filter blur-3xl opacity-50 animate-blob"></div>
-          <div className="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="relative z-10"
-          >
-            <h1 className="relative z-20 text-4xl md:text-6xl font-extrabold leading-[1.25] tracking-tight text-fuchsia-300">
-              <span>Trova una miglior qualita' o prezzo di dtf</span>
-              <span className="block text-fuchsia-100">ed il tuo prossimo ordine e' gratis</span>
+      <div className="bg-slate-950 md:hidden">
+        <div className="container mx-auto px-4 pt-16 pb-12 text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-gray-500">
+              Stampa DTF al Metro
             </h1>
-            <p className="mt-[21px] text-[23px] text-gray-300 max-w-3xl mx-auto">
-              {"50% di sconto se acquisti ora!"}
-            </p>
+            <p className="mt-4 text-base text-gray-300 max-w-3xl mx-auto">{dtfProduct.description}</p>
           </motion.div>
         </div>
       </div>
@@ -150,4 +140,4 @@ const DtfPage = () => {
   );
 };
 
-export default DtfPage;
+export default DtfDev3Page;
