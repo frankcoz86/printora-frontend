@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Wind } from 'lucide-react';
 import { products } from '@/data/products';
-import BannerPriceCalculator from '@/components/BannerPriceCalculator';
+import BannerPriceCalculatorOffer from '@/components/BannerPriceCalculatorOffer';
 import Loader from '@/components/Loader';
 
 const Faq = lazy(() => import('@/components/Faq'));
@@ -55,7 +55,7 @@ const BannerDev3Page = () => {
                             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
                                 <h3 className="text-xl font-bold text-white mb-3">Qualità che si Vede e si Sente</h3>
                                 <p className="text-gray-400">
-                                    Utilizziamo solo PVC da 510gr di alta qualità, stampato con inchiostri ecosolventi che garantiscono colori vividi e una resistenza eccezionale agli agenti atmosferici e ai raggi UV. Perfetto per interni ed esterni.
+                                    Utilizziamo solo PVC da 510gr di alta qualità, stampato con inchiostri ecosolventi che garantiscono colori vividi e una resistenza eccezionale agli agenti atmosferici e ai raggi UV. Perfetto per interni ed esterni. Gli occhielli metallici ogni 50 cm sono inclusi di serie per mantenere il telo teso e stabile, riducendo il rischio di strappi su recinzioni, ponteggi e facciate.
                                 </p>
                             </div>
                             <img  className="rounded-2xl shadow-2xl w-full h-auto border-4 border-slate-800" alt="Striscione promozionale in PVC con logo in un contesto urbano per eventi o pubblicità" src="/assets/banner2.png" />
@@ -81,7 +81,15 @@ const BannerDev3Page = () => {
                                         </li>
                                     ))}
                                 </ul>
-                                <BannerPriceCalculator product={bannerProduct} onAddToCart={addToCart} />
+                                <div className="mb-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-3 text-left">
+                                    <p className="text-xs font-semibold tracking-[0.18em] text-emerald-300 uppercase">
+                                        Configura e ordina in autonomia
+                                    </p>
+                                    <p className="mt-1 text-sm text-gray-200">
+                                        Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: l'editor ti mostra subito il costo finale mentre personalizzi il tuo striscione.
+                                    </p>
+                                </div>
+                                <BannerPriceCalculatorOffer product={bannerProduct} onAddToCart={addToCart} />
                              </div>
                            </motion.div>
                         </div>
