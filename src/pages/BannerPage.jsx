@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Wind } from 'lucide-react';
 import { products } from '@/data/products';
-import BannerPriceCalculator from '@/components/BannerPriceCalculator';
+import BannerPriceCalculatorOffer from '@/components/BannerPriceCalculatorOffer';
 import Loader from '@/components/Loader';
 
 const Faq = lazy(() => import('@/components/Faq'));
@@ -78,7 +78,15 @@ const BannerPage = ({ heroTitle, heroSubtitle }) => {
                                         </li>
                                     ))}
                                 </ul>
-                                <BannerPriceCalculator product={bannerProduct} onAddToCart={addToCart} />
+                                <div className="mb-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-3 text-left">
+                                    <p className="text-xs font-semibold tracking-[0.18em] text-emerald-300 uppercase">
+                                        Configura e ordina in autonomia
+                                    </p>
+                                    <p className="mt-1 text-sm text-gray-200">
+                                        Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: l'editor ti mostra subito il costo finale mentre personalizzi il tuo striscione.
+                                    </p>
+                                </div>
+                                <BannerPriceCalculatorOffer product={bannerProduct} onAddToCart={addToCart} />
                              </div>
                            </motion.div>
                         </div>
