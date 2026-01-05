@@ -551,30 +551,37 @@ const BannerPriceCalculatorOffer = ({ product, onAddToCart }) => {
       </div>
 
       <div className="space-y-4 pt-4 border-t border-slate-700">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center justify-between sm:justify-start">
             <Label htmlFor="quantity">Quantità:</Label>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            >
-              <Minus className="w-4 h-4" />
-            </Button>
-            <span className="font-semibold w-10 text-center text-lg">{quantity}</span>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setQuantity(quantity + 1)}
-            >
-              <Plus className="w-4 h-4" />
-            </Button>
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+              >
+                <Minus className="w-4 h-4" />
+              </Button>
+              <span className="font-semibold w-10 text-center text-lg">{quantity}</span>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setQuantity(quantity + 1)}
+              >
+                <Plus className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
-          <div className="text-right">
-            <div className="flex items-baseline justify-end gap-3 mb-2">
+          <div className="text-right sm:min-w-[220px]">
+            <div className="flex flex-col items-end gap-1 mb-2 md:flex-row md:items-center md:gap-3">
               {originalTotalPrice > 0 && (
-                <span className="text-base md:text-lg font-semibold text-slate-200/90 line-through">
-                  €{originalTotalPrice.toFixed(2)}
+                <span className="relative inline-flex items-center px-1.5 py-0.5 text-base md:text-lg font-semibold text-white/90">
+                  <span className="relative z-10">
+                    €{originalTotalPrice.toFixed(2)}
+                  </span>
+                  <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                    <span className="absolute w-full h-[2px] bg-cyan-300/70 -rotate-12" />
+                  </span>
                 </span>
               )}
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-emerald-400/60 bg-emerald-500/15 text-[11px] font-semibold uppercase tracking-wide text-emerald-200">
