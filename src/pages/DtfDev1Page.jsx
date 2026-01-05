@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Paintbrush, Sparkles, Zap, Package, Edit, Upload, Printer, Shirt, ShoppingBag, HardHat, Award } from 'lucide-react';
 import { dtfProduct } from '@/data/products';
-import DtfPriceCalculator from '@/components/DtfPriceCalculator';
+import DtfPriceCalculatorOffer from '@/components/DtfPriceCalculatorOffer';
 import { Button } from '@/components/ui/button';
 
 const Feature = ({ icon: Icon, title, description }) => (
@@ -128,7 +128,15 @@ const DtfDev1Page = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <DtfPriceCalculator product={dtfProduct} onAddToCart={addToCart} />
+                    <div className="mb-6 rounded-2xl border border-fuchsia-500/30 bg-fuchsia-500/5 px-4 py-3 text-left">
+                        <p className="text-xs font-semibold tracking-[0.18em] text-fuchsia-300 uppercase">
+                            Configura e ordina in autonomia
+                        </p>
+                        <p className="mt-1 text-sm text-gray-200">
+                            Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: scegli la lunghezza e le opzioni e vedi subito il costo finale mentre prepari la tua stampa DTF.
+                        </p>
+                    </div>
+                    <DtfPriceCalculatorOffer product={dtfProduct} onAddToCart={addToCart} />
                 </motion.div>
             </div>
         </div>

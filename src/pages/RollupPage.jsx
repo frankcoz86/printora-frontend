@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { CheckCircle, Award } from 'lucide-react';
 import { products } from '@/data/products';
-import RollupSelector from '@/components/RollupSelector';
+import RollupSelectorOffer from '@/components/RollupSelectorOffer';
 import Loader from '@/components/Loader';
 const Faq = lazy(() => import('@/components/Faq'));
 const WhyChooseUs = lazy(() => import('@/components/WhyChooseUs'));
@@ -81,7 +81,15 @@ const RollupPage = ({ heroTitle, heroSubtitle, heroButton }) => {
                                         </li>
                                     ))}
                                 </ul>
-                                <RollupSelector product={rollupProduct} onAddToCart={addToCart} />
+                                <div className="mb-6 rounded-2xl border border-cyan-500/30 bg-cyan-500/5 px-4 py-3 text-left">
+                                    <p className="text-xs font-semibold tracking-[0.18em] text-cyan-300 uppercase">
+                                        Configura e ordina in autonomia
+                                    </p>
+                                    <p className="mt-1 text-sm text-gray-200">
+                                        Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: seleziona formato e opzioni e vedi subito il costo finale mentre prepari il tuo roll-up.
+                                    </p>
+                                </div>
+                                <RollupSelectorOffer product={rollupProduct} onAddToCart={addToCart} />
                              </div>
                            </motion.div>
                         </div>
