@@ -34,11 +34,11 @@ const BannerPage = ({ heroTitle, heroSubtitle }) => {
                     <div className="absolute -top-1/4 -right-1/4 w-96 h-96 bg-emerald-500/20 rounded-full filter blur-3xl opacity-50 animate-blob"></div>
                     <div className="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative z-10">
-                        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-green-300">
-                           {heroTitle || 'Striscioni Pubblicitari in PVC'}
+                        <h1 className="relative z-20 text-4xl md:text-6xl font-extrabold leading-[1.25] tracking-tight text-emerald-300">
+                            {"Trova un banner con miglior qualita' o prezzo, ed il tuo prossimo ordine e' gratis"}
                         </h1>
-                        <p className="mt-4 text-lg text-gray-300 max-w-3xl mx-auto">
-                            {heroSubtitle || "La soluzione ideale per una comunicazione visiva d'impatto. Resistenti, versatili e con una qualità di stampa eccezionale."}
+                        <p className="mt-[21px] text-[23px] text-gray-300 max-w-3xl mx-auto">
+                            {"50% di sconto se acquisti da questa pagina adesso."}
                         </p>
                     </motion.div>
                 </div>
