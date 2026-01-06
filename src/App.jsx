@@ -28,6 +28,7 @@ const BannerPage = lazy(() => import('@/pages/BannerPage'));
 const BannerPageLocal = lazy(() => import('@/pages/BannerPageLocal'));
 const BannerDev1Page = lazy(() => import('@/pages/BannerDev1Page'));
 const BannerDev2Page = lazy(() => import('@/pages/BannerDev2Page'));
+const BannerDev3Page = lazy(() => import('@/pages/BannerDev3Page'));
 const RollupPage = lazy(() => import('@/pages/RollupPage'));
 const RollupDev1Page = lazy(() => import('@/pages/RollupDev1Page'));
 const RollupDev2Page = lazy(() => import('@/pages/RollupDev2Page'));
@@ -83,6 +84,7 @@ const MainSite = () => {
                     <Route path="/banner-dev" element={<BannerPageLocal />} />
                     <Route path="/banner-dev1" element={<BannerDev1Page />} />
                     <Route path="/banner-dev2" element={<BannerDev2Page />} />
+                    <Route path="/banner-dev3" element={<BannerDev3Page />} />
                     <Route path="/rollup" element={<RollupPage />} />
                     <Route path="/rollup-dev1" element={<RollupDev1Page />} />
                     <Route path="/rollup-dev2" element={<RollupDev2Page />} />
