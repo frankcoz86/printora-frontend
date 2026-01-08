@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { gtmPush } from '@/lib/gtm';
+import { trackAddToCart } from '@/lib/fbPixel';
 import { products } from '@/data/products';
 
 const CartContext = createContext();
@@ -156,6 +157,15 @@ export const CartProvider = ({ children }) => {
           items: [item],
         },
       });
+
+      // Facebook Pixel AddToCart event
+      trackAddToCart({
+        content_ids: [String(newItem.productId ?? newItem.id ?? 'custom')],
+        content_name: String(newItem.name ?? 'Item'),
+        content_type: 'product',
+        value: Number(newItem.total ?? 0),
+        currency: 'EUR',
+      });
     } catch (e) {
       console.debug('GTM add_to_cart push failed:', e);
     }
@@ -219,6 +229,15 @@ export const CartProvider = ({ children }) => {
             value: total,
             items: [dlItem],
           },
+        });
+
+        // Facebook Pixel AddToCart event
+        trackAddToCart({
+          content_ids: [String(product.id ?? name ?? 'custom')],
+          content_name: String(name),
+          content_type: 'product',
+          value: total,
+          currency: 'EUR',
         });
       });
     } catch (e) {

@@ -6,20 +6,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Trash2, ShoppingCart, ArrowRight, CreditCard, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { trackInitiateCheckout } from '@/lib/fbPixel';
 
 const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
     },
-  },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0 },
 };
 
 const CartPage = () => {
@@ -49,7 +50,7 @@ const CartPage = () => {
             </div>
         );
     }
-    
+
     return (
         <>
             <Helmet>
@@ -57,14 +58,14 @@ const CartPage = () => {
                 <meta name="description" content="Rivedi il tuo ordine e procedi al checkout." />
             </Helmet>
             <div className="relative py-16 sm:py-24 bg-slate-900 overflow-hidden min-h-screen">
-                 <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 z-0">
                     <div className="absolute w-96 h-96 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full opacity-10 blur-3xl animate-blob top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2"></div>
                     <div className="absolute w-96 h-96 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full opacity-10 blur-3xl animation-delay-4000 animate-blob bottom-1/4 right-1/4 transform translate-x-1/2 translate-y-1/2"></div>
                 </div>
                 <div className="container mx-auto px-4 relative z-10">
-                    <motion.div 
-                        initial={{ opacity: 0, y: -20 }} 
-                        animate={{ opacity: 1, y: 0 }} 
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
                         className="flex justify-between items-center mb-12"
                     >
@@ -75,7 +76,7 @@ const CartPage = () => {
                     </motion.div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-                        <motion.div 
+                        <motion.div
                             className="lg:col-span-2 space-y-4"
                             variants={containerVariants}
                             initial="hidden"
@@ -107,7 +108,7 @@ const CartPage = () => {
                             ))}
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                             className="lg:col-span-1"
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -130,12 +131,25 @@ const CartPage = () => {
                                     </div>
                                 </div>
                                 <div className="mt-8">
-                                    <Button onClick={() => navigate('/checkout')} size="lg" className="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white">
+                                    <Button onClick={() => {
+                                        // Track Facebook Pixel InitiateCheckout event
+                                        trackInitiateCheckout({
+                                            content_ids: cart.map(item => String(item.productId ?? item.id ?? 'custom')),
+                                            contents: cart.map(item => ({
+                                                id: String(item.productId ?? item.id ?? 'custom'),
+                                                quantity: Number(item.quantity ?? 1)
+                                            })),
+                                            value: subtotal,
+                                            currency: 'EUR',
+                                            num_items: quantity
+                                        });
+                                        navigate('/checkout');
+                                    }} size="lg" className="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white">
                                         Procedi al Checkout
                                         <CreditCard className="ml-2 h-5 w-5" />
                                     </Button>
                                 </div>
-                                 <p className="text-xs text-slate-500 text-center mt-4">Tasse e spedizione verranno calcolate al checkout.</p>
+                                <p className="text-xs text-slate-500 text-center mt-4">Tasse e spedizione verranno calcolate al checkout.</p>
                             </div>
                         </motion.div>
                     </div>

@@ -11,7 +11,7 @@ const drawLayout = (doc, { width, height, bleed, safeMargin, bottomBleed = 0 }) 
     const drawBleed = bleed * scale;
     const drawSafeMargin = safeMargin * scale;
     const drawBottomBleed = bottomBleed * scale;
-    
+
     const startX = centerX - drawWidth / 2;
     const startY = 50;
 
@@ -24,7 +24,7 @@ const drawLayout = (doc, { width, height, bleed, safeMargin, bottomBleed = 0 }) 
     doc.setDrawColor(0, 0, 0);
     doc.setLineWidth(0.2);
     doc.rect(startX, startY, drawWidth, drawHeight + drawBottomBleed, 'S');
-    
+
     // Safe area (blue)
     doc.setDrawColor(0, 0, 255);
     doc.setLineWidth(0.1);
@@ -35,10 +35,10 @@ const drawLayout = (doc, { width, height, bleed, safeMargin, bottomBleed = 0 }) 
     // Legend
     const legendY = startY + drawHeight + drawBottomBleed + 15;
     const legendX = startX - 10 > 20 ? startX - 10 : 20;
-    
+
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
-    
+
     doc.setDrawColor(255, 0, 0);
     doc.setLineWidth(0.5);
     doc.line(legendX, legendY, legendX + 5, legendY);
@@ -47,7 +47,7 @@ const drawLayout = (doc, { width, height, bleed, safeMargin, bottomBleed = 0 }) 
     doc.setDrawColor(0, 0, 0);
     doc.line(legendX, legendY + 5, legendX + 5, legendY + 5);
     doc.text('Bordo di taglio finale', legendX + 7, legendY + 6);
-    
+
     doc.setDrawColor(0, 0, 255);
     doc.setLineDashPattern([1, 1], 0);
     doc.line(legendX, legendY + 10, legendX + 5, legendY + 10);
@@ -57,121 +57,121 @@ const drawLayout = (doc, { width, height, bleed, safeMargin, bottomBleed = 0 }) 
 
 
 export const generatePdf = (order) => {
-  const doc = new jsPDF();
-  const pageHeight = doc.internal.pageSize.getHeight();
-  const pageWidth = doc.internal.pageSize.getWidth();
-  let y = 20;
+    const doc = new jsPDF();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    let y = 20;
 
-  // Header
-  doc.setFontSize(22);
-  doc.setFont("helvetica", "bold");
-  doc.text("Printora", pageWidth / 2, y, { align: "center" });
-  y += 10;
-  doc.setFontSize(16);
-  doc.setFont("helvetica", "normal");
-  doc.text("Riepilogo Ordine", pageWidth / 2, y, { align: "center" });
-  y += 15;
-  doc.setLineWidth(0.5);
-  doc.line(20, y, pageWidth - 20, y);
-  y += 15;
-
-  // Order Details
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
-  doc.text("Dettagli Ordine", 20, y);
-  y += 7;
-  doc.setFont("helvetica", "normal");
-  doc.text(`ID Ordine: ${order.id}`, 20, y);
-  y += 7;
-  doc.text(`Data: ${new Date(order.created_at).toLocaleDateString("it-IT")}`, 20, y);
-  y += 15;
-
-  // Shipping Address
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
-  doc.text("Indirizzo di Spedizione", 20, y);
-  y += 7;
-  doc.setFont("helvetica", "normal");
-  const sa = order.shipping_address;
-  doc.text(`${sa.name} ${sa.surname}`, 20, y);
-  y += 5;
-  if (sa.company) {
-    doc.text(sa.company, 20, y);
-    y += 5;
-  }
-  doc.text(sa.address, 20, y);
-  y += 5;
-  doc.text(`${sa.zip} ${sa.city} (${sa.province})`, 20, y);
-  y += 15;
-
-  // Items
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
-  doc.text("Articoli", 20, y);
-  y += 7;
-  
-  doc.setLineWidth(0.2);
-  doc.line(20, y, pageWidth - 20, y);
-  y += 5;
-  
-  order.cart_items.forEach(item => {
+    // Header
+    doc.setFontSize(22);
     doc.setFont("helvetica", "bold");
-    doc.text(item.name, 20, y);
-    doc.text(`€${(item.total).toFixed(2)}`, pageWidth - 20, y, { align: 'right' });
-    y += 5;
+    doc.text("Printora", pageWidth / 2, y, { align: "center" });
+    y += 10;
+    doc.setFontSize(16);
     doc.setFont("helvetica", "normal");
-    doc.text(`Quantità: ${item.quantity}`, 20, y);
+    doc.text("Riepilogo Ordine", pageWidth / 2, y, { align: "center" });
+    y += 15;
+    doc.setLineWidth(0.5);
+    doc.line(20, y, pageWidth - 20, y);
+    y += 15;
+
+    // Order Details
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text("Dettagli Ordine", 20, y);
+    y += 7;
+    doc.setFont("helvetica", "normal");
+    doc.text(`ID Ordine: ${order.id}`, 20, y);
+    y += 7;
+    doc.text(`Data: ${new Date(order.created_at).toLocaleDateString("it-IT")}`, 20, y);
+    y += 15;
+
+    // Shipping Address
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text("Indirizzo di Spedizione", 20, y);
+    y += 7;
+    doc.setFont("helvetica", "normal");
+    const sa = order.shipping_address;
+    doc.text(`${sa.name} ${sa.surname}`, 20, y);
     y += 5;
-    if(item.details?.width && item.details?.height) {
-        doc.text(`Dimensioni: ${item.details.width} x ${item.details.height} cm`, 20, y);
+    if (sa.company) {
+        doc.text(sa.company, 20, y);
         y += 5;
     }
-    if(item.details?.file?.name) {
-        doc.text(`File: ${item.details.file.name}`, 20, y);
-        y += 5;
-    }
-    if(item.details?.eyelets) {
-        doc.text(`Occhielli: Sì`, 20, y);
-        y+= 5;
-    }
-     if(item.details?.windproof) {
-        doc.text(`Antivento: Sì`, 20, y);
-        y+= 5;
-    }
-    if(item.details?.pleat) {
-        doc.text(`Piegatura: Sì`, 20, y);
-        y+= 5;
-    }
+    doc.text(sa.address, 20, y);
     y += 5;
-  });
+    doc.text(`${sa.zip} ${sa.city} (${sa.province})`, 20, y);
+    y += 15;
 
-   doc.line(20, y, pageWidth - 20, y);
-   y += 10;
+    // Items
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text("Articoli", 20, y);
+    y += 7;
 
-  // Totals
-  doc.setFontSize(12);
-  doc.text("Subtotale:", 130, y);
-  doc.text(`€${order.subtotal.toFixed(2)}`, pageWidth - 20, y, { align: "right" });
-  y += 7;
-  doc.text("Spedizione:", 130, y);
-  doc.text(`€${order.shipping_cost.toFixed(2)}`, pageWidth - 20, y, { align: "right" });
-  y += 7;
-  doc.text("IVA (22%):", 130, y);
-  doc.text(`€${order.vat_amount.toFixed(2)}`, pageWidth - 20, y, { align: "right" });
-  y += 7;
-  doc.setFont("helvetica", "bold");
-  doc.text("Totale:", 130, y);
-  doc.text(`€${order.total_amount.toFixed(2)}`, pageWidth - 20, y, { align: "right" });
+    doc.setLineWidth(0.2);
+    doc.line(20, y, pageWidth - 20, y);
+    y += 5;
 
-  // Footer
-  y = pageHeight - 30;
-  doc.setLineWidth(0.5);
-  doc.line(20, y, pageWidth - 20, y);
-  y += 10;
-  doc.setFontSize(10);
-  doc.text("Grazie per il tuo ordine! Per qualsiasi domanda, contatta il nostro supporto.", pageWidth / 2, y, { align: 'center' });
-  
-  doc.save(`Riepilogo-Ordine-${order.id.substring(0,8)}.pdf`);
+    order.cart_items.forEach(item => {
+        doc.setFont("helvetica", "bold");
+        doc.text(item.name, 20, y);
+        doc.text(`€${(item.total).toFixed(2)}`, pageWidth - 20, y, { align: 'right' });
+        y += 5;
+        doc.setFont("helvetica", "normal");
+        doc.text(`Quantità: ${item.quantity}`, 20, y);
+        y += 5;
+        if (item.details?.width && item.details?.height) {
+            doc.text(`Dimensioni: ${item.details.width} x ${item.details.height} cm`, 20, y);
+            y += 5;
+        }
+        if (item.details?.file?.name) {
+            doc.text(`File: ${item.details.file.name}`, 20, y);
+            y += 5;
+        }
+        if (item.details?.eyelets) {
+            doc.text(`Occhielli: Sì`, 20, y);
+            y += 5;
+        }
+        if (item.details?.windproof) {
+            doc.text(`Antivento: Sì`, 20, y);
+            y += 5;
+        }
+        if (item.details?.pleat) {
+            doc.text(`Piegatura: Sì`, 20, y);
+            y += 5;
+        }
+        y += 5;
+    });
+
+    doc.line(20, y, pageWidth - 20, y);
+    y += 10;
+
+    // Totals
+    doc.setFontSize(12);
+    doc.text("Subtotale:", 130, y);
+    doc.text(`€${order.subtotal.toFixed(2)}`, pageWidth - 20, y, { align: "right" });
+    y += 7;
+    doc.text("Spedizione:", 130, y);
+    doc.text(`€${order.shipping_cost.toFixed(2)}`, pageWidth - 20, y, { align: "right" });
+    y += 7;
+    doc.text("IVA (22%):", 130, y);
+    doc.text(`€${order.vat_amount.toFixed(2)}`, pageWidth - 20, y, { align: "right" });
+    y += 7;
+    doc.setFont("helvetica", "bold");
+    doc.text("Totale:", 130, y);
+    doc.text(`€${order.total_amount.toFixed(2)}`, pageWidth - 20, y, { align: "right" });
+
+    // Footer
+    y = pageHeight - 30;
+    doc.setLineWidth(0.5);
+    doc.line(20, y, pageWidth - 20, y);
+    y += 10;
+    doc.setFontSize(10);
+    doc.text("Grazie per il tuo ordine! Per qualsiasi domanda, contatta il nostro supporto.", pageWidth / 2, y, { align: 'center' });
+
+    doc.save(`Riepilogo-Ordine-${order.id.substring(0, 8)}.pdf`);
 };
 
 export const generateLayoutPdf = ({ type, width, height, productName }) => {
@@ -197,7 +197,7 @@ export const generateLayoutPdf = ({ type, width, height, productName }) => {
             };
             break;
         case 'rollup':
-             config = {
+            config = {
                 productName: `Roll-up ${width}x${height} cm`,
                 bleed: 10, // 10 mm on top/left/right
                 safeMargin: 30, // 30 mm
@@ -213,26 +213,26 @@ export const generateLayoutPdf = ({ type, width, height, productName }) => {
             };
             break;
         case 'dtf':
-             config = {
+            config = {
                 productName: `Stampa DTF (Telo ${width}x${height} cm)`,
                 bleed: 0,
                 safeMargin: 5, // 5 mm
                 instructions: [
                     { title: 'Dimensioni File', text: `L'area di lavoro è esattamente ${width}x${height} cm.` },
                     { title: 'Usa il nostro Editor!', text: 'Per risultati ottimali e zero errori, ti consigliamo di usare il nostro editor DTF gratuito. Puoi caricare i tuoi loghi, disporli automaticamente o manualmente e aggiungere testi con colori di stampa professionali.' },
-                    { title: 'Se non usi l\'editor:', text: 'Se preferisci caricare un file pronto, assicurati che sia in formato PNG con sfondo trasparente, a 300 DPI e con il profilo colore CMYK. Ricorda di specchiare il file prima di caricarlo.'},
-                    { title: 'Spessori Minimi', text: 'Lo spessore minimo per linee e dettagli è di 0.5 mm per garantire una corretta adesione.'}
+                    { title: 'Se non usi l\'editor:', text: 'Se preferisci caricare un file pronto, assicurati che sia in formato PNG con sfondo trasparente, a 300 DPI e con il profilo colore CMYK. Ricorda di specchiare il file prima di caricarlo.' },
+                    { title: 'Spessori Minimi', text: 'Lo spessore minimo per linee e dettagli è di 0.5 mm per garantire una corretta adesione.' }
                 ]
             };
             break;
         default:
             return;
     }
-    
+
     // Convert cm to mm for drawing
     const mmWidth = width * 10;
     const mmHeight = height * 10;
-    
+
     // Header
     doc.setFontSize(20);
     doc.setFont('helvetica', 'bold');
@@ -257,12 +257,12 @@ export const generateLayoutPdf = ({ type, width, height, productName }) => {
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
     doc.text('Istruzioni Tecniche', instructionStartX, instructionStartY);
-    
+
     doc.setFontSize(9);
     let currentY = instructionStartY + 10;
 
     config.instructions.forEach((instruction) => {
-        if(currentY > pageHeight - 30) {
+        if (currentY > pageHeight - 30) {
             doc.addPage();
             currentY = 20;
         }
@@ -281,7 +281,21 @@ export const generateLayoutPdf = ({ type, width, height, productName }) => {
     doc.setFontSize(8);
     doc.text('Per qualsiasi dubbio, il nostro team di supporto è a tua disposizione. Visita www.printora.it', 105, pageHeight - 15, { align: 'center' });
 
-    doc.save(`Template-Printora-${type.replace('-','')}-${width}x${height}cm.pdf`);
+    // Generate PDF as blob and open in new tab instead of forcing download
+    const pdfBlob = doc.output('blob');
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    const newWindow = window.open(pdfUrl, '_blank');
+
+    // Cleanup URL after window opens to prevent memory leaks
+    if (newWindow) {
+        newWindow.onload = () => {
+            URL.revokeObjectURL(pdfUrl);
+        };
+    } else {
+        // Fallback: if popup was blocked, download the file
+        doc.save(`Template-Printora-${type.replace('-', '')}-${width}x${height}cm.pdf`);
+        URL.revokeObjectURL(pdfUrl);
+    }
 };
 
 const addGuideSection = (doc, title, text, yPos) => {
@@ -334,7 +348,7 @@ export const generateEditorGuidePdf = (productType) => {
         { title: 'Scarica Anteprima PDF (300 DPI)', text: 'Usa il pulsante di download PDF nell\'intestazione per scaricare un\'anteprima in formato PDF ad alta risoluzione del telo corrente. Utile per una revisione finale.' },
         { title: 'Salva e Aggiungi al Carrello', text: 'Quando sei soddisfatto, clicca qui. Potrai rivedere le anteprime finali prima di confermare. L\'editor genererà i file ad alta risoluzione e li aggiungerà al carrello.' },
     ];
-    
+
     guideContent.forEach(section => {
         addGuideSection(doc, section.title, section.text, yPos);
     });
@@ -350,5 +364,19 @@ export const generateEditorGuidePdf = (productType) => {
         doc.text('Per qualsiasi dubbio, il nostro team di supporto è a tua disposizione. Visita www.printora.it', 20, pageHeight - 15);
     }
 
-    doc.save('Guida-Editor-Printora.pdf');
+    // Generate PDF as blob and open in new tab
+    const pdfBlob = doc.output('blob');
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    const newWindow = window.open(pdfUrl, '_blank');
+
+    // Cleanup URL after window opens
+    if (newWindow) {
+        newWindow.onload = () => {
+            URL.revokeObjectURL(pdfUrl);
+        };
+    } else {
+        // Fallback: if popup was blocked, download the file
+        doc.save('Guida-Editor-Printora.pdf');
+        URL.revokeObjectURL(pdfUrl);
+    }
 };

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { gtmPush } from '@/lib/gtm';
+import { trackPurchase } from '@/lib/fbPixel';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
@@ -88,12 +89,12 @@ const PaymentSuccessPage = () => {
         }
 
         // 1) Try to fetch Stripe Session from your backend (optional best-effort)
-          let session = null;
-          try {
-            const API = import.meta.env.VITE_BACKEND_URL;
-            const r = await fetch(`${API}/api/checkout-session/${sessionId}`);
-            if (r.ok) session = await r.json();
-          } catch {}
+        let session = null;
+        try {
+          const API = import.meta.env.VITE_BACKEND_URL;
+          const r = await fetch(`${API}/api/checkout-session/${sessionId}`);
+          if (r.ok) session = await r.json();
+        } catch { }
 
         // 2) Look for a pre-created order id (set before redirect)
         const orderDataString = sessionStorage.getItem('stripe_order_data');
@@ -101,7 +102,7 @@ const PaymentSuccessPage = () => {
 
         // Preferred path: order pre-created → just mark PAID
         if (sod?.order_id) {
-          try { await markPaid(supabase, sod.order_id, sessionId, session || null); } catch {}
+          try { await markPaid(supabase, sod.order_id, sessionId, session || null); } catch { }
           const finalOrder = {
             id: sod.order_id,
             created_at: new Date().toISOString(),
@@ -186,17 +187,17 @@ const PaymentSuccessPage = () => {
     if (!order || purchasePushedRef.current) return;
 
     try {
-    // Normalize items from your saved order shape
-        const rawItems = order.cart_items || order.items || [];
-        const items = rawItems.map((it, idx) => {
+      // Normalize items from your saved order shape
+      const rawItems = order.cart_items || order.items || [];
+      const items = rawItems.map((it, idx) => {
         const qty = Number(it?.quantity ?? 1) || 1;
         const unit =
           Number(it?.price) ??
           (Number(it?.total) && qty ? Number(it.total) / qty : 0);
-  
+
         return {
-          item_id: String(it?.product?.id ?? it?.sku ?? it?.id ?? `item_${idx+1}`),
-          item_name: String(it?.name ?? `Item ${idx+1}`),
+          item_id: String(it?.product?.id ?? it?.sku ?? it?.id ?? `item_${idx + 1}`),
+          item_name: String(it?.name ?? `Item ${idx + 1}`),
           price: Number(unit || 0),
           quantity: qty,
           item_category: it?.category || 'custom',
@@ -219,9 +220,21 @@ const PaymentSuccessPage = () => {
           items,
         },
       });
-  
+
+      // Facebook Pixel Purchase event
+      trackPurchase({
+        content_ids: items.map(it => it.item_id),
+        contents: items.map(it => ({
+          id: it.item_id,
+          quantity: it.quantity
+        })),
+        value: Number(order?.total_amount ?? order?.total ?? 0),
+        currency: (order?.payment_details?.currency || 'EUR').toUpperCase(),
+        num_items: items.reduce((sum, it) => sum + it.quantity, 0)
+      });
+
       purchasePushedRef.current = true;
-    } catch {}
+    } catch { }
   }, [order]);
 
   const handleDownloadInvoice = () => {
@@ -255,7 +268,7 @@ const PaymentSuccessPage = () => {
     <>
       <Helmet>
         <title>Pagamento Riuscito | Printora</title>
-        <meta name="description" content="Il tuo ordine è stato confermato con successo. Grazie per aver scelto Printora."/>
+        <meta name="description" content="Il tuo ordine è stato confermato con successo. Grazie per aver scelto Printora." />
       </Helmet>
       <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-950 flex items-center justify-center p-4">
         <motion.div
