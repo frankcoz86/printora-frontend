@@ -7,6 +7,7 @@ import { toast } from '@/components/ui/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
 import { gtmPush } from '@/lib/gtm';
+import { generateLayoutPdf } from '@/lib/pdfGenerator';
 
 const RollupSelector = ({ product, onAddToCart }) => {
   const [selectedFormat, setSelectedFormat] = useState(product.formats[0]);
@@ -22,18 +23,26 @@ const RollupSelector = ({ product, onAddToCart }) => {
         editor_product: 'rollup',
         variant: selectedFormat.name,
       });
-    } catch (e) {}
-    navigate(`/designer/${product.type.toLowerCase()}`, { state: { 
-      designState: {
-        product: { ...product, name: `${product.name} ${selectedFormat.label}`, price: selectedFormat.promo_price },
-        width, height: 210, quantity, extras: [], total: selectedFormat.promo_price * quantity
-      } 
-    }});
+    } catch (e) { }
+    navigate(`/designer/${product.type.toLowerCase()}`, {
+      state: {
+        designState: {
+          product: { ...product, name: `${product.name} ${selectedFormat.label}`, price: selectedFormat.promo_price },
+          width, height: 210, quantity, extras: [], total: selectedFormat.promo_price * quantity
+        }
+      }
+    });
   }, [navigate, product, selectedFormat, quantity]);
 
   const handleDownloadTemplate = useCallback(() => {
-    window.open('https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/71d773658a66ca29a8d97477074601e6.jpg', '_blank');
-  }, []);
+    const [width, height] = selectedFormat.label.split('x').map(dim => parseInt(dim.trim(), 10));
+    generateLayoutPdf({
+      type: 'rollup',
+      width: width,
+      height: height,
+      productName: `Roll-up ${selectedFormat.label}`
+    });
+  }, [selectedFormat]);
 
   const handleAddToCart = useCallback(() => {
     if (selectedFormat.available === false) {
@@ -103,7 +112,7 @@ const RollupSelector = ({ product, onAddToCart }) => {
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <h4 className="text-lg font-semibold text-white flex items-center gap-2"><Package className="text-cyan-300"/> Scegli il formato</h4>
+        <h4 className="text-lg font-semibold text-white flex items-center gap-2"><Package className="text-cyan-300" /> Scegli il formato</h4>
         <div className="grid grid-cols-2 gap-3">
           {product.formats.map(format => (
             <Button
@@ -125,20 +134,20 @@ const RollupSelector = ({ product, onAddToCart }) => {
           ))}
         </div>
         {!selectedFormat.available && (
-          <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="flex items-center gap-2 text-amber-300 bg-amber-900/50 p-3 rounded-lg border border-amber-700">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 text-amber-300 bg-amber-900/50 p-3 rounded-lg border border-amber-700">
             <Clock size={18} className="shrink-0" /><p className="text-xs font-medium">Novità! Questo formato sarà disponibile a breve.</p>
           </motion.div>
         )}
       </div>
-      
+
       <div className="space-y-4">
-        <h4 className="text-lg font-semibold text-white flex items-center gap-2"><Settings2 className="text-cyan-300"/> Prepara il file</h4>
+        <h4 className="text-lg font-semibold text-white flex items-center gap-2"><Settings2 className="text-cyan-300" /> Prepara il file</h4>
         <FileUpload onFileSelect={setUploadedFile} />
         <div className="relative my-2 flex items-center justify-center"><div className="absolute w-full h-px bg-slate-700"></div><span className="relative bg-slate-900/50 px-2 text-sm text-slate-400">oppure</span></div>
-        <Button size="lg" variant="secondary" className="w-full" onClick={handleDesign}><Brush className="w-5 h-5 mr-3"/>Crea Grafica con Editor</Button>
+        <Button size="lg" variant="secondary" className="w-full" onClick={handleDesign}><Brush className="w-5 h-5 mr-3" />Crea Grafica con Editor</Button>
         <div className="text-center"><Button variant="link" onClick={handleDownloadTemplate} className="text-cyan-300"><Download className="w-4 h-4 mr-2" />Scarica template (85x210cm)</Button></div>
       </div>
-      
+
       <div className="pt-4 border-t border-slate-700 space-y-4">
         <div className="flex items-center justify-between">
           <Label className="text-lg font-semibold text-white">Quantità</Label>

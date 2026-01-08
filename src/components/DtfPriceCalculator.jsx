@@ -7,6 +7,7 @@ import { toast } from '@/components/ui/use-toast';
 import { Info, Sparkles, Plus, Minus, ThumbsUp, ShieldCheck, Download, Brush, AlertTriangle, PhoneCall } from 'lucide-react';
 import { motion } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
+import { generateLayoutPdf } from '@/lib/pdfGenerator';
 
 const DtfPriceCalculator = ({ product, onAddToCart }) => {
   const [length, setLength] = useState(100);
@@ -37,9 +38,18 @@ const DtfPriceCalculator = ({ product, onAddToCart }) => {
 
     calculatePrice();
   }, [length, hasFluo, product, quantity]);
-  
+
   const handleDownloadTemplate = () => {
-    window.open('https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/4e89e43fcab105c5328f8274eebdf53b.jpg', '_blank');
+    if (length < 50) {
+      toast({ title: "Misure non valide", description: "Imposta una lunghezza valida prima di scaricare il template.", variant: "destructive" });
+      return;
+    }
+    generateLayoutPdf({
+      type: 'dtf',
+      width: fixedWidth,
+      height: length,
+      productName: `DTF ${fixedWidth}x${length}cm`
+    });
   }
 
   const handleAddToCart = () => {
@@ -154,7 +164,7 @@ const DtfPriceCalculator = ({ product, onAddToCart }) => {
 
       <div className="space-y-4 pt-8 border-t border-fuchsia-300/20 mt-8">
         <h4 className="text-lg font-semibold text-white">Configura la tua Stampa DTF</h4>
-        
+
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label htmlFor="width" className="text-sm font-medium text-gray-300">Larghezza Bobina (fissa)</label>
@@ -178,14 +188,14 @@ const DtfPriceCalculator = ({ product, onAddToCart }) => {
             />
           </div>
         </div>
-        
-        <motion.div initial={{opacity: 0, y: -10}} animate={{opacity: 1, y: 0}} className="flex items-start space-x-2 text-cyan-200 bg-cyan-900/50 p-3 rounded-lg border border-cyan-700">
+
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-start space-x-2 text-cyan-200 bg-cyan-900/50 p-3 rounded-lg border border-cyan-700">
           <Info size={20} className="mt-0.5 shrink-0" />
           <p className="text-xs font-medium">
             Stampa su bobina di larghezza 56cm. Il file dovrà avere questa larghezza, mentre la lunghezza è personalizzabile.
           </p>
         </motion.div>
-        
+
         <div className="flex items-center justify-between bg-slate-800/50 p-3 rounded-lg">
           <label className="flex items-center space-x-3 cursor-pointer">
             <Switch
@@ -200,7 +210,7 @@ const DtfPriceCalculator = ({ product, onAddToCart }) => {
             +€{product.extras[0].price.toFixed(2)} / ml
           </span>
         </div>
-        
+
         <div className="grid grid-cols-1 gap-3 pt-2">
           <Button variant="outline" onClick={handleDesign} className="w-full bg-cyan-800/50 border-cyan-600 hover:bg-cyan-700/70 hover:border-cyan-500 text-white cursor-pointer h-12 text-md">
             <Brush className="w-5 h-5 mr-2" />
@@ -221,12 +231,12 @@ const DtfPriceCalculator = ({ product, onAddToCart }) => {
             </Button>
           </div>
         </div>
-        
+
         <div className="flex items-center justify-center space-x-2 text-green-300 bg-green-900/30 p-2 rounded-lg mt-2">
           <ShieldCheck size={16} />
           <p className="text-xs font-medium">Verifica file professionale OMAGGIO</p>
         </div>
-        
+
         <div className="flex items-center justify-center space-x-2 text-amber-300 bg-amber-900/30 p-2 rounded-lg mt-2">
           <AlertTriangle size={16} />
           <p className="text-xs font-medium">Assicurati che il file caricato non contenga contenuti protetti da copyright</p>

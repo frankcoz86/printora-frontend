@@ -10,6 +10,7 @@ import FileUpload from '@/components/FileUpload';
 import { Switch } from '@/components/ui/switch';
 import { Checkbox } from '@/components/ui/checkbox';
 import { gtmPush } from '@/lib/gtm';
+import { generateLayoutPdf } from '@/lib/pdfGenerator';
 
 const presetSizes = [
   { label: '100x70 cm', width: 100, height: 70 },
@@ -50,7 +51,7 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
 
     const areaMq = (width / 100) * (height / 100);
     const basePricePerMq = 8.90;
-    
+
     let singleBannerPrice = areaMq * basePricePerMq;
 
     if (hasReinforcement) {
@@ -60,7 +61,7 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
         singleBannerPrice += perimeterM * reinforcementExtra.price;
       }
     }
-    
+
     if (hasSleeve) {
       let sleeveLength = 0;
       if (sleevePosition.top) sleeveLength += width / 100;
@@ -125,7 +126,7 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
       toast({ title: "Misure non valide", description: "Imposta misure valide (min 50cm per lato).", variant: "destructive" });
       return;
     }
-    
+
     const selectedExtras = [];
     if (hasReinforcement) {
       const reinforcementExtra = product.extras.find(e => e.name.includes('Rinforzo'));
@@ -153,13 +154,13 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
         width_cm: width,
         height_cm: height,
       });
-    } catch (e) {}
+    } catch (e) { }
 
     navigate(`/designer/${product.type.toLowerCase()}`, {
-      state: { 
+      state: {
         designState: {
           product: product,
-          width, height, quantity, extras: selectedExtras, 
+          width, height, quantity, extras: selectedExtras,
           sleevePosition: hasSleeve ? sleevePosition : null,
           sleeveSize: hasSleeve ? sleeveSize : null,
           singleBannerPrice,
@@ -170,8 +171,17 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
   }, [navigate, product, width, height, quantity, hasReinforcement, hasEyelets, hasSleeve, sleevePosition, sleeveSize, singleBannerPrice, totalPrice]);
 
   const handleDownloadStaticTemplate = useCallback(() => {
-    window.open('https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/42627898b438ffc0256b26129a03dbfe.jpg', '_blank');
-  }, []);
+    if (width < 50 || height < 50) {
+      toast({ title: "Misure non valide", description: "Imposta misure valide prima di scaricare il template.", variant: "destructive" });
+      return;
+    }
+    generateLayoutPdf({
+      type: 'banner',
+      width: width,
+      height: height,
+      productName: product.name
+    });
+  }, [width, height, product]);
 
   const handleAddToCart = useCallback(() => {
     if (width < 50 || height < 50) {
@@ -187,7 +197,7 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
       toast({ title: "Selezione incompleta", description: "Seleziona almeno un lato per l'asola.", variant: "destructive" });
       return;
     }
-    
+
     const selectedExtras = [];
     if (hasReinforcement) {
       const reinforcementExtra = product.extras.find(e => e.name.includes('Rinforzo'));
@@ -221,7 +231,7 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
       type: 'banner',
       weight: product.weight || 1,
     };
-    
+
     const itemDetails = {
       dimensions: `${width}cm x ${height}cm`,
       area: (width / 100) * (height / 100),
@@ -250,7 +260,7 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
       fileName: uploadedFile?.name,
       fileUrl: uploadedFile?.url,
     };
-    
+
     onAddToCart({
       product: productForCart,
       quantity,
@@ -282,7 +292,7 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
 
   const reinforcementExtra = product.extras.find(e => e.name.includes('Rinforzo'));
   const isDesigned = uploadedFile && uploadedFile.name?.startsWith('design_');
-  
+
   const handleSleevePositionChange = (position) => {
     setSleevePosition(prev => ({ ...prev, [position]: !prev[position] }));
   };
@@ -301,7 +311,7 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <h4 className="text-lg font-semibold text-white flex items-center gap-2"><Settings2 className="text-emerald-300"/> Configura il tuo Banner</h4>
+        <h4 className="text-lg font-semibold text-white flex items-center gap-2"><Settings2 className="text-emerald-300" /> Configura il tuo Banner</h4>
         <div className="flex flex-wrap gap-2">
           {presetSizes.map(p => <Button key={p.label} variant="outline" size="sm" onClick={() => applyPreset(p)}>{p.label}</Button>)}
         </div>
@@ -316,7 +326,7 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
           </div>
         </div>
         {weldingInfo && (
-          <motion.div initial={{opacity: 0, y: -10}} animate={{opacity: 1, y: 0}} className="flex items-start text-cyan-200 bg-cyan-900/50 p-3 rounded-lg border border-cyan-700 gap-2">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-start text-cyan-200 bg-cyan-900/50 p-3 rounded-lg border border-cyan-700 gap-2">
             <Info size={20} className="mt-0.5 shrink-0" />
             <p className="text-xs font-medium">{weldingInfo}</p>
           </motion.div>
@@ -357,7 +367,7 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
             )}
           </div>
         </div>
-        
+
         <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
           <div className="flex items-center justify-between">
             <Label className="font-semibold text-base">Finiture Speciali</Label>
@@ -393,13 +403,13 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
                     </div>
                     <div>
                       <Label htmlFor="sleeveSize" className="text-xs text-slate-400">Dimensione asola (1-10 cm)</Label>
-                      <Input 
-                        id="sleeveSize" 
-                        type="number" 
-                        value={sleeveSize} 
+                      <Input
+                        id="sleeveSize"
+                        type="number"
+                        value={sleeveSize}
                         onChange={handleSleeveSizeChange}
-                        min="1" 
-                        max="10" 
+                        min="1"
+                        max="10"
                         className="mt-1"
                       />
                     </div>
@@ -418,11 +428,11 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
           <div className="absolute w-full h-px bg-slate-700"></div><span className="relative bg-slate-900/50 px-2 text-sm text-slate-400">oppure</span>
         </div>
         <Button size="lg" variant={uploadedFile?.name?.startsWith('design_') ? 'default' : 'secondary'} className="w-full" onClick={handleDesign}>
-          {uploadedFile?.name?.startsWith('design_') ? <><CheckCircle className="w-5 h-5 mr-3 text-emerald-300"/>Grafica Pronta</> : <><Brush className="w-5 h-5 mr-3"/>Crea Grafica con Editor</>}
+          {uploadedFile?.name?.startsWith('design_') ? <><CheckCircle className="w-5 h-5 mr-3 text-emerald-300" />Grafica Pronta</> : <><Brush className="w-5 h-5 mr-3" />Crea Grafica con Editor</>}
         </Button>
         <div className="text-center"><Button variant="link" onClick={handleDownloadStaticTemplate} className="text-emerald-300"><Download className="w-4 h-4 mr-2" />Scarica template</Button></div>
       </div>
-       
+
       <div className="space-y-4 pt-4 border-t border-slate-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">

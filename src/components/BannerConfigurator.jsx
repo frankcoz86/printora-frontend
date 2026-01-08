@@ -8,6 +8,7 @@ import { Info, Plus, Minus, ThumbsUp, ShieldCheck, Download, Brush, Settings2, C
 import { motion } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
 import { gtmPush } from '@/lib/gtm';
+import { generateLayoutPdf } from '@/lib/pdfGenerator';
 
 const presetSizes = [
   { label: '300x100 cm', width: 300, height: 100 },
@@ -38,7 +39,7 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
     const areaMq = (width / 100) * (height / 100);
     const perimeterM = ((width / 100) + (height / 100)) * 2;
     const basePricePerMq = 8.90;
-    
+
     let singleBannerPrice = areaMq * basePricePerMq;
 
     let productionNotes = [];
@@ -52,7 +53,7 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
         singleBannerPrice += perimeterM * reinforcementExtra.price;
       }
     }
-    
+
     const sleeveExtra = product.extras.find(e => e.name.includes('Asola'));
     let sleeveNoteParts = [];
     let sleeveLengthM = 0;
@@ -142,7 +143,7 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
         width_cm: width,
         height_cm: height,
       });
-    } catch (e) {}
+    } catch (e) { }
 
     navigate(`/designer/${product.type.toLowerCase()}`, {
       state: {
@@ -155,8 +156,17 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
   }, [navigate, product, width, height, quantity, hasReinforcement, hasEyelets, sleeveSides]);
 
   const handleDownloadStaticTemplate = useCallback(() => {
-    window.open('https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/42627898b438ffc0256b26129a03dbfe.jpg', '_blank');
-  }, []);
+    if (width < 50 || height < 50) {
+      toast({ title: "Misure non valide", description: "Imposta misure valide prima di scaricare il template.", variant: "destructive" });
+      return;
+    }
+    generateLayoutPdf({
+      type: 'banner',
+      width: width,
+      height: height,
+      productName: product.name
+    });
+  }, [width, height, product]);
 
   const handleAddToCart = useCallback(() => {
     if (width < 50 || height < 50) {
@@ -249,7 +259,7 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <h4 className="text-lg font-semibold text-white flex items-center gap-2"><Settings2 className="text-emerald-300"/> Configura il tuo Banner</h4>
+        <h4 className="text-lg font-semibold text-white flex items-center gap-2"><Settings2 className="text-emerald-300" /> Configura il tuo Banner</h4>
         <div className="flex flex-wrap gap-2">
           {presetSizes.map(p => (
             <motion.button
@@ -268,15 +278,15 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
         <div className="grid grid-cols-2 gap-4 pt-2">
           <div>
             <Label htmlFor="width">Larghezza (cm)</Label>
-            <Input id="width" type="number" value={width} onChange={(e) => setWidth(Number(e.target.value))} min="50" className="bg-slate-700 border-slate-600"/>
+            <Input id="width" type="number" value={width} onChange={(e) => setWidth(Number(e.target.value))} min="50" className="bg-slate-700 border-slate-600" />
           </div>
           <div>
             <Label htmlFor="height">Altezza (cm)</Label>
-            <Input id="height" type="number" value={height} onChange={(e) => setHeight(Number(e.target.value))} min="50" max={MAX_HEIGHT_CONTINUOUS} className="bg-slate-700 border-slate-600"/>
+            <Input id="height" type="number" value={height} onChange={(e) => setHeight(Number(e.target.value))} min="50" max={MAX_HEIGHT_CONTINUOUS} className="bg-slate-700 border-slate-600" />
           </div>
         </div>
         {weldingInfo && (
-          <motion.div initial={{opacity: 0, y: -10}} animate={{opacity: 1, y: 0}} className="flex items-start text-cyan-200 bg-cyan-900/50 p-3 rounded-lg border border-cyan-700 gap-2">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-start text-cyan-200 bg-cyan-900/50 p-3 rounded-lg border border-cyan-700 gap-2">
             <Info size={20} className="mt-0.5 shrink-0" />
             <p className="text-xs font-medium">{weldingInfo}</p>
           </motion.div>
@@ -284,14 +294,14 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
       </div>
 
       <div className="space-y-3 bg-slate-800/50 p-4 rounded-lg border border-slate-700">
-        <h4 className="text-lg font-semibold text-white flex items-center gap-2"><Wind className="text-blue-300"/> Finiture</h4>
+        <h4 className="text-lg font-semibold text-white flex items-center gap-2"><Wind className="text-blue-300" /> Finiture</h4>
         <div className="space-y-2">
           <label className="flex items-center justify-between cursor-pointer">
-            <span className="text-sm text-gray-200 flex items-center gap-2"><Eye size={16}/>Occhielli metallici ogni 50cm (standard professionale, inclusi)</span>
+            <span className="text-sm text-gray-200 flex items-center gap-2"><Eye size={16} />Occhielli metallici ogni 50cm (standard professionale, inclusi)</span>
             <input type="checkbox" checked={hasEyelets} onChange={() => setHasEyelets(p => !p)} className="w-4 h-4 text-emerald-400 rounded-sm focus:ring-emerald-400 bg-slate-700 border-slate-500" />
           </label>
           {!hasEyelets && (
-            <motion.div initial={{opacity: 0, y: -10}} animate={{opacity: 1, y: 0}} className="flex items-start text-amber-200 bg-amber-900/50 p-3 rounded-lg border border-amber-700 gap-2">
+            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-start text-amber-200 bg-amber-900/50 p-3 rounded-lg border border-amber-700 gap-2">
               <Scissors size={20} className="mt-0.5 shrink-0" />
               <p className="text-xs font-medium">Il banner verrà fornito senza occhielli, solo tagliato a misura.</p>
             </motion.div>
@@ -304,23 +314,23 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
           )}
           {sleeveExtra && (
             <div className="space-y-2 pt-2">
-              <span className="text-sm text-gray-200 flex items-center gap-2"><Pocket size={16}/>Asola per tubo/palo (+€{sleeveExtra.price.toFixed(2)}/ml)</span>
+              <span className="text-sm text-gray-200 flex items-center gap-2"><Pocket size={16} />Asola per tubo/palo (+€{sleeveExtra.price.toFixed(2)}/ml)</span>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" checked={sleeveSides.top} onChange={() => handleSleeveSideChange('top')} className="w-4 h-4 text-emerald-400 rounded-sm focus:ring-emerald-400 bg-slate-700 border-slate-500"/>
-                  <ArrowUp size={14}/> Superiore
+                  <input type="checkbox" checked={sleeveSides.top} onChange={() => handleSleeveSideChange('top')} className="w-4 h-4 text-emerald-400 rounded-sm focus:ring-emerald-400 bg-slate-700 border-slate-500" />
+                  <ArrowUp size={14} /> Superiore
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" checked={sleeveSides.bottom} onChange={() => handleSleeveSideChange('bottom')} className="w-4 h-4 text-emerald-400 rounded-sm focus:ring-emerald-400 bg-slate-700 border-slate-500"/>
-                  <ArrowDown size={14}/> Inferiore
+                  <input type="checkbox" checked={sleeveSides.bottom} onChange={() => handleSleeveSideChange('bottom')} className="w-4 h-4 text-emerald-400 rounded-sm focus:ring-emerald-400 bg-slate-700 border-slate-500" />
+                  <ArrowDown size={14} /> Inferiore
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" checked={sleeveSides.left} onChange={() => handleSleeveSideChange('left')} className="w-4 h-4 text-emerald-400 rounded-sm focus:ring-emerald-400 bg-slate-700 border-slate-500"/>
-                  <ArrowLeft size={14}/> Sinistro
+                  <input type="checkbox" checked={sleeveSides.left} onChange={() => handleSleeveSideChange('left')} className="w-4 h-4 text-emerald-400 rounded-sm focus:ring-emerald-400 bg-slate-700 border-slate-500" />
+                  <ArrowLeft size={14} /> Sinistro
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" checked={sleeveSides.right} onChange={() => handleSleeveSideChange('right')} className="w-4 h-4 text-emerald-400 rounded-sm focus:ring-emerald-400 bg-slate-700 border-slate-500"/>
-                  <ArrowRight size={14}/> Destro
+                  <input type="checkbox" checked={sleeveSides.right} onChange={() => handleSleeveSideChange('right')} className="w-4 h-4 text-emerald-400 rounded-sm focus:ring-emerald-400 bg-slate-700 border-slate-500" />
+                  <ArrowRight size={14} /> Destro
                 </label>
               </div>
             </div>
@@ -335,11 +345,11 @@ const BannerConfigurator = ({ product, onAddToCart }) => {
           <div className="absolute w-full h-px bg-slate-700"></div><span className="relative bg-slate-900/50 px-2 text-sm text-slate-400">oppure</span>
         </div>
         <Button size="lg" variant={isDesigned ? 'default' : 'secondary'} className="w-full" onClick={handleDesign}>
-          {isDesigned ? <><CheckCircle className="w-5 h-5 mr-3 text-emerald-300"/>Grafica Pronta</> : <><Brush className="w-5 h-5 mr-3"/>Crea Grafica con Editor</>}
+          {isDesigned ? <><CheckCircle className="w-5 h-5 mr-3 text-emerald-300" />Grafica Pronta</> : <><Brush className="w-5 h-5 mr-3" />Crea Grafica con Editor</>}
         </Button>
         <div className="text-center"><Button variant="link" onClick={handleDownloadStaticTemplate} className="text-emerald-300"><Download className="w-4 h-4 mr-2" />Scarica template</Button></div>
       </div>
-       
+
       <div className="space-y-4 pt-4 border-t border-slate-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
