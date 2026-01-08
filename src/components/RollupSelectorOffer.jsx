@@ -19,6 +19,7 @@ import { toast } from '@/components/ui/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
 import { gtmPush } from '@/lib/gtm';
+import { generateLayoutPdf } from '@/lib/pdfGenerator';
 
 const RollupSelectorOffer = ({ product, onAddToCart }) => {
   const [selectedFormat, setSelectedFormat] = useState(product.formats[0]);
@@ -45,7 +46,7 @@ const RollupSelectorOffer = ({ product, onAddToCart }) => {
         editor_product: 'rollup',
         variant: selectedFormat.name,
       });
-    } catch (e) {}
+    } catch (e) { }
     navigate(`/designer/${product.type.toLowerCase()}`, {
       state: {
         designState: {
@@ -65,11 +66,14 @@ const RollupSelectorOffer = ({ product, onAddToCart }) => {
   }, [navigate, product, selectedFormat, quantity]);
 
   const handleDownloadTemplate = useCallback(() => {
-    window.open(
-      'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/71d773658a66ca29a8d97477074601e6.jpg',
-      '_blank'
-    );
-  }, []);
+    const [width, height] = selectedFormat.label.split('x').map(dim => parseInt(dim.trim(), 10));
+    generateLayoutPdf({
+      type: 'rollup',
+      width: width,
+      height: height,
+      productName: `Roll-up ${selectedFormat.label}`
+    });
+  }, [selectedFormat]);
 
   const handleAddToCart = useCallback(() => {
     if (selectedFormat.available === false) {
@@ -112,12 +116,12 @@ const RollupSelectorOffer = ({ product, onAddToCart }) => {
       printFiles: [
         uploadedFile?.driveFileId
           ? {
-              kind: 'client-upload',
-              driveFileId: uploadedFile.driveFileId,
-              fileName: uploadedFile.name,
-              mimeType: uploadedFile.mimeType,
-              size: uploadedFile.size,
-            }
+            kind: 'client-upload',
+            driveFileId: uploadedFile.driveFileId,
+            fileName: uploadedFile.name,
+            mimeType: uploadedFile.mimeType,
+            size: uploadedFile.size,
+          }
           : null,
       ].filter(Boolean),
 
@@ -158,11 +162,10 @@ const RollupSelectorOffer = ({ product, onAddToCart }) => {
               key={format.label}
               variant={selectedFormat.label === format.label ? 'default' : 'outline'}
               onClick={() => setSelectedFormat(format)}
-              className={`w-full h-auto py-3 px-2 text-center transition-all duration-300 group ${
-                selectedFormat.label === format.label
+              className={`w-full h-auto py-3 px-2 text-center transition-all duration-300 group ${selectedFormat.label === format.label
                   ? 'bg-cyan-500 border-cyan-400 text-white shadow-lg shadow-cyan-500/20 scale-105'
                   : 'bg-slate-800/50 border-slate-600 hover:bg-slate-700/70 hover:border-cyan-500'
-              }`}
+                }`}
             >
               <div className="flex flex-col items-center">
                 <span className="font-bold text-base">{format.label}</span>

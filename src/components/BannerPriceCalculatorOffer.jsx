@@ -10,6 +10,7 @@ import FileUpload from '@/components/FileUpload';
 import { Switch } from '@/components/ui/switch';
 import { Checkbox } from '@/components/ui/checkbox';
 import { gtmPush } from '@/lib/gtm';
+import { generateLayoutPdf } from '@/lib/pdfGenerator';
 
 const presetSizes = [
   { label: '100x70 cm', width: 100, height: 70 },
@@ -186,11 +187,17 @@ const BannerPriceCalculatorOffer = ({ product, onAddToCart }) => {
   }, [navigate, product, width, height, quantity, hasReinforcement, hasEyelets, hasSleeve, sleevePosition, sleeveSize, singleBannerPrice, totalPrice]);
 
   const handleDownloadStaticTemplate = useCallback(() => {
-    window.open(
-      'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/42627898b438ffc0256b26129a03dbfe.jpg',
-      '_blank'
-    );
-  }, []);
+    if (width < 50 || height < 50) {
+      toast({ title: "Misure non valide", description: "Imposta misure valide prima di scaricare il template.", variant: "destructive" });
+      return;
+    }
+    generateLayoutPdf({
+      type: 'banner',
+      width: width,
+      height: height,
+      productName: product.name
+    });
+  }, [width, height, product]);
 
   const handleAddToCart = useCallback(() => {
     if (width < 50 || height < 50) {
@@ -272,14 +279,14 @@ const BannerPriceCalculatorOffer = ({ product, onAddToCart }) => {
       printFiles:
         uploadedFile && uploadedFile.driveFileId
           ? [
-              {
-                kind: 'client-upload',
-                driveFileId: uploadedFile.driveFileId,
-                fileName: uploadedFile.name,
-                mimeType: uploadedFile.mimeType,
-                size: uploadedFile.size,
-              },
-            ]
+            {
+              kind: 'client-upload',
+              driveFileId: uploadedFile.driveFileId,
+              fileName: uploadedFile.name,
+              mimeType: uploadedFile.mimeType,
+              size: uploadedFile.size,
+            },
+          ]
           : [],
       fileName: uploadedFile ? uploadedFile.name : undefined,
       fileUrl: uploadedFile ? uploadedFile.url : undefined,
@@ -485,10 +492,10 @@ const BannerPriceCalculatorOffer = ({ product, onAddToCart }) => {
                               {pos === 'top'
                                 ? 'Alto'
                                 : pos === 'bottom'
-                                ? 'Basso'
-                                : pos === 'left'
-                                ? 'Sinistra'
-                                : 'Destra'}
+                                  ? 'Basso'
+                                  : pos === 'left'
+                                    ? 'Sinistra'
+                                    : 'Destra'}
                             </span>
                           </label>
                         ))}

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import FileUpload from '@/components/FileUpload';
+import { generateLayoutPdf } from '@/lib/pdfGenerator';
 
 const DtfPriceCalculatorOffer = ({ product, onAddToCart }) => {
   const [length, setLength] = useState(100);
@@ -53,10 +54,16 @@ const DtfPriceCalculatorOffer = ({ product, onAddToCart }) => {
   const savings = Math.max(0, originalTotalPrice - totalPrice);
 
   const handleDownloadTemplate = () => {
-    window.open(
-      'https://horizons-cdn.hostinger.com/fcf1aeaa-652d-41d1-a139-cd99c925f878/4e89e43fcab105c5328f8274eebdf53b.jpg',
-      '_blank'
-    );
+    if (length < 50) {
+      toast({ title: "Misure non valide", description: "Imposta una lunghezza valida prima di scaricare il template.", variant: "destructive" });
+      return;
+    }
+    generateLayoutPdf({
+      type: 'dtf',
+      width: fixedWidth,
+      height: length,
+      productName: `DTF ${fixedWidth}x${length}cm`
+    });
   };
 
   const handleAddToCart = () => {
@@ -110,12 +117,12 @@ const DtfPriceCalculatorOffer = ({ product, onAddToCart }) => {
       printFiles: [
         uploadedFile?.driveFileId
           ? {
-              kind: 'client-upload',
-              driveFileId: uploadedFile.driveFileId,
-              fileName: uploadedFile.name,
-              mimeType: uploadedFile.mimeType,
-              size: uploadedFile.size,
-            }
+            kind: 'client-upload',
+            driveFileId: uploadedFile.driveFileId,
+            fileName: uploadedFile.name,
+            mimeType: uploadedFile.mimeType,
+            size: uploadedFile.size,
+          }
           : null,
       ].filter(Boolean),
 
