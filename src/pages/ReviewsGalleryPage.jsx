@@ -264,9 +264,6 @@ const ReviewsGalleryPage = () => {
                 </AnimatePresence>
 
                 <div className="mt-6 flex items-center justify-between gap-4">
-                  <p className="text-[11px] text-slate-400 max-w-xs">
-                    Suggerimento: usa questa sezione nelle tue campagne per rassicurare subito i nuovi clienti.
-                  </p>
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
