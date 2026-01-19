@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Wind } from 'lucide-react';
 import { products } from '@/data/products';
 import BannerPriceCalculatorOffer from '@/components/BannerPriceCalculatorOffer';
+import ProductGallery from '@/components/ProductGallery';
 import Loader from '@/components/Loader';
 
 const Faq = lazy(() => import('@/components/Faq'));
@@ -15,7 +16,7 @@ const Testimonials = lazy(() => import('@/components/Testimonials'));
 const BannerPage = ({ heroTitle, heroSubtitle }) => {
     const { cartHook } = useOutletContext();
     const { addToCart } = cartHook;
-    
+
     const bannerProduct = products.find(p => p.type === 'banner');
 
     if (!bannerProduct) {
@@ -55,45 +56,46 @@ const BannerPage = ({ heroTitle, heroSubtitle }) => {
                                     Utilizziamo solo PVC da 510gr di alta qualità, stampato con inchiostri ecosolventi che garantiscono colori vividi e una resistenza eccezionale agli agenti atmosferici e ai raggi UV. Perfetto per interni ed esterni.
                                 </p>
                             </div>
-                            <img  class="rounded-2xl shadow-2xl w-full h-auto border-4 border-slate-800" alt="Striscione promozionale in PVC con logo in un contesto urbano per eventi o pubblicità" src="/assets/banner2.png" />
+                            <img class="rounded-2xl shadow-2xl w-full h-auto border-4 border-slate-800" alt="Striscione promozionale in PVC con logo in un contesto urbano per eventi o pubblicità" src="/assets/banner2.png" />
                             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
                                 <h3 className="text-xl font-bold text-white mb-3">Il Tuo Messaggio, Ovunque</h3>
                                 <p className="text-gray-400">
                                     Dai cantieri alle fiere, dagli eventi sportivi alle promozioni in negozio, i nostri banner sono lo strumento perfetto per catturare l'attenzione. Grazie alla loro versatilità, puoi installarli facilmente su recinzioni, ponteggi, pareti o transenne, garantendo massima visibilità al tuo brand.
                                 </p>
                             </div>
-                            <img  class="rounded-2xl shadow-2xl w-full h-auto border-4 border-slate-800" alt="Banner PVC 510g occhiellato su recinzione, con dettagli su stampa HD, occhielli inclusi e prezzo promozionale." src="/assets/banner3.png" />
+                            <img class="rounded-2xl shadow-2xl w-full h-auto border-4 border-slate-800" alt="Banner PVC 510g occhiellato su recinzione, con dettagli su stampa HD, occhielli inclusi e prezzo promozionale." src="/assets/banner3.png" />
                         </motion.div>
                         <div className="sticky top-24">
-                           <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: "easeOut" }}>
-                             <div className="bg-slate-900/50 p-6 md:p-8 rounded-2xl border border-slate-700 shadow-2xl shadow-black/30">
-                                <h2 className="text-3xl font-bold text-white mb-2">{bannerProduct.name}</h2>
-                                <p className="text-emerald-300 font-semibold text-lg mb-4">PROMO a partire da €{bannerProduct.price.toFixed(2)}/mq</p>
-                                <p className="text-gray-300 mb-6">{bannerProduct.description}</p>
-                                <ul className="space-y-2 text-sm text-gray-300 mb-6">
-                                    {bannerProduct.features.map((feature, index) => (
-                                        <li key={index} className="flex items-start">
-                                            <Wind className="w-4 h-4 mr-2 mt-1 shrink-0 text-emerald-400" />
-                                            <span>{feature}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                                <div className="mb-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-3 text-left">
-                                    <p className="text-xs font-semibold tracking-[0.18em] text-emerald-300 uppercase">
-                                        Configura e ordina in autonomia
-                                    </p>
-                                    <p className="mt-1 text-sm text-gray-200">
-                                        Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: l'editor ti mostra subito il costo finale mentre personalizzi il tuo striscione.
-                                    </p>
+                            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: "easeOut" }}>
+                                <div className="bg-slate-900/50 p-6 md:p-8 rounded-2xl border border-slate-700 shadow-2xl shadow-black/30">
+                                    <h2 className="text-3xl font-bold text-white mb-2">{bannerProduct.name}</h2>
+                                    <p className="text-emerald-300 font-semibold text-lg mb-4">PROMO a partire da €{bannerProduct.price.toFixed(2)}/mq</p>
+                                    <p className="text-gray-300 mb-6">{bannerProduct.description}</p>
+                                    <ul className="space-y-2 text-sm text-gray-300 mb-6">
+                                        {bannerProduct.features.map((feature, index) => (
+                                            <li key={index} className="flex items-start">
+                                                <Wind className="w-4 h-4 mr-2 mt-1 shrink-0 text-emerald-400" />
+                                                <span>{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <div className="mb-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-3 text-left">
+                                        <p className="text-xs font-semibold tracking-[0.18em] text-emerald-300 uppercase">
+                                            Configura e ordina in autonomia
+                                        </p>
+                                        <p className="mt-1 text-sm text-gray-200">
+                                            Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: l'editor ti mostra subito il costo finale mentre personalizzi il tuo striscione.
+                                        </p>
+                                    </div>
+                                    <BannerPriceCalculatorOffer product={bannerProduct} onAddToCart={addToCart} />
                                 </div>
-                                <BannerPriceCalculatorOffer product={bannerProduct} onAddToCart={addToCart} />
-                             </div>
-                           </motion.div>
+                            </motion.div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
+            <ProductGallery productType="banner" />
             <WhyChooseUs />
             <WhyBetter />
             <Testimonials />
