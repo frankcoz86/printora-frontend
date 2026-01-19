@@ -3,26 +3,26 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Quote, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
 const reviews = [
-  { name: 'Giovanni Rossi', comment: 'Avevo dubbi sulla qualità, ma il risultato è stato eccezionale! Consigliato.' },
-  { name: 'Francesca Bianchi', comment: 'Servizio clienti rapido e professionale. Mi hanno aiutata in ogni fase.' },
-  { name: 'Luca Moretti', comment: 'Temevo tempi di consegna lunghi, invece tutto è arrivato puntuale.' },
-  { name: 'Martina Romano', comment: 'La stampa è resistente e i colori sono vivaci. Ottimo lavoro!' },
-  { name: 'Alessandro Greco', comment: 'Prezzi trasparenti e nessuna sorpresa al pagamento. Affidabili.' },
-  { name: 'Chiara Esposito', comment: 'Avevo paura che la grafica non fosse perfetta, invece è precisa.' },
-  { name: 'Paolo Conti', comment: 'Facile ordinare online, sito intuitivo e veloce.' },
-  { name: 'Giulia Ricci', comment: 'Mi hanno seguito passo passo, consigliando le scelte migliori.' },
-  { name: 'Marco De Luca', comment: 'Ottima comunicazione e aggiornamenti costanti sul mio ordine.' },
-  { name: 'Elena Gallo', comment: 'Temevo che la spedizione fosse lenta, invece è stata velocissima.' },
-  { name: 'Davide Ferrara', comment: 'Il supporto WhatsApp è stato fondamentale per risolvere i miei dubbi.' },
-  { name: 'Sara Marchetti', comment: 'Materiali di qualità superiore rispetto ad altri servizi provati.' },
-  { name: 'Simone Barbieri', comment: 'Mi hanno rassicurato sulla sicurezza del pagamento. Tutto ok.' },
-  { name: 'Valentina Fontana', comment: 'Avevo bisogno di una stampa urgente, sono stati rapidissimi.' },
-  { name: 'Matteo Sanna', comment: 'Molto soddisfatto della resa finale, superano le aspettative.' },
-  { name: 'Alessia Rizzo', comment: 'Temevo che il colore non fosse fedele, invece è perfetto.' },
-  { name: 'Giorgio Serra', comment: 'Ottimo rapporto qualità/prezzo, consigliato a tutti.' },
-  { name: 'Ilaria Basile', comment: 'Risposte veloci e precise ad ogni domanda.' },
-  { name: 'Federico Grassi', comment: 'Avevo paura di errori, ma il controllo file è stato accurato.' },
-  { name: 'Laura Mancini', comment: 'Il risultato finale è stato superiore alle mie aspettative.' },
+  { name: 'Matteo R.', role: 'Graphic Designer', comment: 'Cercavo un ciano che fosse davvero ciano. Con la stampa DTF di Printora ho finalmente trovato la fedeltà cromatica che serve ai miei progetti.' },
+  { name: 'Sofia V.', role: 'Wedding Planner', comment: 'I banner per il matrimonio sono arrivati in 24h, salvando l\'allestimento. Qualità del PVC robusta e stampa nitidissima.' },
+  { name: 'Davide B.', role: 'Titolare Ristorante', comment: 'Menu e tovagliette stampati alla perfezione. Il supporto WhatsApp mi ha consigliato la carta antimacchia giusta. Servizio top.' },
+  { name: 'Giulia M.', role: 'Illustratrice', comment: 'Stampare le mie art print su tessuto mi preoccupava. Invece i dettagli sono rimasti incredibili, anche le linee più sottili.' },
+  { name: 'Alessandro C.', role: 'Marketing Manager', comment: 'Gestiamo fiere in tutta Italia e i Roll-up di Printora sono una garanzia. Solidi, facili da montare e spedizione sempre puntuale.' },
+  { name: 'Elena G.', role: 'Etsy Shop Owner', comment: 'Le t-shirt personalizzate sono morbidissime, la stampa si fonde col tessuto. I miei clienti adorano la qualità premium.' },
+  { name: 'Marco T.', role: 'Organizzatore Eventi', comment: 'Hanno gestito un ordine urgente di 500 gadget senza battere ciglio. Arrivati prima del previsto e packaging perfetto.' },
+  { name: 'Francesca P.', role: 'Architetto', comment: 'La precisione del taglio sui pannelli rigidi è millimetrica. Ottimo per i miei plastici e presentazioni di progetto.' },
+  { name: 'Luca S.', role: 'Presidente ASD', comment: 'Maglie tecniche per la squadra stampate benissimo. Hanno resistito a tutta la stagione di lavaggi intensi.' },
+  { name: 'Valentina N.', role: 'Visual Merchandiser', comment: 'Le vetrofanie sono brillanti e facili da applicare. Hanno cambiato faccia al negozio con una spesa contenuta.' },
+  { name: 'Giovanni L.', role: 'Proprietario Palestra', comment: 'Banner in PVC per l\'esterno resistenti a sole e pioggia da 6 mesi. Ancora come nuovi. Consigliatissimi.' },
+  { name: 'Chiara F.', role: 'Fashion Designer', comment: 'Il bianco del DTF è coprente e non crepa. Fondamentale per la mia linea di streetwear su fondi scuri.' },
+  { name: 'Roberto D.', role: 'Agenzia Pubblicitaria', comment: 'Partner affidabile per il B2B. Prezzi trasparenti e gestione file impeccabile. Mai un errore in 2 anni.' },
+  { name: 'Serena A.', role: 'Fotografa', comment: 'Ho stampato una gigantografia su pannello. Resa dei neri profonda e nessun banding visibile. Qualità museale.' },
+  { name: 'Andrea M.', role: 'Startupper', comment: 'Tutto il kit fiera (biglietti, roll-up, desk) fatto con loro. Immagine coordinata perfetta e budget rispettato.' },
+  { name: 'Laura B.', role: 'Event Manager', comment: 'La possibilità di verifica file gratuita è una salvezza. Mi hanno corretto un font mancante che avrebbe rovinato tutto.' },
+  { name: 'Fabio R.', role: 'Musicista', comment: 'Merchandising per il tour stampato al volo. Magliette e cappellini di qualità superiore a quelli delle major.' },
+  { name: 'Martina S.', role: 'Interior Designer', comment: 'Carta da parati personalizzata stampata con definizione eccezionale. Rende l\'ambiente unico.' },
+  { name: 'Stefano P.', role: 'Gestore Hotel', comment: 'Segnaletica interna ed esterna rifatta a nuovo. Materiali eleganti che durano nel tempo.' },
+  { name: 'Elisa K.', role: 'Artigiana', comment: 'Le etichette per i miei prodotti sono nitide e adesive al punto giusto. Danno quel tocco pro che mancava.' },
 ];
 
 const galleryItems = [
@@ -327,8 +327,8 @@ const ReviewsGalleryPage = () => {
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-white">{currentReview.name}</p>
-                          <p className="text-[11px] uppercase tracking-[0.16em] text-slate-400">
-                            Cliente soddisfatto
+                          <p className="text-[11px] uppercase tracking-[0.16em] text-cyan-200">
+                            {currentReview.role}
                           </p>
                         </div>
                       </div>
@@ -419,7 +419,7 @@ const ReviewsGalleryPage = () => {
                     <div className="space-y-1">
                       <p className="text-sm font-semibold text-white">{review.name}</p>
                       <p className="text-[11px] uppercase tracking-[0.16em] text-emerald-300">
-                        Cliente verificato
+                        {review.role}
                       </p>
                     </div>
                     <div className="flex items-center gap-0.5 text-yellow-300">
@@ -438,10 +438,10 @@ const ReviewsGalleryPage = () => {
               </motion.div>
             ))}
           </div>
-        </section>
+        </section >
 
         {/* Gallery of previous work */}
-        <section className="relative py-14">
+        < section className="relative py-14" >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 md:mb-8">
             <div className="space-y-2">
               <h2 className="text-2xl md:text-3xl font-bold text-white">
@@ -512,10 +512,10 @@ const ReviewsGalleryPage = () => {
               ))}
             </div>
           </div>
-        </section>
+        </section >
 
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 
