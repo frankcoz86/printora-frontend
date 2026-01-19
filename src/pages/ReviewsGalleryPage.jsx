@@ -27,67 +27,67 @@ const reviews = [
 
 const galleryItems = [
   {
-    src: '/assets/reviews/dtf.png',
+    src: '/assets/reviews/dtf.webp',
     title: 'Stampa DTF alta qualità',
     tag: 'DTF & Tessile',
   },
   {
-    src: '/assets/reviews/porchetta-cappellino.png',
+    src: '/assets/reviews/porchetta-cappellino.webp',
     title: 'Gadget personalizzati',
     tag: 'Gadget',
   },
   {
-    src: '/assets/reviews/giardiniere-verticale.png',
+    src: '/assets/reviews/giardiniere-verticale.webp',
     title: 'Il Giardiniere - Roll-up',
     tag: 'Espositori',
   },
   {
-    src: '/assets/reviews/dtf-2.png',
+    src: '/assets/reviews/dtf-2.webp',
     title: 'Dettaglio stampa su tessuto',
     tag: 'Abbigliamento',
   },
   {
-    src: '/assets/reviews/il-giardiniere.png',
+    src: '/assets/reviews/il-giardiniere.webp',
     title: 'Il Giardiniere - Branding',
     tag: 'Brand Identity',
   },
   {
-    src: '/assets/reviews/gruppo-giva-verticale.png',
+    src: '/assets/reviews/gruppo-giva-verticale.webp',
     title: 'Gruppo Giva - Banner',
     tag: 'Grande Formato',
   },
   {
-    src: '/assets/reviews/dtf-4.png',
+    src: '/assets/reviews/dtf-4.webp',
     title: 'Personalizzazione T-shirt',
     tag: 'DTF Custom',
   },
   {
-    src: '/assets/reviews/final-project.png',
+    src: '/assets/reviews/final-project.webp',
     title: 'Progetto completato',
     tag: 'Merchandising',
   },
   {
-    src: '/assets/reviews/trovato-verticale.png',
+    src: '/assets/reviews/trovato-verticale.webp',
     title: 'Trovato - Espositore',
     tag: 'Advertising',
   },
   {
-    src: '/assets/reviews/gruppo-giva.png',
+    src: '/assets/reviews/gruppo-giva.webp',
     title: 'Gruppo Giva - Logo',
     tag: 'Stampa Digitale',
   },
   {
-    src: '/assets/reviews/il-meglio-della-porchetta.png',
+    src: '/assets/reviews/il-meglio-della-porchetta.webp',
     title: 'Il Meglio della Porchetta',
     tag: 'Allestimento Food',
   },
   {
-    src: '/assets/reviews/la-flo.png',
+    src: '/assets/reviews/la-flo.webp',
     title: 'La Flo - Insegna',
     tag: 'Insegne',
   },
   {
-    src: '/assets/reviews/trovato.png',
+    src: '/assets/reviews/trovato.webp',
     title: 'Trovato - Branding',
     tag: 'Visual Identity',
   },
