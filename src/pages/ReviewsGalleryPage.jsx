@@ -416,12 +416,16 @@ const ReviewsGalleryPage = () => {
                   transition={{ duration: 0.5, delay: idx * 0.05 }}
                   whileHover={{ y: -6 }}
                 >
-                  <img
-                    src={item.src}
-                    alt={item.title}
-                    className="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
-                    style={{ borderRadius: 'inherit' }}
-                  />
+                  <picture>
+                    <source srcSet={item.src} type="image/webp" />
+                    <source srcSet={item.src.replace('.webp', '.jpg')} type="image/jpeg" />
+                    <img
+                      src={item.src.replace('.webp', '.jpg')}
+                      alt={item.title}
+                      className="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
+                      style={{ borderRadius: 'inherit' }}
+                    />
+                  </picture>
                   {/* Overlay on hover for proof-of-work */}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/15 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300 flex flex-col justify-end p-4">
                     <div className="flex flex-col gap-2">
