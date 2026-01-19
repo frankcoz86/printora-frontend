@@ -96,6 +96,20 @@ const galleryItems = [
 const ReviewsGalleryPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const totalReviews = reviews.length;
+  // Masonry layout state
+  const [columns, setColumns] = useState(2);
+
+  useEffect(() => {
+    const updateColumns = () => {
+      if (window.innerWidth >= 1024) setColumns(4);
+      else if (window.innerWidth >= 640) setColumns(3); // Changed from 768 to 640 (sm) for better mobile
+      else setColumns(2);
+    };
+
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
 
   const currentReview = reviews[currentIndex];
 
@@ -405,43 +419,49 @@ const ReviewsGalleryPage = () => {
             {/* Soft background glow behind the masonry board */}
             <div className="pointer-events-none absolute -inset-4 md:-inset-6 rounded-[2.5rem] bg-gradient-to-tr from-cyan-500/15 via-fuchsia-500/12 to-transparent blur-3xl" />
 
-            <div className="relative columns-2 md:columns-3 lg:columns-4 gap-5 [column-fill:_balance] pt-2 md:pt-4">
-              {galleryItems.map((item, idx) => (
-                <motion.div
-                  key={item.src + idx}
-                  className="mb-5 break-inside-avoid rounded-3xl overflow-hidden shadow-[0_18px_55px_rgba(15,23,42,0.9)] border border-slate-900/80 bg-slate-950 group relative grayscale hover:grayscale-0 transition-all duration-400"
-                  initial={{ opacity: 0, scale: 0.96, y: 32 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.5, delay: idx * 0.05 }}
-                  whileHover={{ y: -6 }}
-                >
-                  <picture>
-                    <source srcSet={item.src} type="image/webp" />
-                    <source srcSet={item.src.replace('.webp', '.jpg')} type="image/jpeg" />
-                    <img
-                      src={item.src.replace('.webp', '.jpg')}
-                      alt={item.title}
-                      className="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
-                      style={{ borderRadius: 'inherit' }}
-                    />
-                  </picture>
-                  {/* Overlay on hover for proof-of-work */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/15 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <div className="flex flex-col gap-2">
-                      <span className="inline-block w-fit rounded-full border border-emerald-400/70 bg-emerald-700/40 px-3 py-1 text-[11px] font-semibold text-emerald-100 shadow backdrop-blur-sm">
-                        {item.tag}
-                      </span>
-                      <button className="inline-flex items-center gap-1 rounded-full bg-cyan-500/95 hover:bg-cyan-400 text-white text-[11px] font-semibold px-4 py-1.5 shadow-lg transition">
-                        <span>Visualizza prova</span>
-                      </button>
-                    </div>
-                  </div>
-                  {/* Subtle badge for proof */}
-                  <span className="absolute top-3 left-3 bg-white/85 text-slate-900 text-[10px] font-bold tracking-wide px-2 py-0.5 rounded-full shadow-md uppercase">
-                    Prova reale
-                  </span>
-                </motion.div>
+            <div className="flex gap-4 md:gap-5 items-start">
+              {Array.from({ length: columns }).map((_, colIndex) => (
+                <div key={colIndex} className="flex-1 flex flex-col gap-5">
+                  {galleryItems
+                    .filter((_, i) => i % columns === colIndex)
+                    .map((item, idx) => (
+                      <motion.div
+                        key={item.src}
+                        className="rounded-3xl overflow-hidden shadow-[0_18px_55px_rgba(15,23,42,0.9)] border border-slate-900/80 bg-slate-950 group relative grayscale hover:grayscale-0 transition-all duration-400 w-full"
+                        initial={{ opacity: 0, scale: 0.96, y: 32 }}
+                        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.2 }}
+                        transition={{ duration: 0.5, delay: idx * 0.1 }}
+                        whileHover={{ y: -6 }}
+                      >
+                        <picture>
+                          <source srcSet={item.src} type="image/webp" />
+                          <source srcSet={item.src.replace('.webp', '.jpg')} type="image/jpeg" />
+                          <img
+                            src={item.src.replace('.webp', '.jpg')}
+                            alt={item.title}
+                            className="w-full h-auto block transition-transform duration-500 group-hover:scale-105"
+                            style={{ borderRadius: 'inherit' }}
+                          />
+                        </picture>
+                        {/* Overlay on hover for proof-of-work */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/15 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300 flex flex-col justify-end p-4">
+                          <div className="flex flex-col gap-2">
+                            <span className="inline-block w-fit rounded-full border border-emerald-400/70 bg-emerald-700/40 px-3 py-1 text-[11px] font-semibold text-emerald-100 shadow backdrop-blur-sm">
+                              {item.tag}
+                            </span>
+                            <button className="inline-flex items-center gap-1 rounded-full bg-cyan-500/95 hover:bg-cyan-400 text-white text-[11px] font-semibold px-4 py-1.5 shadow-lg transition">
+                              <span>Visualizza prova</span>
+                            </button>
+                          </div>
+                        </div>
+                        {/* Subtle badge for proof */}
+                        <span className="absolute top-3 left-3 bg-white/85 text-slate-900 text-[10px] font-bold tracking-wide px-2 py-0.5 rounded-full shadow-md uppercase">
+                          Prova reale
+                        </span>
+                      </motion.div>
+                    ))}
+                </div>
               ))}
             </div>
           </div>
