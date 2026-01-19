@@ -72,6 +72,17 @@ const galleryItems = [
     tag: 'Advertising',
   },
   {
+    src: '/assets/reviews/trovato-verticale.webp',
+    title: 'Trovato - Espositore',
+    tag: 'Advertising',
+  },
+
+  {
+    src: '/assets/reviews/trovato.webp',
+    title: 'Trovato - Branding',
+    tag: 'Visual Identity',
+  },
+  {
     src: '/assets/reviews/gruppo-giva.webp',
     title: 'Gruppo Giva - Logo',
     tag: 'Stampa Digitale',
@@ -85,11 +96,6 @@ const galleryItems = [
     src: '/assets/reviews/la-flo.webp',
     title: 'La Flo - Insegna',
     tag: 'Insegne',
-  },
-  {
-    src: '/assets/reviews/trovato.webp',
-    title: 'Trovato - Branding',
-    tag: 'Visual Identity',
   },
 ];
 
@@ -112,6 +118,48 @@ const ReviewsGalleryPage = () => {
   }, []);
 
   const currentReview = reviews[currentIndex];
+
+  // Desktop-specific manual column distribution for centered bottom row
+  let displayedItems = galleryItems;
+  let columnArrays = null;
+
+  if (columns === 4) {
+    // Manually distribute items into 4 columns with last 2 items in Cols 1 & 2
+    const items = [...galleryItems];
+
+    columnArrays = [
+      // Column 0 (3 items)
+      [items[0], items[4], items[8]],
+      // Column 1 (4 items - includes item 12 at bottom)
+      [items[1], items[5], items[11], items[12]],
+      // Column 2 (4 items - includes item 13 at bottom)  
+      [items[2], items[6], items[10], items[13]],
+      // Column 3 (3 items)
+      [items[3], items[7], items[9]],
+    ];
+  } else if (columns === 3) {
+    // Tablet-specific reordering for balanced 3-column layout
+    // Move last item (index 13) to the gap in Col 1 (position shown by arrow)
+    const items = [...galleryItems];
+
+    // Custom tablet order: move item 13 to position 7 (Col 1, middle row)
+    displayedItems = [
+      items[0],  // Col 0
+      items[1],  // Col 1
+      items[2],  // Col 2 - vertical
+      items[3],  // Col 0
+      items[4],  // Col 1
+      items[5],  // Col 2 - vertical
+      items[6],  // Col 0
+      items[13], // Col 1 - MOVED HERE (arrow position)
+      items[7],  // Col 2
+      items[8],  // Col 0 - vertical
+      items[9],  // Col 1
+      items[10], // Col 2
+      items[11], // Col 0
+      items[12], // Col 1
+    ];
+  }
 
   useEffect(() => {
     if (totalReviews <= 1) return;
@@ -422,8 +470,7 @@ const ReviewsGalleryPage = () => {
             <div className="flex gap-4 md:gap-5 items-start">
               {Array.from({ length: columns }).map((_, colIndex) => (
                 <div key={colIndex} className="flex-1 flex flex-col gap-5">
-                  {galleryItems
-                    .filter((_, i) => i % columns === colIndex)
+                  {(columnArrays ? columnArrays[colIndex] : displayedItems.filter((_, i) => i % columns === colIndex))
                     .map((item, idx) => (
                       <motion.div
                         key={item.src}
