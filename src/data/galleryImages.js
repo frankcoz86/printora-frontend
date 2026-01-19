@@ -4,21 +4,21 @@
 export const galleryImages = [
     // Banner images (horizontal/regular format)
     {
-        src: '/review images/la flo.png',
+        src: '/assets/reviews/la-flo.png',
         title: 'La Flo - Banner',
         tag: 'Insegne',
         productType: 'banner',
         orientation: 'landscape'
     },
     {
-        src: '/review images/il meglio della porchetta.png',
+        src: '/assets/reviews/il-meglio-della-porchetta.png',
         title: 'Il Meglio della Porchetta - Banner',
         tag: 'Allestimento Food',
         productType: 'banner',
         orientation: 'landscape'
     },
     {
-        src: '/review images/final project.png',
+        src: '/assets/reviews/final-project.png',
         title: 'Progetto Completato',
         tag: 'Merchandising',
         productType: 'banner',
@@ -27,42 +27,42 @@ export const galleryImages = [
 
     // Rollup images (vertical displays)
     {
-        src: '/review images/gruppo giva.png',
+        src: '/assets/reviews/gruppo-giva.png',
         title: 'Gruppo Giva - Roll-up',
         tag: 'Stampa Digitale',
         productType: 'rollup',
         orientation: 'landscape'
     },
     {
-        src: '/review images/trovato.png',
+        src: '/assets/reviews/trovato.png',
         title: 'Trovato - Roll-up',
         tag: 'Visual Identity',
         productType: 'rollup',
         orientation: 'landscape'
     },
     {
-        src: '/review images/il giardiniere.png',
+        src: '/assets/reviews/il-giardiniere.png',
         title: 'Il Giardiniere - Roll-up',
         tag: 'Brand Identity',
         productType: 'rollup',
         orientation: 'landscape'
     },
     {
-        src: '/review images/giardiniere verticale.png',
+        src: '/assets/reviews/giardiniere-verticale.png',
         title: 'Il Giardiniere - Roll-up Verticale',
         tag: 'Espositori',
         productType: 'rollup',
         orientation: 'portrait'
     },
     {
-        src: '/review images/gruppo giva verticale.png',
+        src: '/assets/reviews/gruppo-giva-verticale.png',
         title: 'Gruppo Giva - Roll-up Verticale',
         tag: 'Grande Formato',
         productType: 'rollup',
         orientation: 'portrait'
     },
     {
-        src: '/review images/trovato verticale.png',
+        src: '/assets/reviews/trovato-verticale.png',
         title: 'Trovato - Roll-up Verticale',
         tag: 'Advertising',
         productType: 'rollup',
@@ -71,28 +71,28 @@ export const galleryImages = [
 
     // DTF images
     {
-        src: '/review images/dtf.png',
+        src: '/assets/reviews/dtf.png',
         title: 'Stampa DTF Alta Qualità',
         tag: 'DTF & Tessile',
         productType: 'dtf',
         orientation: 'landscape'
     },
     {
-        src: '/review images/dtf2.png',
+        src: '/assets/reviews/dtf-2.png',
         title: 'Dettaglio Stampa su Tessuto',
         tag: 'Abbigliamento',
         productType: 'dtf',
         orientation: 'landscape'
     },
     {
-        src: '/review images/DTF4.png',
+        src: '/assets/reviews/dtf-4.png',
         title: 'Personalizzazione T-shirt',
         tag: 'DTF Custom',
         productType: 'dtf',
         orientation: 'landscape'
     },
     {
-        src: '/review images/porchetta cappellino.png',
+        src: '/assets/reviews/porchetta-cappellino.png',
         title: 'Gadget Personalizzati',
         tag: 'Gadget',
         productType: 'dtf',
