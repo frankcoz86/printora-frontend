@@ -57,7 +57,7 @@ const galleryItems = [
     tag: 'Grande Formato',
   },
   {
-    src: '/assets/reviews/dtf-custom.png',
+    src: '/assets/reviews/dtf-4.png',
     title: 'Personalizzazione T-shirt',
     tag: 'DTF Custom',
   },
@@ -409,7 +409,7 @@ const ReviewsGalleryPage = () => {
               {galleryItems.map((item, idx) => (
                 <motion.div
                   key={item.src + idx}
-                  className="mb-5 break-inside-avoid rounded-3xl overflow-hidden shadow-[0_18px_55px_rgba(15,23,42,0.9)] group relative grayscale hover:grayscale-0 transition-all duration-400"
+                  className="mb-5 break-inside-avoid rounded-3xl overflow-hidden shadow-[0_18px_55px_rgba(15,23,42,0.9)] border border-slate-900/80 bg-slate-950 group relative grayscale hover:grayscale-0 transition-all duration-400"
                   initial={{ opacity: 0, scale: 0.96, y: 32 }}
                   whileInView={{ opacity: 1, scale: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
