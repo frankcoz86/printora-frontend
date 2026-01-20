@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Maximize2, ExternalLink, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Maximize2, ExternalLink, Sparkles, X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 import { galleryImages } from '@/data/galleryImages';
 
 const THEMES = {
@@ -59,6 +59,44 @@ const ProductGallery = ({
 
     if (filteredImages.length === 0) return null;
 
+    // Lightbox state
+    const [lightboxOpen, setLightboxOpen] = useState(false);
+    const [lightboxIndex, setLightboxIndex] = useState(0);
+
+    // Lightbox handlers
+    const openLightbox = (index) => {
+        setLightboxIndex(index);
+        setLightboxOpen(true);
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeLightbox = () => {
+        setLightboxOpen(false);
+        document.body.style.overflow = 'auto';
+    };
+
+    const goToPrevImage = () => {
+        setLightboxIndex((prev) => (prev - 1 + filteredImages.length) % filteredImages.length);
+    };
+
+    const goToNextImage = () => {
+        setLightboxIndex((prev) => (prev + 1) % filteredImages.length);
+    };
+
+    // Keyboard navigation for lightbox
+    useEffect(() => {
+        if (!lightboxOpen) return;
+
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') goToPrevImage();
+            if (e.key === 'ArrowRight') goToNextImage();
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [lightboxOpen]);
+
     // 3. Separate images for Rollup split layout
     const portraitImages = filteredImages.filter(img => img.orientation === 'portrait');
     const landscapeImages = filteredImages.filter(img => img.orientation !== 'portrait');
@@ -115,7 +153,7 @@ const ProductGallery = ({
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 justify-items-center md:justify-items-stretch">
                                 {portraitImages.map((item, idx) => (
                                     <div key={`p-${idx}`} className="w-full max-w-[320px] md:max-w-none mx-auto md:mx-0">
-                                        <GalleryCard item={item} theme={theme} index={idx} aspect="portrait" />
+                                        <GalleryCard item={item} theme={theme} index={idx} aspect="portrait" onClick={() => openLightbox(idx)} />
                                     </div>
                                 ))}
                             </div>
@@ -151,6 +189,7 @@ const ProductGallery = ({
                                             index={idx + portraitImages.length}
                                             aspect="landscape"
                                             className={centerClass}
+                                            onClick={() => openLightbox(portraitImages.length + idx)}
                                         />
                                     );
                                 })}
@@ -185,6 +224,7 @@ const ProductGallery = ({
                                     index={idx}
                                     aspect="landscape"
                                     className={centerClass}
+                                    onClick={() => openLightbox(idx)}
                                 />
                             );
                         })}
@@ -205,11 +245,106 @@ const ProductGallery = ({
                     </div>
                 </motion.div>
             </div>
+
+            {/* Lightbox Overlay */}
+            <AnimatePresence>
+                {lightboxOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm"
+                        onClick={closeLightbox}
+                    >
+                        {/* Close button */}
+                        <button
+                            onClick={closeLightbox}
+                            className="absolute top-4 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-slate-800 hover:border-cyan-400 transition-all duration-200 group"
+                            aria-label="Close lightbox"
+                        >
+                            <X className="w-6 h-6 group-hover:text-cyan-400 transition-colors" />
+                        </button>
+
+                        {/* Image counter */}
+                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 rounded-full bg-slate-900/80 border border-slate-700 px-4 py-2 text-sm text-white backdrop-blur-sm">
+                            <span className={`font-semibold ${theme.accentText}`}>{lightboxIndex + 1}</span>
+                            <span className="text-slate-400"> / {filteredImages.length}</span>
+                        </div>
+
+                        {/* Previous button */}
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                goToPrevImage();
+                            }}
+                            className={`absolute left-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-slate-800 hover:border-${theme.accentText.replace('text-', '')} transition-all duration-200 group`}
+                            aria-label="Previous image"
+                        >
+                            <ChevronLeft className={`w-6 h-6 group-hover:${theme.accentText} transition-colors`} />
+                        </button>
+
+                        {/* Next button */}
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                goToNextImage();
+                            }}
+                            className={`absolute right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-slate-800 hover:border-${theme.accentText.replace('text-', '')} transition-all duration-200 group`}
+                            aria-label="Next image"
+                        >
+                            <ChevronRight className={`w-6 h-6 group-hover:${theme.accentText} transition-colors`} />
+                        </button>
+
+                        {/* Image container */}
+                        <motion.div
+                            key={lightboxIndex}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            transition={{ duration: 0.3 }}
+                            className="relative max-w-7xl max-h-[90vh] mx-4"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <img
+                                src={filteredImages[lightboxIndex].src}
+                                alt={filteredImages[lightboxIndex].title}
+                                className="max-w-full max-h-[90vh] w-auto h-auto object-contain rounded-2xl shadow-2xl"
+                            />
+
+                            {/* Image info overlay */}
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/95 via-slate-950/80 to-transparent rounded-b-2xl p-6">
+                                <div className="flex flex-col gap-2">
+                                    <h3 className="text-xl font-bold text-white">
+                                        {filteredImages[lightboxIndex].title}
+                                    </h3>
+                                    <span className={`inline-block w-fit rounded-full px-3 py-1 text-xs font-semibold backdrop-blur-sm border ${theme.badge}`}>
+                                        {filteredImages[lightboxIndex].tag}
+                                    </span>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Keyboard hints */}
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 text-xs text-slate-400">
+                            <div className="flex items-center gap-1.5">
+                                <kbd className="rounded bg-slate-900/80 border border-slate-700 px-2 py-1 font-mono">←</kbd>
+                                <kbd className="rounded bg-slate-900/80 border border-slate-700 px-2 py-1 font-mono">→</kbd>
+                                <span>Navigate</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <kbd className="rounded bg-slate-900/80 border border-slate-700 px-2 py-1 font-mono">ESC</kbd>
+                                <span>Close</span>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     );
 };
 
-const GalleryCard = ({ item, theme, index, aspect = 'landscape', className = '' }) => {
+const GalleryCard = ({ item, theme, index, aspect = 'landscape', className = '', onClick }) => {
     // Determine aspect ratio class
     const aspectRatioClass = aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-video';
 
@@ -221,8 +356,9 @@ const GalleryCard = ({ item, theme, index, aspect = 'landscape', className = '' 
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
+            onClick={onClick}
             // Added group-focus and group-active states for mobile touch feedback
-            className={`group relative rounded-[2rem] overflow-hidden bg-slate-900 border border-slate-800 ${theme.borderHover} transition-colors duration-500 shadow-2xl ${theme.glow} outline-none ${className}`}
+            className={`group relative rounded-[2rem] overflow-hidden bg-slate-900 border border-slate-800 ${theme.borderHover} transition-colors duration-500 shadow-2xl ${theme.glow} outline-none cursor-pointer ${className}`}
         >
             {/* Image Container */}
             <div className={`${aspectRatioClass} w-full relative overflow-hidden`}>
@@ -261,10 +397,10 @@ const GalleryCard = ({ item, theme, index, aspect = 'landscape', className = '' 
                 </div>
             </div>
 
-            {/* Top Right "Real Proof" Badge */}
+            {/* Top Right "Zoom" Badge */}
             <div className="absolute top-4 right-4 z-20">
                 <div className="bg-slate-950/40 backdrop-blur-md border border-white/10 rounded-full p-2 group-hover:bg-slate-950/80 transition-colors">
-                    <Maximize2 className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" />
+                    <ZoomIn className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" />
                 </div>
             </div>
         </motion.div>

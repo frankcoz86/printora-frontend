@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Quote, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { Star, Quote, ChevronLeft, ChevronRight, Sparkles, X, ZoomIn } from 'lucide-react';
 
 const reviews = [
-  { name: 'Matteo R.', role: 'Graphic Designer', comment: 'Cercavo un ciano che fosse davvero ciano. Con la stampa DTF di Printora ho finalmente trovato la fedeltà cromatica che serve ai miei progetti.' },
+  { name: 'Claudia T.', role: 'Brand Manager', comment: 'Abbiamo rifatto tutta l\'immagine aziendale con Printora. Dai biglietti da visita ai roll-up, la coerenza cromatica è perfetta su ogni supporto.' },
   { name: 'Sofia V.', role: 'Wedding Planner', comment: 'I banner per il matrimonio sono arrivati in 24h, salvando l\'allestimento. Qualità del PVC robusta e stampa nitidissima.' },
   { name: 'Davide B.', role: 'Titolare Ristorante', comment: 'Menu e tovagliette stampati alla perfezione. Il supporto WhatsApp mi ha consigliato la carta antimacchia giusta. Servizio top.' },
   { name: 'Giulia M.', role: 'Illustratrice', comment: 'Stampare le mie art print su tessuto mi preoccupava. Invece i dettagli sono rimasti incredibili, anche le linee più sottili.' },
@@ -184,6 +184,20 @@ const ReviewsGalleryPage = () => {
   const totalWorks = galleryItems.length;
   const activeWork = galleryItems[activeWorkIndex] || galleryItems[0];
 
+  // Lightbox state
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  // Review submission state
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [reviewText, setReviewText] = useState('');
+  const [reviewerName, setReviewerName] = useState('');
+  const [reviewerRole, setReviewerRole] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
   useEffect(() => {
     if (totalWorks <= 1 || isWorkHovered) return;
     const timer = setInterval(() => {
@@ -192,6 +206,89 @@ const ReviewsGalleryPage = () => {
 
     return () => clearInterval(timer);
   }, [totalWorks, isWorkHovered]);
+
+  // Lightbox handlers
+  const openLightbox = (index) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const goToPrevImage = () => {
+    setLightboxIndex((prev) => (prev - 1 + galleryItems.length) % galleryItems.length);
+  };
+
+  const goToNextImage = () => {
+    setLightboxIndex((prev) => (prev + 1) % galleryItems.length);
+  };
+
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    if (!lightboxOpen) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') goToPrevImage();
+      if (e.key === 'ArrowRight') goToNextImage();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxOpen]);
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError('');
+    setSubmitSuccess(false);
+
+    // Your latest deployment URL
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwyf4XKBAsa8vuFVRSNaaVq7FGeEE4pYsneG26BVw5RrdmURE1VWEetpaILGfupzMLC/exec';
+
+    try {
+      console.log('Submitting review:', { name: reviewerName, role: reviewerRole, rating, reviewText });
+
+      // Use redirect mode to avoid CORS preflight
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify({
+          name: reviewerName,
+          role: reviewerRole,
+          rating: rating,
+          reviewText: reviewText,
+        }),
+      });
+
+      console.log('Response received');
+
+      // If we got here without error, assume success
+      setIsSubmitting(false);
+      setSubmitSuccess(true);
+
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setRating(0);
+        setReviewText('');
+        setReviewerName('');
+        setReviewerRole('');
+        setSubmitSuccess(false);
+      }, 3000);
+
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      setIsSubmitting(false);
+      setSubmitError('Si è verificato un errore. Riprova più tardi.');
+    }
+  };
 
   return (
     <div className="bg-slate-950 py-16">
@@ -383,6 +480,220 @@ const ReviewsGalleryPage = () => {
           </div>
         </section>
 
+        {/* Review Submission Section */}
+        <section className="max-w-4xl mx-auto space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
+            className="relative"
+          >
+            {/* Background glow effects */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 via-fuchsia-500/15 to-amber-500/20 rounded-3xl blur-3xl opacity-60" />
+
+            <div className="relative rounded-3xl border border-slate-800/80 bg-slate-900/60 backdrop-blur-xl shadow-[0_25px_80px_rgba(15,23,42,0.95)] overflow-hidden">
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-cyan-500/10 to-transparent rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-fuchsia-500/10 to-transparent rounded-full blur-3xl" />
+
+              <div className="relative px-6 py-8 md:px-10 md:py-10 space-y-8">
+                {/* Header */}
+                <div className="space-y-3 text-center">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-1.5 text-xs font-medium text-amber-200">
+                    <Sparkles className="w-4 h-4" />
+                    <span>Condividi la tua esperienza</span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white">
+                    Lascia una recensione
+                  </h3>
+                  <p className="text-sm md:text-base text-slate-300 max-w-2xl mx-auto">
+                    La tua opinione aiuta altri clienti a scegliere con fiducia. Raccontaci la tua esperienza con Printora!
+                  </p>
+                </div>
+
+                <form onSubmit={handleSubmitReview} className="space-y-6">
+                  {/* Star Rating */}
+                  <div className="space-y-3">
+                    <label className="block text-sm font-semibold text-white text-center">
+                      Valuta il servizio
+                    </label>
+                    <div className="flex items-center justify-center gap-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <motion.button
+                          key={star}
+                          type="button"
+                          onClick={() => setRating(star)}
+                          onMouseEnter={() => setHoverRating(star)}
+                          onMouseLeave={() => setHoverRating(0)}
+                          whileHover={{ scale: 1.2, rotate: 5 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="focus:outline-none transition-all duration-200"
+                        >
+                          <Star
+                            className={`w-10 h-10 md:w-12 md:h-12 transition-all duration-200 ${star <= (hoverRating || rating)
+                              ? 'fill-yellow-400 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]'
+                              : 'fill-slate-700 text-slate-700'
+                              }`}
+                          />
+                        </motion.button>
+                      ))}
+                    </div>
+                    {rating > 0 && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-center text-sm text-cyan-200 font-medium"
+                      >
+                        {rating === 5 && '⭐ Eccellente!'}
+                        {rating === 4 && '👍 Molto buono!'}
+                        {rating === 3 && '😊 Buono'}
+                        {rating === 2 && '😐 Sufficiente'}
+                        {rating === 1 && '😕 Da migliorare'}
+                      </motion.p>
+                    )}
+                  </div>
+
+                  {/* Personal Info Grid */}
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label htmlFor="reviewerName" className="block text-sm font-medium text-slate-200">
+                        Il tuo nome
+                      </label>
+                      <input
+                        type="text"
+                        id="reviewerName"
+                        value={reviewerName}
+                        onChange={(e) => setReviewerName(e.target.value)}
+                        placeholder="es. Marco R."
+                        required
+                        className="w-full rounded-xl border border-slate-700 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 focus:outline-none transition-all"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="reviewerRole" className="block text-sm font-medium text-slate-200">
+                        Ruolo/Attività
+                      </label>
+                      <input
+                        type="text"
+                        id="reviewerRole"
+                        value={reviewerRole}
+                        onChange={(e) => setReviewerRole(e.target.value)}
+                        placeholder="es. Graphic Designer"
+                        required
+                        className="w-full rounded-xl border border-slate-700 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-fuchsia-500 focus:ring-2 focus:ring-fuchsia-500/20 focus:outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Review Text */}
+                  <div className="space-y-2">
+                    <label htmlFor="reviewText" className="block text-sm font-medium text-slate-200">
+                      La tua recensione
+                    </label>
+                    <textarea
+                      id="reviewText"
+                      value={reviewText}
+                      onChange={(e) => setReviewText(e.target.value)}
+                      placeholder="Racconta la tua esperienza: qualità di stampa, tempi di consegna, assistenza clienti..."
+                      required
+                      rows={5}
+                      className="w-full rounded-xl border border-slate-700 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 focus:outline-none transition-all resize-none"
+                    />
+                    <p className="text-xs text-slate-400">
+                      {reviewText.length} caratteri • Minimo 50 caratteri consigliati
+                    </p>
+                  </div>
+
+                  {/* Submit Button */}
+                  <motion.button
+                    type="submit"
+                    disabled={!rating || !reviewText || !reviewerName || !reviewerRole || isSubmitting}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`w-full rounded-xl px-6 py-4 text-base font-semibold transition-all duration-300 ${!rating || !reviewText || !reviewerName || !reviewerRole || isSubmitting
+                      ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-cyan-500 via-fuchsia-500 to-amber-500 text-white shadow-[0_0_30px_rgba(6,182,212,0.4)] hover:shadow-[0_0_40px_rgba(6,182,212,0.6)]'
+                      }`}
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Invio in corso...
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-2">
+                        <Sparkles className="w-5 h-5" />
+                        Invia recensione
+                      </span>
+                    )}
+                  </motion.button>
+
+                  {/* Success Message */}
+                  <AnimatePresence>
+                    {submitSuccess && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="rounded-xl border border-emerald-500/50 bg-emerald-500/10 px-4 py-3 text-center"
+                      >
+                        <p className="flex items-center justify-center gap-2 text-sm font-semibold text-emerald-200">
+                          <span className="text-lg">✓</span>
+                          Grazie per la tua recensione! Sarà pubblicata dopo la verifica.
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Error Message */}
+                  <AnimatePresence>
+                    {submitError && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="rounded-xl border border-red-500/50 bg-red-500/10 px-4 py-3 text-center"
+                      >
+                        <p className="flex items-center justify-center gap-2 text-sm font-semibold text-red-200">
+                          <span className="text-lg">⚠</span>
+                          {submitError}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+
+                  {/* Trust badges */}
+                  <div className="flex flex-wrap items-center justify-center gap-3 pt-4 border-t border-slate-800">
+                    <div className="flex items-center gap-2 text-xs text-slate-400">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/10">
+                        <span className="text-emerald-300">✓</span>
+                      </div>
+                      <span>Recensioni verificate</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-slate-400">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500/10">
+                        <span className="text-cyan-300">🔒</span>
+                      </div>
+                      <span>Dati protetti</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-slate-400">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-fuchsia-500/10">
+                        <span className="text-fuchsia-300">⚡</span>
+                      </div>
+                      <span>Pubblicazione rapida</span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
         {/* Compact grid of additional reviews */}
         <section className="space-y-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
@@ -474,12 +785,17 @@ const ReviewsGalleryPage = () => {
                     .map((item, idx) => (
                       <motion.div
                         key={item.src}
-                        className="rounded-3xl overflow-hidden shadow-[0_18px_55px_rgba(15,23,42,0.9)] border border-slate-900/80 bg-slate-950 group relative grayscale hover:grayscale-0 transition-all duration-400 w-full"
+                        className="rounded-3xl overflow-hidden shadow-[0_18px_55px_rgba(15,23,42,0.9)] border border-slate-900/80 bg-slate-950 group relative grayscale hover:grayscale-0 transition-all duration-400 w-full cursor-pointer"
                         initial={{ opacity: 0, scale: 0.96, y: 32 }}
                         whileInView={{ opacity: 1, scale: 1, y: 0 }}
                         viewport={{ once: true, amount: 0.2 }}
                         transition={{ duration: 0.5, delay: idx * 0.1 }}
                         whileHover={{ y: -6 }}
+                        onClick={() => {
+                          // Find the actual index in the original galleryItems array
+                          const actualIndex = galleryItems.findIndex(gi => gi.src === item.src);
+                          openLightbox(actualIndex);
+                        }}
                       >
                         <picture>
                           <source srcSet={item.src} type="image/webp" />
@@ -498,7 +814,8 @@ const ReviewsGalleryPage = () => {
                               {item.tag}
                             </span>
                             <button className="inline-flex items-center gap-1 rounded-full bg-cyan-500/95 hover:bg-cyan-400 text-white text-[11px] font-semibold px-4 py-1.5 shadow-lg transition">
-                              <span>Visualizza prova</span>
+                              <ZoomIn className="w-3.5 h-3.5" />
+                              <span>Visualizza ingrandito</span>
                             </button>
                           </div>
                         </div>
@@ -513,6 +830,101 @@ const ReviewsGalleryPage = () => {
             </div>
           </div>
         </section >
+
+        {/* Lightbox Overlay */}
+        <AnimatePresence>
+          {lightboxOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm"
+              onClick={closeLightbox}
+            >
+              {/* Close button */}
+              <button
+                onClick={closeLightbox}
+                className="absolute top-4 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-slate-800 hover:border-cyan-400 transition-all duration-200 group"
+                aria-label="Close lightbox"
+              >
+                <X className="w-6 h-6 group-hover:text-cyan-400 transition-colors" />
+              </button>
+
+              {/* Image counter */}
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 rounded-full bg-slate-900/80 border border-slate-700 px-4 py-2 text-sm text-white backdrop-blur-sm">
+                <span className="font-semibold text-cyan-400">{lightboxIndex + 1}</span>
+                <span className="text-slate-400"> / {galleryItems.length}</span>
+              </div>
+
+              {/* Previous button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToPrevImage();
+                }}
+                className="absolute left-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-slate-800 hover:border-cyan-400 transition-all duration-200 group"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="w-6 h-6 group-hover:text-cyan-400 transition-colors" />
+              </button>
+
+              {/* Next button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToNextImage();
+                }}
+                className="absolute right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-slate-800 hover:border-cyan-400 transition-all duration-200 group"
+                aria-label="Next image"
+              >
+                <ChevronRight className="w-6 h-6 group-hover:text-cyan-400 transition-colors" />
+              </button>
+
+              {/* Image container */}
+              <motion.div
+                key={lightboxIndex}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                className="relative max-w-7xl max-h-[90vh] mx-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img
+                  src={galleryItems[lightboxIndex].src}
+                  alt={galleryItems[lightboxIndex].title}
+                  className="max-w-full max-h-[90vh] w-auto h-auto object-contain rounded-2xl shadow-2xl"
+                />
+
+                {/* Image info overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/95 via-slate-950/80 to-transparent rounded-b-2xl p-6">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-xl font-bold text-white">
+                      {galleryItems[lightboxIndex].title}
+                    </h3>
+                    <span className="inline-block w-fit rounded-full border border-emerald-400/70 bg-emerald-700/40 px-3 py-1 text-xs font-semibold text-emerald-100 shadow backdrop-blur-sm">
+                      {galleryItems[lightboxIndex].tag}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Keyboard hints */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 text-xs text-slate-400">
+                <div className="flex items-center gap-1.5">
+                  <kbd className="rounded bg-slate-900/80 border border-slate-700 px-2 py-1 font-mono">←</kbd>
+                  <kbd className="rounded bg-slate-900/80 border border-slate-700 px-2 py-1 font-mono">→</kbd>
+                  <span>Navigate</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <kbd className="rounded bg-slate-900/80 border border-slate-700 px-2 py-1 font-mono">ESC</kbd>
+                  <span>Close</span>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div >
     </div >
