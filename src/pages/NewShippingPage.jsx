@@ -15,7 +15,7 @@ function toInvoiceItems(cart) {
     const d = it.details || {};
     const variant = [d.dimensions, d.lamination, d.cut].filter(Boolean).join(', ');
     const name = variant ? `${it.name} — ${variant}` : it.name;
-    const qty  = Number(it.quantity || 1);
+    const qty = Number(it.quantity || 1);
     const unit = Number((it.price ?? (it.total / (it.quantity || 1)) ?? 0));
 
     // Optional: expose width/height for easier downstream storage
@@ -23,7 +23,7 @@ function toInvoiceItems(cart) {
     const dims = String(d.dimensions || '').trim(); // e.g. "85x200 cm"
     const m = dims.match(/(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)/i);
     if (m) {
-      width_cm  = parseFloat(m[1].replace(',', '.'));
+      width_cm = parseFloat(m[1].replace(',', '.'));
       height_cm = parseFloat(m[2].replace(',', '.'));
     }
 
@@ -85,8 +85,8 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
       mode: 'no-cors',
       keepalive: true,
       body: JSON.stringify(payload)
-    }).catch(() => {});
-  } catch {}
+    }).catch(() => { });
+  } catch { }
 }
 
 /** After PayPal capture: tell Apps Script to build & email the invoice */
@@ -104,7 +104,7 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
       currency: 'EUR',
 
       items: toInvoiceItems(cart),
-      
+
       shipping: {
         name: `${address.name} ${address.surname}`.trim(),
         email: address.email,
@@ -118,16 +118,16 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
         notes: address.notes || '',
       },
 
- billing: {
-   company: (billingInfo?.companyName || address.company || null) || null,
-   vat_number: (billingInfo?.vatId || '').trim() || null,
-   tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
-   email: (billingInfo?.billingEmail || address.email || '').trim() || null,
-   // send BOTH keys that Apps Script understands:
-   recipient_code: (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim() || null,
-   sdiCode: (billingInfo?.sdiCode || '').trim() || null,
-   pec: (billingInfo?.pec || billingInfo?.pecAddress || '').trim() || null
- },
+      billing: {
+        company: (billingInfo?.companyName || address.company || null) || null,
+        vat_number: (billingInfo?.vatId || '').trim() || null,
+        tax_code: (billingInfo?.codiceFiscale || '').trim() || null,
+        email: (billingInfo?.billingEmail || address.email || '').trim() || null,
+        // send BOTH keys that Apps Script understands:
+        recipient_code: (billingInfo?.sdiCode || billingInfo?.recipientCode || '').trim() || null,
+        sdiCode: (billingInfo?.sdiCode || '').trim() || null,
+        pec: (billingInfo?.pec || billingInfo?.pecAddress || '').trim() || null
+      },
 
       payment_details: {
         provider: 'paypal',
@@ -136,7 +136,7 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
         customer_email: address.email,
         amount_total: Math.round(Number(totals.total || 0) * 100),
         total_details: {
-          amount_tax:      Math.round(Number(totals.vatAmount || 0) * 100),
+          amount_tax: Math.round(Number(totals.vatAmount || 0) * 100),
           amount_shipping: Math.round(Number(totals.shippingPrice || 0) * 100),
           amount_discount: 0
         },
@@ -159,7 +159,7 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
     };
 
     await fetch(appsUrl, { method: 'POST', body: JSON.stringify(payload) });
-  } catch {}
+  } catch { }
 }
 
 const NewShippingPage = () => {
@@ -167,7 +167,7 @@ const NewShippingPage = () => {
   const outlet = useOutletContext?.() || {};
   const cartHook = outlet.cartHook || cartCtx;
 
-  const { cart = [], getCartSubtotal = () => 0, clearCart = () => {}, getCartWeight = () => 0 } = cartHook;
+  const { cart = [], getCartSubtotal = () => 0, clearCart = () => { }, getCartWeight = () => 0 } = cartHook;
   const { supabase, saveOrder } = useSupabase();
   const navigate = useNavigate();
 
@@ -190,26 +190,9 @@ const NewShippingPage = () => {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('paypal');
 
-  const [showXmasNotice, setShowXmasNotice] = useState(false);
-
   useEffect(() => {
     if (address.email) setBillingInfo(p => ({ ...p, billingEmail: address.email }));
   }, [address.email]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      setShowXmasNotice(true);
-      return;
-    }
-    try {
-      const dismissed = window.localStorage.getItem('printora_xmas_shipping_notice_dismissed');
-      if (!dismissed) {
-        setShowXmasNotice(true);
-      }
-    } catch {
-      setShowXmasNotice(true);
-    }
-  }, []);
 
   // Make company & notes optional (exclude from required set), but phone is now mandatory
   const addressValid = useMemo(() => {
@@ -238,13 +221,7 @@ const NewShippingPage = () => {
 
   useEffect(() => { setSelectedCarrier(getShippingRate(weight)); }, [weight]);
 
-  const handleCloseXmasNotice = () => {
-    setShowXmasNotice(false);
-    if (typeof window === 'undefined') return;
-    try {
-      window.localStorage.setItem('printora_xmas_shipping_notice_dismissed', '1');
-    } catch {}
-  };
+
 
   const orderTotals = useMemo(() => {
     const shippingPrice = selectedCarrier ? selectedCarrier.price : 0;
@@ -343,8 +320,8 @@ const NewShippingPage = () => {
         value: totalValue,
         breakdown: {
           item_total: { currency_code: 'EUR', value: orderTotals.productsSubtotal.toFixed(2) },
-          shipping:   { currency_code: 'EUR', value: orderTotals.shippingPrice.toFixed(2) },
-          tax_total:  { currency_code: 'EUR', value: orderTotals.vatAmount.toFixed(2) },
+          shipping: { currency_code: 'EUR', value: orderTotals.shippingPrice.toFixed(2) },
+          tax_total: { currency_code: 'EUR', value: orderTotals.vatAmount.toFixed(2) },
         },
       },
       items,
@@ -352,10 +329,10 @@ const NewShippingPage = () => {
         name: { full_name: `${address.name} ${address.surname}`.trim() },
         address: {
           address_line_1: address.address,
-          admin_area_2:    address.city,
-          admin_area_1:    address.province,
-          postal_code:     address.zip,
-          country_code:   'IT',
+          admin_area_2: address.city,
+          admin_area_1: address.province,
+          postal_code: address.zip,
+          country_code: 'IT',
         },
       },
     };
@@ -468,56 +445,7 @@ const NewShippingPage = () => {
         <meta name="description" content="Completa il tuo ordine inserendo i dati di spedizione e fatturazione. Pagamento sicuro con PayPal e Stripe." />
         <meta name="keywords" content="checkout, spedizione, pagamento, fatturazione, printora, paypal, stripe, carta di credito" />
       </Helmet>
-      <AnimatePresence>
-        {showXmasNotice && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="relative mx-4 max-w-lg w-full rounded-2xl bg-slate-900/90 border border-amber-400/30 shadow-2xl shadow-amber-500/20 p-6 sm:p-8"
-              initial={{ opacity: 0, scale: 0.9, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 12 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-            >
-              <button
-                type="button"
-                onClick={handleCloseXmasNotice}
-                className="absolute top-3 right-3 text-slate-300 hover:text-white bg-slate-800/60 rounded-full w-8 h-8 flex items-center justify-center text-sm border border-white/10 transition-colors"
-                aria-label="Chiudi avviso spedizioni"
-              >
-                ×
-              </button>
 
-              <p className="text-xs uppercase tracking-[0.2em] text-amber-300 mb-2">
-                Avviso spedizioni natalizie
-              </p>
-              <h2 className="text-xl sm:text-2xl font-semibold text-white mb-3">
-                Le consegne potrebbero richiedere più tempo
-              </h2>
-              <p className="text-sm sm:text-base text-slate-200 mb-4">
-                A causa dell'alta richiesta per il periodo di Natale, gli ordini potrebbero richiedere un po' più tempo per essere consegnati. Faremo comunque il possibile per spedire nel minor tempo possibile.
-              </p>
-              <p className="text-xs text-slate-400 mb-6">
-                Ti ringraziamo per la comprensione e la pazienza durante questo periodo di alta richiesta.
-              </p>
-
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={handleCloseXmasNotice}
-                  className="inline-flex items-center justify-center rounded-full px-5 py-2 text-sm font-medium bg-amber-500 text-slate-900 hover:bg-amber-400 transition-colors shadow-lg shadow-amber-500/30"
-                >
-                  Ho capito
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
       <div className="container mx-auto px-4 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <h1 className="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-white to slate-400">Finalizza il tuo Ordine</h1>
