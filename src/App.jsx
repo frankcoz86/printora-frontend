@@ -15,6 +15,8 @@ const FloatingWhatsapp = lazy(() => import('@/components/FloatingWhatsapp'));
 const DtfPage = lazy(() => import('@/pages/DtfPage'));
 const DtfDev1Page = lazy(() => import('@/pages/DtfDev1Page'));
 const DtfDev2Page = lazy(() => import('@/pages/DtfDev2Page'));
+const DtfDev3Page = lazy(() => import('@/pages/DtfDev3Page'));
+const DtfDev4Page = lazy(() => import('@/pages/DtfDev4Page'));
 const ContactPage = lazy(() => import('@/pages/ContactPage'));
 const CartPage = lazy(() => import('@/pages/CartPage'));
 const NewShippingPage = lazy(() => import('@/pages/NewShippingPage'));
@@ -29,10 +31,12 @@ const BannerPageLocal = lazy(() => import('@/pages/BannerPageLocal'));
 const BannerDev1Page = lazy(() => import('@/pages/BannerDev1Page'));
 const BannerDev2Page = lazy(() => import('@/pages/BannerDev2Page'));
 const BannerDev3Page = lazy(() => import('@/pages/BannerDev3Page'));
+const BannerDev4Page = lazy(() => import('@/pages/BannerDev4Page'));
 const RollupPage = lazy(() => import('@/pages/RollupPage'));
 const RollupDev1Page = lazy(() => import('@/pages/RollupDev1Page'));
 const RollupDev2Page = lazy(() => import('@/pages/RollupDev2Page'));
 const RollupDev3Page = lazy(() => import('@/pages/RollupDev3Page'));
+const RollupDev4Page = lazy(() => import('@/pages/RollupDev4Page'));
 const RigidMediaPageV3 = lazy(() => import('@/pages/RigidMediaPageV3'));
 const VinylPage = lazy(() => import('@/pages/VinylPage'));
 const ForexPage = lazy(() => import('@/pages/ForexPage'));
@@ -85,16 +89,20 @@ const MainSite = () => {
                     <Route path="/banner-dev1" element={<BannerDev1Page />} />
                     <Route path="/banner-dev2" element={<BannerDev2Page />} />
                     <Route path="/banner-dev3" element={<BannerDev3Page />} />
+                    <Route path="/banner-dev4" element={<BannerDev4Page />} />
                     <Route path="/rollup" element={<RollupPage />} />
                     <Route path="/rollup-dev1" element={<RollupDev1Page />} />
                     <Route path="/rollup-dev2" element={<RollupDev2Page />} />
                     <Route path="/rollup-dev3" element={<RollupDev3Page />} />
+                    <Route path="/rollup-dev4" element={<RollupDev4Page />} />
                     <Route path="/supporti-rigidi" element={<RigidMediaPageV3 />} />
                     <Route path="/vinile-adesivo" element={<VinylPage />} />
                     <Route path="/forex-pvc" element={<ForexPage />} />
                     <Route path="/dtf" element={<DtfPage />} />
                     <Route path="/dtf-dev1" element={<DtfDev1Page />} />
                     <Route path="/dtf-dev2" element={<DtfDev2Page />} />
+                    <Route path="/dtf-dev3" element={<DtfDev3Page />} />
+                    <Route path="/dtf-dev4" element={<DtfDev4Page />} />
                     <Route path="/contatti" element={<ContactPage />} />
                     <Route path="/recensioni-lavori" element={<ReviewsGalleryPage />} />
                     <Route path="/carrello" element={<CartPage />} />
@@ -118,7 +126,7 @@ const DtfSite = () => {
     return (
         <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
-                 <Route element={<DtfLayout />}>
+                <Route element={<DtfLayout />}>
                     <Route index element={<DtfPage />} />
                 </Route>
                 <Route path="/dtf-designer" element={<DtfDesignerPage />} />
@@ -128,20 +136,20 @@ const DtfSite = () => {
 };
 
 function App() {
-  const hostname = window.location.hostname;
-  const isDtfSite = hostname === 'dtf.printora.it';
+    const hostname = window.location.hostname;
+    const isDtfSite = hostname === 'dtf.printora.it';
 
-  return (
-    <Elements stripe={stripePromise}>
-      <div className="min-h-screen bg-slate-900 text-white font-sans">
-        <Suspense fallback={<Loader />}>
-          {isDtfSite ? <DtfSite /> : <MainSite />}
-          <FloatingWhatsapp />
-        </Suspense>
-        <Toaster />
-      </div>
-    </Elements>
-  );
+    return (
+        <Elements stripe={stripePromise}>
+            <div className="min-h-screen bg-slate-900 text-white font-sans">
+                <Suspense fallback={<Loader />}>
+                    {isDtfSite ? <DtfSite /> : <MainSite />}
+                    <FloatingWhatsapp />
+                </Suspense>
+                <Toaster />
+            </div>
+        </Elements>
+    );
 }
 
 export default App;
