@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { gtmPush } from '@/lib/gtm';
-import { trackPurchase } from '@/lib/fbPixel';
+import { trackPurchase, generateEventID } from '@/lib/fbPixel';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
@@ -221,7 +221,13 @@ const PaymentSuccessPage = () => {
         },
       });
 
-      // Facebook Pixel Purchase event
+      // Facebook Pixel Purchase event with deduplication
+      // Generate unique eventID based on order data
+      const purchaseEventID = generateEventID(
+        'Purchase',
+        order?.id || order?.order_code || order?.payment_details?.session_id || transactionId
+      );
+
       trackPurchase({
         content_ids: items.map(it => it.item_id),
         contents: items.map(it => ({
@@ -230,11 +236,14 @@ const PaymentSuccessPage = () => {
         })),
         value: Number(order?.total_amount ?? order?.total ?? 0),
         currency: (order?.payment_details?.currency || 'EUR').toUpperCase(),
-        num_items: items.reduce((sum, it) => sum + it.quantity, 0)
+        num_items: items.reduce((sum, it) => sum + it.quantity, 0),
+        eventID: purchaseEventID  // ✅ Unique event ID for deduplication
       });
 
       purchasePushedRef.current = true;
-    } catch { }
+    } catch (error) {
+      console.error('Error tracking purchase events:', error);
+    }
   }, [order]);
 
   const handleDownloadInvoice = () => {
