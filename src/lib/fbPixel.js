@@ -13,10 +13,13 @@ const EVENT_EXPIRY_HOURS = 24;
  * @param {string} eventType - Type of event (e.g., 'Purchase', 'AddToCart')
  * @param {string} identifier - Unique identifier (e.g., order ID, transaction ID)
  * @returns {string} Unique event ID
+ * 
+ * NOTE: Does NOT include timestamp to ensure same order always generates same ID
  */
 export const generateEventID = (eventType, identifier) => {
-  const timestamp = Date.now();
-  return `${eventType}_${identifier}_${timestamp}`;
+  // ✅ Static ID based only on event type and identifier
+  // This ensures the same order always generates the same eventID
+  return `${eventType}_${identifier}`;
 };
 
 /**
