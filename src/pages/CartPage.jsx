@@ -67,10 +67,14 @@ const CartPage = () => {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="flex justify-between items-center mb-12"
+                        className="flex flex-col md:flex-row justify-between items-center mb-8 md:mb-12 gap-4"
                     >
                         <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 drop-shadow-lg">Il Tuo Carrello</h1>
-                        <Button variant="outline" onClick={() => navigate('/')}>
+                        <Button
+                            variant="outline"
+                            onClick={() => navigate('/')}
+                            className="w-full md:w-auto mt-4 md:mt-0 bg-slate-800/50 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
+                        >
                             <ArrowLeft className="mr-2 h-4 w-4" /> Continua lo Shopping
                         </Button>
                     </motion.div>
@@ -91,16 +95,18 @@ const CartPage = () => {
                                         {item.details?.type && <p className="text-sm text-slate-400">{item.details.type}</p>}
                                         {item.details?.description && <p className="text-sm text-slate-400 max-w-md truncate">{item.details.description}</p>}
                                     </div>
-                                    <div className="flex items-center space-x-4">
-                                        <Input
-                                            type="number"
-                                            value={item.quantity}
-                                            onChange={(e) => updateCartItemQuantity(item.id, Math.max(1, parseInt(e.target.value) || 1))}
-                                            className="w-20 text-center bg-slate-800 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500"
-                                            min="1"
-                                        />
-                                        <p className="text-lg font-semibold w-24 text-right text-white">€{(item.total || 0).toFixed(2)}</p>
-                                        <Button variant="ghost" size="icon" onClick={() => removeFromCart(item.id)} className="hover:bg-red-500/20">
+                                    <div className="flex items-center gap-3">
+                                        <div className="flex items-center gap-2">
+                                            <Input
+                                                type="number"
+                                                value={item.quantity}
+                                                onChange={(e) => updateCartItemQuantity(item.id, Math.max(1, parseInt(e.target.value) || 1))}
+                                                className="w-16 h-8 text-center bg-slate-800 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500 p-0"
+                                                min="1"
+                                            />
+                                            <p className="text-lg font-semibold text-white">€{(item.total || 0).toFixed(2)}</p>
+                                        </div>
+                                        <Button variant="ghost" size="icon" onClick={() => removeFromCart(item.id)} className="hover:bg-red-500/20 h-8 w-8 shrink-0">
                                             <Trash2 className="h-5 w-5 text-red-500" />
                                         </Button>
                                     </div>
