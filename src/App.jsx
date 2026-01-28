@@ -1,10 +1,11 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import { stripePromise } from '@/lib/stripeClient'; // Import your stripe promise
 import { Toaster } from '@/components/ui/toaster';
 import { AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
+import { getCurrentUTMParams } from '@/lib/utmTracking';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CartSidebar from '@/components/CartSidebar';
@@ -138,6 +139,11 @@ const DtfSite = () => {
 function App() {
     const hostname = window.location.hostname;
     const isDtfSite = hostname === 'dtf.printora.it';
+
+    // Capture UTM parameters on app load
+    useEffect(() => {
+        getCurrentUTMParams();
+    }, []);
 
     return (
         <Elements stripe={stripePromise}>

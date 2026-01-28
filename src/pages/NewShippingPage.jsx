@@ -6,6 +6,7 @@ import { toast } from '@/components/ui/use-toast';
 import { useSupabase } from '@/context/SupabaseContext';
 import { useCart } from '@/context/CartContext';
 import { getShippingRate } from '@/config/shippingRates';
+import { getUTMDataForOrder } from '@/lib/utmTracking';
 import ShippingAddressForm from '@/components/shipping/ShippingAddressForm';
 import OrderSummary from '@/components/shipping/OrderSummary';
 
@@ -43,6 +44,9 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
     const pec =
       (billingInfo?.pec || billingInfo?.pecAddress || '').trim();
 
+    // Get UTM tracking data
+    const utmData = getUTMDataForOrder();
+
     const payload = {
       event: 'ORDER_CREATED',
       id: order.id,
@@ -66,6 +70,9 @@ async function fireAppsScript(order, address, printFiles, totals, payMethod, car
         sdiCode: sdi || null,// 👈 SDI / Codice Destinatario
         pec: pec || null               // 👈 PEC address
       },
+
+      // UTM tracking data
+      utm: utmData,
 
       print_files: printFiles,
       amount: Math.round((totals?.total || 0) * 100),
@@ -95,6 +102,9 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
   try {
     const appsUrl = import.meta.env.VITE_APPS_SCRIPT_URL;
     if (!appsUrl) return;
+
+    // Get UTM tracking data
+    const utmData = getUTMDataForOrder();
 
     // ✅ CRITICAL: Normalize billing fields to match Apps Script expectations
     const payload = {
@@ -128,6 +138,9 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
         sdiCode: (billingInfo?.sdiCode || '').trim() || null,
         pec: (billingInfo?.pec || billingInfo?.pecAddress || '').trim() || null
       },
+
+      // UTM tracking data
+      utm: utmData,
 
       payment_details: {
         provider: 'paypal',
