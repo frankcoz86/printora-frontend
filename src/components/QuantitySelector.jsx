@@ -2,9 +2,13 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Plus, Minus } from 'lucide-react';
 
-const QuantitySelector = ({ quantity, setQuantity, min = 1, showLabel = true }) => {
+const QuantitySelector = ({ quantity, setQuantity, min = 1, showLabel = true, onRemove }) => {
   const handleDecrement = () => {
-    setQuantity(Math.max(min, quantity - 1));
+    if (quantity <= min && onRemove) {
+      onRemove();
+    } else {
+      setQuantity(Math.max(min, quantity - 1));
+    }
   };
 
   const handleIncrement = () => {
