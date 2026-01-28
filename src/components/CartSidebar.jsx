@@ -47,9 +47,9 @@ const CartSidebar = () => {
               <div className="flex items-center gap-3">
                 <h2 className="text-xl font-semibold text-white">Il Tuo Carrello</h2>
                 {cartQuantity > 0 && (
-                    <div className="flex items-center justify-center w-6 h-6 bg-primary text-primary-foreground text-xs font-bold rounded-full">
-                      {cartQuantity}
-                    </div>
+                  <div className="flex items-center justify-center w-6 h-6 bg-primary text-primary-foreground text-xs font-bold rounded-full">
+                    {cartQuantity}
+                  </div>
                 )}
               </div>
               <Button
@@ -98,25 +98,33 @@ const CartSidebar = () => {
                           <div className="flex-grow pr-4">
                             <h3 className="font-medium text-white text-lg mb-1 leading-tight">{item.name}</h3>
                             {item.details?.description && (
-                                <p className="text-sm text-slate-400">{item.details.description}</p>
+                              <p className="text-sm text-slate-400">{item.details.description}</p>
                             )}
                             <div className="flex items-center justify-between mt-2">
-                                <QuantitySelector
-                                    quantity={item.quantity}
-                                    setQuantity={(newQuantity) => updateCartItemQuantity(item.id, newQuantity)}
-                                    min={1}
-                                />
-                                <p className="text-xl font-semibold text-primary shrink-0">€{(item.total || 0).toFixed(2)}</p>
+                              <QuantitySelector
+                                quantity={item.quantity}
+                                setQuantity={(newQuantity) => updateCartItemQuantity(item.id, newQuantity)}
+                                min={1}
+                              />
+                              <p className="text-xl font-semibold text-primary shrink-0">€{(item.total || 0).toFixed(2)}</p>
                             </div>
                           </div>
-                           <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => removeFromCart(item.id)}
-                              className="text-slate-500 hover:text-destructive hover:bg-destructive/10 h-8 w-8 rounded-full transition-colors shrink-0"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeFromCart(item.id);
+                            }}
+                            onTouchEnd={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              removeFromCart(item.id);
+                            }}
+                            className="text-slate-500 hover:text-destructive hover:bg-destructive/10 h-10 w-10 md:h-8 md:w-8 rounded-full transition-colors shrink-0"
+                          >
+                            <Trash2 className="w-5 h-5 md:w-4 md:h-4" />
+                          </Button>
                         </motion.div>
                       ))}
                     </AnimatePresence>

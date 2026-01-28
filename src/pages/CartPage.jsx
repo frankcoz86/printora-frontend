@@ -100,8 +100,21 @@ const CartPage = () => {
                                             min="1"
                                         />
                                         <p className="text-lg font-semibold w-24 text-right text-white">€{(item.total || 0).toFixed(2)}</p>
-                                        <Button variant="ghost" size="icon" onClick={() => removeFromCart(item.id)} className="hover:bg-red-500/20">
-                                            <Trash2 className="h-5 w-5 text-red-500" />
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                removeFromCart(item.id);
+                                            }}
+                                            onTouchEnd={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                removeFromCart(item.id);
+                                            }}
+                                            className="hover:bg-red-500/20 h-10 w-10 md:h-9 md:w-9"
+                                        >
+                                            <Trash2 className="h-5 w-5" />
                                         </Button>
                                     </div>
                                 </motion.div>
