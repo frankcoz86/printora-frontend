@@ -96,7 +96,7 @@ const RollupDev4Page = ({ heroTitle, heroSubtitle, heroButton }) => {
                                             Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: seleziona formato e opzioni e vedi subito il costo finale mentre prepari il tuo roll-up.
                                         </p>
                                     </div>
-                                    <ShippingGuarantee productionTime="24h" deliveryTime="24/48h" />
+                                    <ShippingGuarantee productionTime="24h" deliveryTime="48/72 h" />
                                     <TechnicalSupportCta productName={rollupProduct.name} />
                                     <RollupSelectorOffer product={rollupProduct} onAddToCart={addToCart} />
                                 </div>

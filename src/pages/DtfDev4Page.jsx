@@ -121,7 +121,7 @@ const DtfDev4Page = () => {
                                     Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: scegli la lunghezza e le opzioni e vedi subito il costo finale mentre prepari la tua stampa DTF.
                                 </p>
                             </div>
-                            <ShippingGuarantee productionTime="24h" deliveryTime="24/48h" />
+                            <ShippingGuarantee productionTime="24h" deliveryTime="48/72 h" />
                             <TechnicalSupportCta productName="Stampa DTF" />
                             <DtfPriceCalculatorOffer product={dtfProduct} onAddToCart={addToCart} />
                         </motion.div>

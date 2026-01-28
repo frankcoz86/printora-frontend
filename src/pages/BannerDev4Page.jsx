@@ -98,7 +98,7 @@ const BannerDev4Page = ({ heroTitle, heroSubtitle }) => {
                                             Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: l'editor ti mostra subito il costo finale mentre personalizzi il tuo striscione.
                                         </p>
                                     </div>
-                                    <ShippingGuarantee productionTime="24h" deliveryTime="24/48h" />
+                                    <ShippingGuarantee productionTime="24h" deliveryTime="48/72 h" />
                                     <TechnicalSupportCta productName={bannerProduct.name} />
                                     <BannerPriceCalculatorOffer product={bannerProduct} onAddToCart={addToCart} />
                                 </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Check, X, TrendingDown, Users, Building2, Euro, ArrowRight } from 'lucide-react';
+import { Check, TrendingDown, Building2, Euro } from 'lucide-react';
 
 const ComparisonRow = ({ label, marketValue, printoraValue, isPrice = false, isPositive = true }) => (
     <div className="grid grid-cols-3 items-center py-4 border-b border-white/5 last:border-0 relative group">
@@ -68,58 +68,7 @@ const PriceComparison = ({ product }) => {
     );
 };
 
-const VolumeDiscounts = ({ product }) => {
-    // Determine tiers logic
-    const getTiers = () => {
-        let tiers = [];
-        if (product.type === 'banner') {
-            tiers = [
-                { qty: '1-10', price: product.price },
-                { qty: '11-50', price: product.price * 0.9 },
-                { qty: '50+', price: product.price * 0.85 },
-            ];
-        } else if (product.type === 'rollup') {
-            tiers = [
-                { qty: '1-5', price: product.price },
-                { qty: '6-20', price: product.price - 5 },
-                { qty: '20+', price: product.price - 10 },
-            ];
-        } else { // DTF
-            tiers = [
-                { qty: '1-5', price: product.price },
-                { qty: '6-20', price: product.price * 0.9 },
-                { qty: '20+', price: product.price * 0.8 },
-            ];
-        }
-        return tiers;
-    };
-    const tiers = getTiers();
 
-    return (
-        <div className="mt-8">
-            <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                <Users className="w-4 h-4" /> Sconti per Quantità
-            </h4>
-            <div className="grid grid-cols-3 gap-3">
-                {tiers.map((tier, idx) => (
-                    <div key={idx} className="relative group p-4 rounded-xl border border-white/10 bg-slate-800/30 hover:bg-slate-700/50 transition-all text-center">
-                        <div className="text-xs text-gray-500 mb-1">
-                            {product.type === 'rollup' ? 'Pezzi' : product.type === 'dtf' ? 'Metri' : 'Mq'}
-                        </div>
-                        <div className="text-lg font-bold text-white mb-1">{tier.qty}</div>
-                        <div className="text-emerald-400 font-bold">€{tier.price.toFixed(2)}</div>
-
-                        {idx > 0 && (
-                            <div className="absolute top-0 right-0 -mr-2 -mt-2 bg-emerald-500 text-slate-900 text-[10px] font-bold px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                                -{Math.round(((product.price - tier.price) / product.price) * 100)}%
-                            </div>
-                        )}
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
 
 const IndustryPricing = ({ product }) => {
     return (
@@ -183,7 +132,6 @@ const IndustryPricing = ({ product }) => {
                         <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 rounded-3xl transform rotate-3"></div>
                         <div className="relative bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl shadow-black/50">
                             <PriceComparison product={product} />
-                            <VolumeDiscounts product={product} />
                         </div>
                     </motion.div>
 

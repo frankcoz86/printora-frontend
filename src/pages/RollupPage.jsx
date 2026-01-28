@@ -6,6 +6,10 @@ import { CheckCircle, Award } from 'lucide-react';
 import { products } from '@/data/products';
 import RollupSelectorOffer from '@/components/RollupSelectorOffer';
 import ProductGallery from '@/components/ProductGallery';
+import ProfessionalCallout from '@/components/ProfessionalCallout';
+import ShippingGuarantee from '@/components/ShippingGuarantee';
+import TechnicalSupportCta from '@/components/TechnicalSupportCta';
+import IndustryPricing from '@/components/IndustryPricing';
 import Loader from '@/components/Loader';
 const Faq = lazy(() => import('@/components/Faq'));
 const WhyChooseUs = lazy(() => import('@/components/WhyChooseUs'));
@@ -25,9 +29,9 @@ const RollupPage = ({ heroTitle, heroSubtitle, heroButton }) => {
     return (
         <>
             <Helmet>
-                <title>Stampa Roll-up Pubblicitari Online | Qualità PROMO | Printora</title>
-                <meta name="description" content="Espositori roll-up avvolgibili professionali. Stampa HD, struttura in alluminio e borsa da trasporto inclusa. Ideali per fiere, eventi e punto vendita." />
-                <meta name="keywords" content="stampa rollup, roll up, espositore avvolgibile, espositore pubblicitario, printora" />
+                <title>Stampa Roll-up Pubblicitari Online DEV4 | Qualità PROMO | Printora</title>
+                <meta name="description" content="Versione DEV4 - Espositori roll-up avvolgibili professionali. Stampa HD, struttura in alluminio e borsa da trasporto inclusa." />
+                <meta name="keywords" content="stampa rollup dev4, roll up, espositore avvolgibile, espositore pubblicitario, printora" />
             </Helmet>
             <div className="bg-slate-950 overflow-hidden">
                 <div className="container mx-auto px-4 pt-16 pb-20 text-center relative">
@@ -35,12 +39,19 @@ const RollupPage = ({ heroTitle, heroSubtitle, heroButton }) => {
                     <div className="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative z-10">
                         <h1 className="relative z-20 text-4xl md:text-6xl font-extrabold leading-[1.25] tracking-tight text-cyan-300">
-                            {"Trova un Roll-up con miglior qualita' o prezzo, ed il tuo prossimo ordine e' gratis"}
+                            Roll-up professionali pronti all'uso
                         </h1>
                         <p className="mt-[21px] text-[23px] text-gray-300 max-w-3xl mx-auto">
-                            {"50% di sconto se acquisti da questa pagina adesso"}
+                            Struttura solida · Stampa di qualità · Promo attiva
                         </p>
                     </motion.div>
+                </div>
+            </div>
+
+            {/* Professional Messaging */}
+            <div className="bg-slate-900 py-8">
+                <div className="container mx-auto px-4">
+                    <ProfessionalCallout />
                 </div>
             </div>
 
@@ -85,6 +96,8 @@ const RollupPage = ({ heroTitle, heroSubtitle, heroButton }) => {
                                             Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: seleziona formato e opzioni e vedi subito il costo finale mentre prepari il tuo roll-up.
                                         </p>
                                     </div>
+                                    <ShippingGuarantee productionTime="24h" deliveryTime="48/72 h" />
+                                    <TechnicalSupportCta productName={rollupProduct.name} />
                                     <RollupSelectorOffer product={rollupProduct} onAddToCart={addToCart} />
                                 </div>
                             </motion.div>
@@ -93,6 +106,7 @@ const RollupPage = ({ heroTitle, heroSubtitle, heroButton }) => {
                 </div>
             </div>
 
+            <IndustryPricing product={rollupProduct} />
             <ProductGallery productType="rollup" />
             <WhyChooseUs />
             <WhyBetter />

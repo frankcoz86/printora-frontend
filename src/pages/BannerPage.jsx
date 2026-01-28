@@ -6,6 +6,10 @@ import { Wind } from 'lucide-react';
 import { products } from '@/data/products';
 import BannerPriceCalculatorOffer from '@/components/BannerPriceCalculatorOffer';
 import ProductGallery from '@/components/ProductGallery';
+import ProfessionalCallout from '@/components/ProfessionalCallout';
+import ShippingGuarantee from '@/components/ShippingGuarantee';
+import TechnicalSupportCta from '@/components/TechnicalSupportCta';
+import IndustryPricing from '@/components/IndustryPricing';
 import Loader from '@/components/Loader';
 
 const Faq = lazy(() => import('@/components/Faq'));
@@ -26,9 +30,9 @@ const BannerPage = ({ heroTitle, heroSubtitle }) => {
     return (
         <>
             <Helmet>
-                <title>Stampa Striscioni Banner in PVC | PROMO Online | Printora</title>
-                <meta name="description" content="Stampa online striscioni e banner in PVC personalizzati. Occhiellati e resistenti, ideali per esterni. Calcola il preventivo e ordina in pochi click!" />
-                <meta name="keywords" content="stampa striscioni, banner pvc, striscioni personalizzati, stampa grande formato, printora" />
+                <title>Stampa Striscioni Banner in PVC DEV4 | PROMO Online | Printora</title>
+                <meta name="description" content="Versione DEV4 - Stampa online striscioni e banner in PVC personalizzati. Occhiellati e resistenti, ideali per esterni." />
+                <meta name="keywords" content="stampa striscioni dev4, banner pvc, striscioni personalizzati, stampa grande formato, printora" />
             </Helmet>
             <div className="bg-slate-950 overflow-hidden">
                 <div className="container mx-auto px-4 pt-16 pb-20 text-center relative">
@@ -36,12 +40,19 @@ const BannerPage = ({ heroTitle, heroSubtitle }) => {
                     <div className="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative z-10">
                         <h1 className="relative z-20 text-4xl md:text-6xl font-extrabold leading-[1.25] tracking-tight text-emerald-300">
-                            {"Trova un banner con miglior qualita' o prezzo, ed il tuo prossimo ordine e' gratis"}
+                            Banner PVC professionali: <br className="hidden md:block" /> qualità alta, prezzo chiaro
                         </h1>
                         <p className="mt-[21px] text-[23px] text-gray-300 max-w-3xl mx-auto">
-                            {"50% di sconto se acquisti da questa pagina adesso."}
+                            50% di sconto riservato a chi ordina ora
                         </p>
                     </motion.div>
+                </div>
+            </div>
+
+            {/* Professional Messaging */}
+            <div className="bg-slate-900 py-8">
+                <div className="container mx-auto px-4">
+                    <ProfessionalCallout />
                 </div>
             </div>
 
@@ -87,6 +98,8 @@ const BannerPage = ({ heroTitle, heroSubtitle }) => {
                                             Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: l'editor ti mostra subito il costo finale mentre personalizzi il tuo striscione.
                                         </p>
                                     </div>
+                                    <ShippingGuarantee productionTime="24h" deliveryTime="48/72 h" />
+                                    <TechnicalSupportCta productName={bannerProduct.name} />
                                     <BannerPriceCalculatorOffer product={bannerProduct} onAddToCart={addToCart} />
                                 </div>
                             </motion.div>
@@ -95,6 +108,7 @@ const BannerPage = ({ heroTitle, heroSubtitle }) => {
                 </div>
             </div>
 
+            <IndustryPricing product={bannerProduct} />
             <ProductGallery productType="banner" />
             <WhyChooseUs />
             <WhyBetter />

@@ -6,6 +6,10 @@ import { Paintbrush, Sparkles, Zap, Package, Edit, Upload, Printer, Shirt, Shopp
 import { dtfProduct } from '@/data/products';
 import DtfPriceCalculatorOffer from '@/components/DtfPriceCalculatorOffer';
 import ProductGallery from '@/components/ProductGallery';
+import ProfessionalCallout from '@/components/ProfessionalCallout';
+import ShippingGuarantee from '@/components/ShippingGuarantee';
+import TechnicalSupportCta from '@/components/TechnicalSupportCta';
+import IndustryPricing from '@/components/IndustryPricing';
 
 const Feature = ({ icon: Icon, title, description }) => (
   <div className="flex items-start space-x-4">
@@ -55,9 +59,9 @@ const DtfPage = () => {
   return (
     <>
       <Helmet>
-        <title>Stampa DTF al Metro | Inchiostri Fluo | Printora</title>
-        <meta name="description" content="Stampa DTF personalizzata al metro lineare. Ideale per tessuti, con colori brillanti, bianco coprente e inchiostri fluo opzionali. Calcola il preventivo e ordina online." />
-        <meta name="keywords" content="stampa dtf, dtf al metro, stampa transfer, dtf fluo, stampa tessuti, personalizzazione abbigliamento" />
+        <title>Stampa DTF al Metro DEV4 | Inchiostri Fluo | Printora</title>
+        <meta name="description" content="Versione DEV4 - Stampa DTF personalizzata al metro lineare. Ideale per tessuti, con colori brillanti, bianco coprente e inchiostri fluo opzionali." />
+        <meta name="keywords" content="stampa dtf dev4, dtf al metro, stampa transfer, dtf fluo, stampa tessuti, personalizzazione abbigliamento" />
       </Helmet>
 
       <div className="bg-slate-950 overflow-hidden">
@@ -71,13 +75,19 @@ const DtfPage = () => {
             className="relative z-10"
           >
             <h1 className="relative z-20 text-4xl md:text-6xl font-extrabold leading-[1.25] tracking-tight text-fuchsia-300">
-              <span>Trova una miglior qualita' o prezzo di dtf</span>
-              <span className="block text-fuchsia-100">ed il tuo prossimo ordine e' gratis</span>
+              Stampa DTF professionale €7,90
             </h1>
             <p className="mt-[21px] text-[23px] text-gray-300 max-w-3xl mx-auto">
-              {"50% di sconto se acquisti ora!"}
+              Film premium · Bianco coprente · Pronto da pressare
             </p>
           </motion.div>
+        </div>
+      </div>
+
+      {/* Professional Messaging */}
+      <div className="bg-slate-900 py-8">
+        <div className="container mx-auto px-4">
+          <ProfessionalCallout />
         </div>
       </div>
 
@@ -111,12 +121,15 @@ const DtfPage = () => {
                   Nessuna attesa, nessun preventivo da richiedere, nessuna sorpresa sul prezzo: scegli la lunghezza e le opzioni e vedi subito il costo finale mentre prepari la tua stampa DTF.
                 </p>
               </div>
+              <ShippingGuarantee productionTime="24h" deliveryTime="48/72 h" />
+              <TechnicalSupportCta productName="Stampa DTF" />
               <DtfPriceCalculatorOffer product={dtfProduct} onAddToCart={addToCart} />
             </motion.div>
           </div>
         </div>
       </div>
 
+      <IndustryPricing product={dtfProduct} />
       <ProductGallery productType="dtf" />
 
       <div className="py-12 md:py-16 bg-slate-950">

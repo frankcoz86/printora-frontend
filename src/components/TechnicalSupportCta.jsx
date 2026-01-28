@@ -29,7 +29,7 @@ const TechnicalSupportCta = ({ productName }) => {
                             <span className="text-[10px] ml-auto uppercase tracking-wide font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">Esperti</span>
                         </div>
                         <p className="text-xs text-gray-400 truncate group-hover:text-gray-300 transition-colors">
-                            Dubbi? Parla con il titolare del laboratorio
+                            Dubbi? Un grafico a tua disposizione
                         </p>
                     </div>
                 </div>
