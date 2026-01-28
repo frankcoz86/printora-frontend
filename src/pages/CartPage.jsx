@@ -96,15 +96,15 @@ const CartPage = () => {
                                         {item.details?.description && <p className="text-sm text-slate-400 max-w-md truncate">{item.details.description}</p>}
                                     </div>
                                     <div className="flex items-center gap-3">
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2">
                                             <Input
                                                 type="number"
                                                 value={item.quantity}
                                                 onChange={(e) => updateCartItemQuantity(item.id, Math.max(1, parseInt(e.target.value) || 1))}
-                                                className="w-16 h-8 text-center bg-slate-800 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500 p-0"
+                                                className="w-16 h-8 text-center bg-slate-800 border-slate-700 focus:border-emerald-500 focus:ring-emerald-500 p-0 text-sm"
                                                 min="1"
                                             />
-                                            <p className="text-lg font-semibold text-white">€{(item.total || 0).toFixed(2)}</p>
+                                            <p className="text-sm md:text-lg font-semibold text-white">€{(item.total || 0).toFixed(2)}</p>
                                         </div>
                                         <Button variant="ghost" size="icon" onClick={() => removeFromCart(item.id)} className="hover:bg-red-500/20 h-8 w-8 shrink-0">
                                             <Trash2 className="h-5 w-5 text-red-500" />
