@@ -5,7 +5,7 @@ import { stripePromise } from '@/lib/stripeClient'; // Import your stripe promis
 import { Toaster } from '@/components/ui/toaster';
 import { AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
-import { getCurrentUTMParams } from '@/lib/utmTracking';
+import { initUTMTracking } from '@/lib/utmTracking';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CartSidebar from '@/components/CartSidebar';
@@ -142,7 +142,7 @@ function App() {
 
     // Capture UTM parameters on app load
     useEffect(() => {
-        getCurrentUTMParams();
+        initUTMTracking();
     }, []);
 
     return (

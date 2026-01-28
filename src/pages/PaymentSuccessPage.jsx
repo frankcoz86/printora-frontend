@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { gtmPush } from '@/lib/gtm';
 import { trackPurchase, generateEventID } from '@/lib/fbPixel';
+import { getUTMDataForOrder } from '@/lib/utmTracking';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
@@ -149,6 +150,10 @@ const PaymentSuccessPage = () => {
         } else {
           orderDetails = buildOrderFromStripe(session, session?.line_items || [], sessionId);
         }
+
+        // Add UTM parameters for campaign attribution
+        const utmData = getUTMDataForOrder();
+        orderDetails.utm = utmData;
 
         orderDetails.amount = Math.round((orderDetails?.total_amount ?? 0) * 100);
         const { data: savedOrder, error: saveError } = await saveOrder(orderDetails);

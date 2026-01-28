@@ -4,9 +4,9 @@ import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from '@/components/ui/use-toast';
 import { useSupabase } from '@/context/SupabaseContext';
+import { getUTMDataForOrder } from '@/lib/utmTracking';
 import { useCart } from '@/context/CartContext';
 import { getShippingRate } from '@/config/shippingRates';
-import { getUTMDataForOrder } from '@/lib/utmTracking';
 import ShippingAddressForm from '@/components/shipping/ShippingAddressForm';
 import OrderSummary from '@/components/shipping/OrderSummary';
 
@@ -278,6 +278,9 @@ const NewShippingPage = () => {
   const handleSaveOrder = useCallback(async (paymentMethod, paymentDetails) => {
     const printFiles = buildPrintFiles(cart);
 
+    // Get UTM parameters for campaign attribution
+    const utmData = getUTMDataForOrder();
+
     const orderDetails = {
       shipping_address: address,                 // includes phone & notes
       billing_info: billingInfo,
@@ -291,6 +294,7 @@ const NewShippingPage = () => {
       status: 'pagato',
       payment_method: paymentMethod,
       payment_details: paymentDetails,
+      utm: utmData, // ✅ Include UTM parameters for campaign tracking
     };
 
     const { data: savedOrder, error } = await saveOrder(orderDetails);
