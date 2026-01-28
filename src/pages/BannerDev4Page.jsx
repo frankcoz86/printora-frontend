@@ -40,7 +40,7 @@ const BannerDev4Page = ({ heroTitle, heroSubtitle }) => {
                     <div className="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-primary/20 rounded-full filter blur-3xl opacity-50 animate-blob animation-delay-4000"></div>
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative z-10">
                         <h1 className="relative z-20 text-4xl md:text-6xl font-extrabold leading-[1.25] tracking-tight text-emerald-300">
-                            Banner PVC professionali: qualità alta, prezzo chiaro
+                            Banner PVC professionali: <br className="hidden md:block" /> alta qualità, prezzo chiaro
                         </h1>
                         <p className="mt-[21px] text-[23px] text-gray-300 max-w-3xl mx-auto">
                             50% di sconto riservato a chi ordina ora
