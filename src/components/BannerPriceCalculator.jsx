@@ -441,7 +441,7 @@ const BannerPriceCalculator = ({ product, onAddToCart }) => {
             <span className="font-semibold w-10 text-center text-lg">{quantity}</span>
             <Button variant="outline" size="icon" onClick={() => setQuantity(quantity + 1)}><Plus className="w-4 h-4" /></Button>
           </div>
-          <div className="text-right">
+          <div key={`price-${totalPrice}`} className="text-right">
             <p className="text-3xl font-bold text-emerald-300">€{totalPrice.toFixed(2)}</p>
             <span className="text-xs text-gray-400 block">(IVA esclusa)</span>
           </div>

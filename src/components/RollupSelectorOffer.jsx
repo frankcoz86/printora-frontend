@@ -163,8 +163,8 @@ const RollupSelectorOffer = ({ product, onAddToCart }) => {
               variant={selectedFormat.label === format.label ? 'default' : 'outline'}
               onClick={() => setSelectedFormat(format)}
               className={`w-full h-auto py-3 px-2 text-center transition-all duration-300 group ${selectedFormat.label === format.label
-                  ? 'bg-cyan-500 border-cyan-400 text-white shadow-lg shadow-cyan-500/20 scale-105'
-                  : 'bg-slate-800/50 border-slate-600 hover:bg-slate-700/70 hover:border-cyan-500'
+                ? 'bg-cyan-500 border-cyan-400 text-white shadow-lg shadow-cyan-500/20 scale-105'
+                : 'bg-slate-800/50 border-slate-600 hover:bg-slate-700/70 hover:border-cyan-500'
                 }`}
             >
               <div className="flex flex-col items-center">
@@ -241,7 +241,7 @@ const RollupSelectorOffer = ({ product, onAddToCart }) => {
             </div>
           </div>
 
-          <div className="text-right sm:min-w-[220px]">
+          <div key={`price-${totalPrice}-${savings}`} className="text-right sm:min-w-[220px]">
             <div className="flex flex-col items-end gap-1 mb-2 md:flex-row md:items-center md:gap-3">
               {originalTotalPrice > 0 && (
                 <span className="relative inline-flex items-center px-1.5 py-0.5 text-base md:text-lg font-semibold text-white/90">

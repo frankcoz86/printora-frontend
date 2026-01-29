@@ -296,7 +296,7 @@ const DtfPriceCalculatorOffer = ({ product, onAddToCart }) => {
               <Plus className="w-4 h-4" />
             </Button>
           </div>
-          <div className="text-right">
+          <div key={`price-${totalPrice}-${savings}`} className="text-right">
             <div className="flex flex-col items-end gap-1 mb-2 md:flex-row md:items-center md:gap-3">
               {originalTotalPrice > 0 && (
                 <span className="relative inline-flex items-center px-1.5 py-0.5 text-base md:text-lg font-semibold text-white/90">

@@ -158,7 +158,7 @@ const RollupSelector = ({ product, onAddToCart }) => {
           </div>
         </div>
 
-        <div className="text-right bg-slate-800/30 p-3 rounded-lg">
+        <div key={`price-${selectedFormat.promo_price * quantity}`} className="text-right bg-slate-800/30 p-3 rounded-lg">
           <p className="text-sm text-rose-300">Listino: <span className="line-through">€{(selectedFormat.list_price * quantity).toFixed(2)}</span></p>
           <p className="text-3xl font-bold text-cyan-300">€{(selectedFormat.promo_price * quantity).toFixed(2)}</p>
         </div>

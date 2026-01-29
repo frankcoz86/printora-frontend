@@ -253,7 +253,7 @@ const DtfPriceCalculator = ({ product, onAddToCart }) => {
               <Plus className="w-4 h-4" />
             </Button>
           </div>
-          <div className="text-right">
+          <div key={`price-${totalPrice}`} className="text-right">
             <span className="text-sm text-gray-300 block">Prezzo Finale PROMO</span>
             <span className="text-xl text-gray-500 line-through mr-2">€{(product.list_price * quantity * (length / 100)).toFixed(2)}</span>
             <span className="text-3xl font-bold text-fuchsia-300 animate-pulse">€{totalPrice.toFixed(2)}</span>
