@@ -4,15 +4,12 @@ export const getShippingRate = (subtotal) => {
 
     if (subtotal < 0) {
         price = 0; // Should not happen
-    } else if (subtotal <= 40) {
+    } else if (subtotal < 50) {
         price = 7.90;
-    } else if (subtotal <= 100) {
+    } else if (subtotal < 150) {
+        price = 9.90;
+    } else { // subtotal >= 150
         price = 12.90;
-    } else if (subtotal < 250) {
-        price = 14.90;
-    } else { // subtotal >= 250
-        price = 0;
-        name = 'Spedizione Gratuita';
     }
 
     return {
