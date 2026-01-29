@@ -3,8 +3,39 @@ import { FileText } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 const BillingInfoForm = ({ billingInfo, setBillingInfo }) => {
+  // Format Partita IVA: pad with leading zeros and add IT prefix
+  const formatPartitaIVA = (value) => {
+    if (!value) return '';
+
+    // Remove any non-digit characters and IT prefix
+    let digits = value.replace(/[^\d]/g, '');
+
+    // If empty, return empty
+    if (digits.length === 0) return '';
+
+    // Pad with leading zeros to make it 11 digits
+    if (digits.length < 11) {
+      digits = digits.padStart(11, '0');
+    }
+
+    // Limit to 11 digits
+    if (digits.length > 11) {
+      digits = digits.slice(0, 11);
+    }
+
+    // Add IT prefix
+    return `IT${digits}`;
+  };
+
   const handleChange = (e) => {
-    setBillingInfo({ ...billingInfo, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === 'vatId') {
+      // For vatId, just store the raw input (will format on blur)
+      setBillingInfo({ ...billingInfo, [name]: value });
+    } else {
+      setBillingInfo({ ...billingInfo, [name]: value });
+    }
   };
 
   return (
@@ -23,13 +54,30 @@ const BillingInfoForm = ({ billingInfo, setBillingInfo }) => {
           className="md:col-span-2 bg-slate-700/50 border-slate-600 h-12"
         />
 
-        <Input
-          name="vatId"
-          placeholder="Partita IVA"
-          value={billingInfo.vatId}
-          onChange={handleChange}
-          className="bg-slate-700/50 border-slate-600 h-12"
-        />
+        <div className="relative">
+          <Input
+            name="vatId"
+            placeholder="Partita IVA (es: 1234567890)"
+            value={billingInfo.vatId}
+            onChange={handleChange}
+            onBlur={(e) => {
+              // Format on blur (when user leaves field)
+              const formatted = formatPartitaIVA(e.target.value);
+              if (formatted) {
+                setBillingInfo({ ...billingInfo, vatId: formatted });
+              }
+            }}
+            className="bg-slate-700/50 border-slate-600 h-12"
+            maxLength={13}
+          />
+          {billingInfo.vatId && billingInfo.vatId.length > 0 && (
+            <p className="text-xs text-slate-400 mt-1">
+              {billingInfo.vatId.startsWith('IT') && billingInfo.vatId.length === 13
+                ? '✓ Formato corretto (IT + 11 cifre)'
+                : 'Verrà formattato automaticamente quando completi il campo'}
+            </p>
+          )}
+        </div>
 
         {/* NEW: Codice Fiscale */}
         <Input
