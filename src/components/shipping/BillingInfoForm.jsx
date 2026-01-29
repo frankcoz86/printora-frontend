@@ -57,7 +57,7 @@ const BillingInfoForm = ({ billingInfo, setBillingInfo }) => {
         <div className="relative">
           <Input
             name="vatId"
-            placeholder="Partita IVA (es: 1234567890)"
+            placeholder="Partita IVA (es: IT01234567890)"
             value={billingInfo.vatId}
             onChange={handleChange}
             onBlur={(e) => {
