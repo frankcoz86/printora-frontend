@@ -6,7 +6,18 @@ const ShippingGuarantee = ({ productionTime = "24h", deliveryTime = "24/48h" }) 
     const getEstimatedDelivery = () => {
         const today = new Date();
         const deliveryDate = new Date(today);
-        deliveryDate.setDate(today.getDate() + 3);
+
+        // Add 3 business days (skip weekends)
+        let daysAdded = 0;
+        while (daysAdded < 3) {
+            deliveryDate.setDate(deliveryDate.getDate() + 1);
+            const dayOfWeek = deliveryDate.getDay();
+            // Skip Saturday (6) and Sunday (0)
+            if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+                daysAdded++;
+            }
+        }
+
         const options = { weekday: 'short', day: 'numeric', month: 'short' };
         return deliveryDate.toLocaleDateString('it-IT', options);
     };
