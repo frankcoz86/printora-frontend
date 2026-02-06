@@ -21,16 +21,16 @@ const categoryIcons = {
 };
 
 const getProductTemplates = (productType) => {
-    switch (productType) {
-        case 'banner':
-            return { templates: bannerTemplates, order: ["Immobiliare", "Saldi e Promozioni", "Ristorazione", "Eventi"] };
-        case 'rollup':
-            return { templates: rollupTemplates, order: ["Saldi e Promozioni", "Eventi e Fiere", "Ristorazione"] };
-        case 'rigid-media':
-            return { templates: rigidMediaTemplates, order: ["Targhe", "Insegne", "Fotoquadri"] };
-        default:
-            return { templates: [], order: [] };
-    }
+  switch (productType) {
+    case 'banner':
+      return { templates: bannerTemplates, order: ["Immobiliare", "Saldi e Promozioni", "Ristorazione", "Eventi"] };
+    case 'rollup':
+      return { templates: rollupTemplates, order: ["Saldi e Promozioni", "Eventi e Fiere", "Ristorazione"] };
+    case 'rigid-media':
+      return { templates: rigidMediaTemplates, order: ["Targhe", "Insegne", "Fotoquadri"] };
+    default:
+      return { templates: [], order: [] };
+  }
 };
 
 const TemplateBrowser = ({ isOpen, onOpenChange, onSelectTemplate, productType, designState }) => {
@@ -51,7 +51,7 @@ const TemplateBrowser = ({ isOpen, onOpenChange, onSelectTemplate, productType, 
 
   const { categorizedTemplates, categoryOrder } = useMemo(() => {
     const { templates, order } = getProductTemplates(productType);
-    
+
     const categorized = templates.reduce((acc, template) => {
       const category = template.category || 'Generici';
       if (!acc[category]) {
@@ -60,29 +60,37 @@ const TemplateBrowser = ({ isOpen, onOpenChange, onSelectTemplate, productType, 
       acc[category].push(template);
       return acc;
     }, {});
-    
+
     const finalOrder = order.filter(cat => categorized[cat] && categorized[cat].length > 0);
 
     return { categorizedTemplates: categorized, categoryOrder: finalOrder };
   }, [productType]);
 
   const getProductTitle = (type) => {
-      switch (type) {
-          case 'banner': return 'Banner';
-          case 'rollup': return 'Roll-up';
-          case 'rigid-media': return 'Supporto Rigido';
-          default: return 'Prodotto';
-      }
+    switch (type) {
+      case 'banner': return 'Banner';
+      case 'rollup': return 'Roll-up';
+      case 'rigid-media': return 'Supporto Rigido';
+      default: return 'Prodotto';
+    }
   }
 
   const handleDownloadTemplate = () => {
-    if (!designState) return;
-    generateLayoutPdf({
+    if (productType === 'banner') {
+      // Open the Banner guide PDF
+      window.open('/assets/template Banner.pdf', '_blank');
+    } else if (productType === 'rollup') {
+      // Open the Roll-up guide PDF
+      window.open('/assets/template roll-up.pdf', '_blank');
+    } else if (designState) {
+      // Generate PDF for other product types (rigid media, etc.)
+      generateLayoutPdf({
         type: designState.product.type,
         width: designState.width,
         height: designState.height,
         productName: designState.product.name,
-    });
+      });
+    }
   };
 
   return (
@@ -95,7 +103,7 @@ const TemplateBrowser = ({ isOpen, onOpenChange, onSelectTemplate, productType, 
           <DialogDescription className="text-slate-400 pt-2 flex justify-between items-center">
             <span>Parti da una base professionale. Scegli un template per categoria e modificalo come vuoi.</span>
             <Button onClick={handleDownloadTemplate} variant="outline" className="bg-slate-800 border-teal-500 text-teal-300 hover:bg-slate-700 hover:text-teal-200">
-                <Download className="mr-2 h-4 w-4" /> Scarica Template Tecnico
+              <Download className="mr-2 h-4 w-4" /> Scarica Template Tecnico
             </Button>
           </DialogDescription>
         </DialogHeader>

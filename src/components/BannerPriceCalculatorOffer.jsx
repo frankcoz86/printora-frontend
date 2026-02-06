@@ -187,17 +187,9 @@ const BannerPriceCalculatorOffer = ({ product, onAddToCart }) => {
   }, [navigate, product, width, height, quantity, hasReinforcement, hasEyelets, hasSleeve, sleevePosition, sleeveSize, singleBannerPrice, totalPrice]);
 
   const handleDownloadStaticTemplate = useCallback(() => {
-    if (width < 50 || height < 50) {
-      toast({ title: "Misure non valide", description: "Imposta misure valide prima di scaricare il template.", variant: "destructive" });
-      return;
-    }
-    generateLayoutPdf({
-      type: 'banner',
-      width: width,
-      height: height,
-      productName: product.name
-    });
-  }, [width, height, product]);
+    // Open the Banner guide PDF in a new tab
+    window.open('/assets/template Banner.pdf', '_blank');
+  }, []);
 
   const handleAddToCart = useCallback(() => {
     if (width < 50 || height < 50) {

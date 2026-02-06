@@ -20,6 +20,12 @@ const HelpModal = ({ isOpen, onOpenChange, productType }) => {
     if (isDtf) {
       // Open the DTF guide PDF for DTF products
       window.open('/assets/template DTF.pdf', '_blank');
+    } else if (isBanner) {
+      // Open the Banner guide PDF for Banner products
+      window.open('/assets/template Banner.pdf', '_blank');
+    } else if (isRollup) {
+      // Open the Roll-up guide PDF for Roll-up products
+      window.open('/assets/template roll-up.pdf', '_blank');
     } else {
       // Generate PDF for other product types
       generateEditorGuidePdf(productType);

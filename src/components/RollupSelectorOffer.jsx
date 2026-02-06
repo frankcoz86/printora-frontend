@@ -66,14 +66,9 @@ const RollupSelectorOffer = ({ product, onAddToCart }) => {
   }, [navigate, product, selectedFormat, quantity]);
 
   const handleDownloadTemplate = useCallback(() => {
-    const [width, height] = selectedFormat.label.split('x').map(dim => parseInt(dim.trim(), 10));
-    generateLayoutPdf({
-      type: 'rollup',
-      width: width,
-      height: height,
-      productName: `Roll-up ${selectedFormat.label}`
-    });
-  }, [selectedFormat]);
+    // Open the Roll-up guide PDF in a new tab
+    window.open('/assets/template roll-up.pdf', '_blank');
+  }, []);
 
   const handleAddToCart = useCallback(() => {
     if (selectedFormat.available === false) {
