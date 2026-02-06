@@ -40,16 +40,8 @@ const DtfPriceCalculator = ({ product, onAddToCart }) => {
   }, [length, hasFluo, product, quantity]);
 
   const handleDownloadTemplate = () => {
-    if (length < 50) {
-      toast({ title: "Misure non valide", description: "Imposta una lunghezza valida prima di scaricare il template.", variant: "destructive" });
-      return;
-    }
-    generateLayoutPdf({
-      type: 'dtf',
-      width: fixedWidth,
-      height: length,
-      productName: `DTF ${fixedWidth}x${length}cm`
-    });
+    // Open the DTF guide PDF in a new tab
+    window.open('/assets/template DTF.pdf', '_blank');
   }
 
   const handleAddToCart = () => {

@@ -17,7 +17,13 @@ const HelpModal = ({ isOpen, onOpenChange, productType }) => {
   const isRigidMedia = productType === 'rigid-media';
 
   const handleDownload = () => {
-    generateEditorGuidePdf(productType);
+    if (isDtf) {
+      // Open the DTF guide PDF for DTF products
+      window.open('/assets/template DTF.pdf', '_blank');
+    } else {
+      // Generate PDF for other product types
+      generateEditorGuidePdf(productType);
+    }
   };
 
   return (
@@ -25,7 +31,7 @@ const HelpModal = ({ isOpen, onOpenChange, productType }) => {
       <DialogContent className="sm:max-w-[600px] bg-slate-900 border-slate-700 text-white">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-2xl text-cyan-300">
-            <BookOpen className="w-8 h-8"/> Guida Rapida all'Editor
+            <BookOpen className="w-8 h-8" /> Guida Rapida all'Editor
           </DialogTitle>
           <DialogDescription className="text-slate-400 pt-2">
             Benvenuto! Ecco una panoramica delle potenti funzioni a tua disposizione per creare un layout di stampa perfetto.
@@ -56,35 +62,35 @@ const HelpModal = ({ isOpen, onOpenChange, productType }) => {
               </p>
             </div>
           </div>
-           <div className="flex items-start gap-4">
-             <div className="p-2 bg-slate-800 rounded-md mt-1">
-               <Type className="w-6 h-6 text-primary" />
-             </div>
+          <div className="flex items-start gap-4">
+            <div className="p-2 bg-slate-800 rounded-md mt-1">
+              <Type className="w-6 h-6 text-primary" />
+            </div>
             <div>
               <h4 className="font-semibold text-white">Gestione Testo: Grafico vs Casella</h4>
               <p className="text-sm text-slate-400">
                 Hai a disposizione due potenti strumenti per il testo:
               </p>
               <ul className="list-none mt-2 space-y-2">
-                  <li className="flex items-start gap-2">
-                      <CaseSensitive className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
-                      <div>
-                          <strong className="text-white">Testo Grafico:</strong> Ideale per titoli e scritte d'impatto. Si comporta come un'immagine: puoi allungarlo e ridimensionarlo liberamente, e la dimensione del font si adatterà di conseguenza. Usa questo per un controllo preciso sulle dimensioni della scritta.
-                      </div>
-                  </li>
-                  <li className="flex items-start gap-2">
-                      <Pilcrow className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
-                      <div>
-                          <strong className="text-white">Casella di Testo:</strong> Perfetta per paragrafi e descrizioni. Il testo andrà a capo automaticamente all'interno della casella. Puoi ridimensionare la casella e il testo si adatterà, mantenendo la dimensione del font che hai scelto.
-                      </div>
-                  </li>
+                <li className="flex items-start gap-2">
+                  <CaseSensitive className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <strong className="text-white">Testo Grafico:</strong> Ideale per titoli e scritte d'impatto. Si comporta come un'immagine: puoi allungarlo e ridimensionarlo liberamente, e la dimensione del font si adatterà di conseguenza. Usa questo per un controllo preciso sulle dimensioni della scritta.
+                  </div>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Pilcrow className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <strong className="text-white">Casella di Testo:</strong> Perfetta per paragrafi e descrizioni. Il testo andrà a capo automaticamente all'interno della casella. Puoi ridimensionare la casella e il testo si adatterà, mantenendo la dimensione del font che hai scelto.
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
           <div className="flex items-start gap-4">
-             <div className="p-2 bg-slate-800 rounded-md mt-1">
-               <Grid className="w-6 h-6 text-cyan-400" />
-             </div>
+            <div className="p-2 bg-slate-800 rounded-md mt-1">
+              <Grid className="w-6 h-6 text-cyan-400" />
+            </div>
             <div>
               <h4 className="font-semibold text-white">Clipart e Forme</h4>
               <p className="text-sm text-slate-400">
@@ -93,9 +99,9 @@ const HelpModal = ({ isOpen, onOpenChange, productType }) => {
             </div>
           </div>
           <div className="flex items-start gap-4">
-             <div className="p-2 bg-slate-800 rounded-md mt-1">
-               <Shirt className="w-6 h-6 text-cyan-400" />
-             </div>
+            <div className="p-2 bg-slate-800 rounded-md mt-1">
+              <Shirt className="w-6 h-6 text-cyan-400" />
+            </div>
             <div>
               <h4 className="font-semibold text-white">Template Pronti</h4>
               <p className="text-sm text-slate-400">
@@ -114,9 +120,9 @@ const HelpModal = ({ isOpen, onOpenChange, productType }) => {
               </p>
             </div>
           </div>
-           <div className="flex items-start gap-4">
+          <div className="flex items-start gap-4">
             <div className="p-2 bg-slate-800 rounded-md mt-1">
-               <Palette className="w-6 h-6 text-fuchsia-400" />
+              <Palette className="w-6 h-6 text-fuchsia-400" />
             </div>
             <div>
               <h4 className="font-semibold text-white">Colori di Stampa</h4>
@@ -221,10 +227,10 @@ const HelpModal = ({ isOpen, onOpenChange, productType }) => {
           </div>
         </div>
         <div className="flex justify-between items-center mt-4 pt-4 border-t border-slate-700">
-            <Button onClick={handleDownload} variant="outline" className="bg-slate-800 border-slate-700 hover:bg-slate-700">
-                <Download className="mr-2 h-4 w-4" /> Scarica Guida
-            </Button>
-            <Button onClick={() => onOpenChange(false)} variant="accent">Ho capito, iniziamo!</Button>
+          <Button onClick={handleDownload} variant="outline" className="bg-slate-800 border-slate-700 hover:bg-slate-700">
+            <Download className="mr-2 h-4 w-4" /> Scarica Guida
+          </Button>
+          <Button onClick={() => onOpenChange(false)} variant="accent">Ho capito, iniziamo!</Button>
         </div>
       </DialogContent>
     </Dialog>

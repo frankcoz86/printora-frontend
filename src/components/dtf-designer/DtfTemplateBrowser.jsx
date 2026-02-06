@@ -36,18 +36,13 @@ const DtfTemplateBrowser = ({ isOpen, onOpenChange, onSelectTemplate, designStat
       acc[category].push(template);
       return acc;
     }, {});
-    
+
     return { categorizedTemplates: categorized, categoryOrder: order };
   }, []);
 
   const handleDownloadTemplate = () => {
-    if (!designState) return;
-    generateLayoutPdf({
-        type: 'dtf',
-        width: designState.width,
-        height: designState.height,
-        productName: designState.product.name,
-    });
+    // Open the DTF guide PDF in a new tab
+    window.open('/assets/template DTF.pdf', '_blank');
   };
 
   return (
@@ -60,7 +55,7 @@ const DtfTemplateBrowser = ({ isOpen, onOpenChange, onSelectTemplate, designStat
           <DialogDescription className="text-slate-400 pt-2 flex justify-between items-center">
             <span>Inizia con un design pronto all'uso! Scegli un template e aggiungilo al tuo telo.</span>
             <Button onClick={handleDownloadTemplate} variant="outline" className="bg-slate-800 border-teal-500 text-teal-300 hover:bg-slate-700 hover:text-teal-200">
-                <Download className="mr-2 h-4 w-4" /> Scarica Template Tecnico
+              <Download className="mr-2 h-4 w-4" /> Scarica Template Tecnico
             </Button>
           </DialogDescription>
         </DialogHeader>
@@ -88,7 +83,7 @@ const DtfTemplateBrowser = ({ isOpen, onOpenChange, onSelectTemplate, designStat
                       }}
                     >
                       <div className="w-full h-40 flex items-center justify-center p-4 bg-black">
-                         <img  class="max-h-full max-w-full object-contain" alt={template.name} src="https://images.unsplash.com/photo-1580460848325-6b8d06d628cc" />
+                        <img class="max-h-full max-w-full object-contain" alt={template.name} src="https://images.unsplash.com/photo-1580460848325-6b8d06d628cc" />
                       </div>
                       <div className="p-3">
                         <h3 className="font-bold text-white text-md truncate">{template.name}</h3>
