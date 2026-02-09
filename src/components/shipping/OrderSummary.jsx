@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CreditCard, ShieldCheck, Loader2, AlertTriangle, FileImage, Info } from 'lucide-react';
+import { CreditCard, ShieldCheck, Loader2, AlertTriangle, FileImage, Info, Ruler, Sparkles } from 'lucide-react';
 
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
@@ -39,10 +39,10 @@ const OrderSummary = ({
 
               {/* Show dimensions and extras */}
               {item.details?.dimensions && (
-                <p className="text-xs text-slate-400 mb-1">📏 {item.details.dimensions}</p>
+                <p className="text-xs text-slate-400 mb-1 flex items-center gap-1"><Ruler size={12} /> {item.details.dimensions}</p>
               )}
               {item.details?.options && item.details.options !== 'Nessuna' && (
-                <p className="text-xs text-emerald-300 mb-2">✨ {item.details.options}</p>
+                <p className="text-xs text-emerald-300 mb-2 flex items-center gap-1"><Sparkles size={11} /> {item.details.options}</p>
               )}
 
               <div className="flex flex-wrap gap-2">

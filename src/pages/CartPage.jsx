@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Trash2, ShoppingCart, ArrowRight, CreditCard, ArrowLeft } from 'lucide-react';
+import { Trash2, ShoppingCart, ArrowRight, CreditCard, ArrowLeft, Ruler, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { trackInitiateCheckout } from '@/lib/fbPixel';
 
@@ -94,12 +94,12 @@ const CartPage = () => {
 
                                         {/* Dimensions */}
                                         {item.details?.dimensions && (
-                                            <p className="text-sm text-slate-400">📏 {item.details.dimensions}</p>
+                                            <p className="text-sm text-slate-400 flex items-center gap-1"><Ruler size={14} /> {item.details.dimensions}</p>
                                         )}
 
                                         {/* Extras/Options */}
                                         {item.details?.options && item.details.options !== 'Nessuna' && (
-                                            <p className="text-xs text-emerald-300 mt-1">✨ {item.details.options}</p>
+                                            <p className="text-xs text-emerald-300 mt-1 flex items-center gap-1"><Sparkles size={12} /> {item.details.options}</p>
                                         )}
 
                                         {/* Type */}

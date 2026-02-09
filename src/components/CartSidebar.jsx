@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, ArrowRight, X, Trash2, Image as ImageIcon } from 'lucide-react';
+import { ShoppingBag, ArrowRight, X, Trash2, Image as ImageIcon, Ruler, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/context/CartContext';
@@ -100,12 +100,12 @@ const CartSidebar = () => {
 
                             {/* Show dimensions */}
                             {item.details?.dimensions && (
-                              <p className="text-sm text-slate-400">📏 {item.details.dimensions}</p>
+                              <p className="text-sm text-slate-400 flex items-center gap-1"><Ruler size={14} /> {item.details.dimensions}</p>
                             )}
 
                             {/* Show extras/options */}
                             {item.details?.options && item.details.options !== 'Nessuna' && (
-                              <p className="text-xs text-emerald-300 mt-1">✨ {item.details.options}</p>
+                              <p className="text-xs text-emerald-300 mt-1 flex items-center gap-1"><Sparkles size={12} /> {item.details.options}</p>
                             )}
 
                             {/* Fallback to description if no dimensions */}

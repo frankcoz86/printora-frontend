@@ -29,7 +29,7 @@ export const rollupTemplates = [
       const h = canvas.height;
       return [
         { type: 'rect', left: 0, top: 0, width: w, height: h, fill: '#f8f9fa', selectable: false, excludeFromExport: true },
-        { type: 'rect', left: 0, top: h*0.85, width: w, height: h * 0.15, fill: '#0077b6', selectable: false, excludeFromExport: true },
+        { type: 'rect', left: 0, top: h * 0.85, width: w, height: h * 0.15, fill: '#0077b6', selectable: false, excludeFromExport: true },
         { type: 'textbox', text: 'INNOVAZIONE E FUTURO', left: w * 0.1, top: h * 0.2, width: w * 0.8, fontSize: h * 0.1, fill: '#0077b6', fontWeight: 'bold', fontFamily: 'Poppins', textAlign: 'left', originX: 'left', originY: 'center', selectable: true },
         { type: 'textbox', text: 'Il nostro evento annuale per esplorare le nuove frontiere della tecnologia.', left: w * 0.1, top: h * 0.4, width: w * 0.8, fontSize: h * 0.05, fill: '#495057', fontFamily: 'Poppins', textAlign: 'left', originX: 'left', originY: 'center', lineHeight: 1.4, selectable: true },
         { type: 'textbox', text: '[DATA] | [LOCATION]', left: w * 0.1, top: h * 0.6, width: w * 0.8, fontSize: h * 0.06, fill: '#0077b6', fontWeight: 'bold', fontFamily: 'Poppins', textAlign: 'left', originX: 'left', originY: 'center', selectable: true },
@@ -68,7 +68,7 @@ export const rollupTemplates = [
         { type: 'rect', left: 0, top: 0, width: w, height: h, fill: '#fcefee', selectable: false, excludeFromExport: true },
         { type: 'textbox', text: 'Bellezza Naturale', left: w / 2, top: h * 0.25, width: w * 0.8, fontSize: h * 0.1, fill: '#d58c8c', fontFamily: 'Playfair Display', textAlign: 'center', originX: 'center', originY: 'center', selectable: true },
         { type: 'textbox', text: 'Scopri la nostra nuova linea di prodotti biologici', left: w / 2, top: h * 0.4, width: w * 0.7, fontSize: h * 0.05, fill: '#5e5e5e', fontFamily: 'Montserrat', textAlign: 'center', originX: 'center', originY: 'center', selectable: true },
-        { type: 'rect', left: w/2, top: h * 0.6, width: w * 0.4, height: w * 0.5, fill: '#f6d5d5', selectable: true, originX: 'center', originY: 'center' },
+        { type: 'rect', left: w / 2, top: h * 0.6, width: w * 0.4, height: w * 0.5, fill: '#f6d5d5', selectable: true, originX: 'center', originY: 'center' },
         { type: 'textbox', text: 'Immagine\nprodotto', left: w / 2, top: h * 0.6, width: w * 0.3, fontSize: h * 0.03, fill: '#8c8c8c', fontFamily: 'Arial', textAlign: 'center', originX: 'center', originY: 'center', selectable: true },
         { type: 'textbox', text: 'IL TUO BRAND', left: w / 2, top: h * 0.85, width: w * 0.8, fontSize: h * 0.06, fill: '#d58c8c', fontWeight: 'bold', fontFamily: 'Playfair Display', textAlign: 'center', originX: 'center', originY: 'center', selectable: true },
       ];
@@ -91,7 +91,7 @@ export const rollupTemplates = [
       ];
     },
   },
-   {
+  {
     id: 'rollup-saldi-fashion',
     name: 'Saldi Fashion',
     category: 'Saldi e Promozioni',
