@@ -167,6 +167,8 @@ async function fireAppsScriptPaymentSucceeded(order, address, printFiles, totals
       tax_cents: Math.round((totals?.vatAmount ?? 0) * 100),
       amount_total_cents: Math.round((totals?.total ?? 0) * 100),
 
+      print_files: printFiles,  // Include print files for fallback processing
+
       force_build: true,
       force_email: true
     };
