@@ -91,9 +91,26 @@ const CartPage = () => {
                                     <img src={item.image} alt={item.name} className="w-24 h-24 rounded-md object-contain mr-6 bg-slate-700/50" />
                                     <div className="flex-grow">
                                         <h2 className="text-lg font-bold text-white">{item.name}</h2>
-                                        {item.details?.dimensions && <p className="text-sm text-slate-400">{item.details.dimensions}</p>}
-                                        {item.details?.type && <p className="text-sm text-slate-400">{item.details.type}</p>}
-                                        {item.details?.description && <p className="text-sm text-slate-400 max-w-md truncate">{item.details.description}</p>}
+
+                                        {/* Dimensions */}
+                                        {item.details?.dimensions && (
+                                            <p className="text-sm text-slate-400">📏 {item.details.dimensions}</p>
+                                        )}
+
+                                        {/* Extras/Options */}
+                                        {item.details?.options && item.details.options !== 'Nessuna' && (
+                                            <p className="text-xs text-emerald-300 mt-1">✨ {item.details.options}</p>
+                                        )}
+
+                                        {/* Type */}
+                                        {item.details?.type && (
+                                            <p className="text-sm text-slate-400">{item.details.type}</p>
+                                        )}
+
+                                        {/* Description (fallback) */}
+                                        {!item.details?.dimensions && item.details?.description && (
+                                            <p className="text-sm text-slate-400 max-w-md truncate">{item.details.description}</p>
+                                        )}
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2">

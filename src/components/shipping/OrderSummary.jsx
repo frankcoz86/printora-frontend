@@ -36,6 +36,15 @@ const OrderSummary = ({
                 <FileImage size={16} /> File di Stampa per:
               </h4>
               <p className="text-xs text-slate-300 truncate mb-2">{item.name}</p>
+
+              {/* Show dimensions and extras */}
+              {item.details?.dimensions && (
+                <p className="text-xs text-slate-400 mb-1">📏 {item.details.dimensions}</p>
+              )}
+              {item.details?.options && item.details.options !== 'Nessuna' && (
+                <p className="text-xs text-emerald-300 mb-2">✨ {item.details.options}</p>
+              )}
+
               <div className="flex flex-wrap gap-2">
                 {item.details.fileUrl && (
                   <img src={item.details.fileUrl} alt="Anteprima file" className="w-16 h-16 object-cover rounded-md border-2 border-slate-600" />

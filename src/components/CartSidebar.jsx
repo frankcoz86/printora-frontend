@@ -97,7 +97,19 @@ const CartSidebar = () => {
                           </div>
                           <div className="flex-grow pr-4">
                             <h3 className="font-medium text-white text-lg mb-1 leading-tight">{item.name}</h3>
-                            {item.details?.description && (
+
+                            {/* Show dimensions */}
+                            {item.details?.dimensions && (
+                              <p className="text-sm text-slate-400">📏 {item.details.dimensions}</p>
+                            )}
+
+                            {/* Show extras/options */}
+                            {item.details?.options && item.details.options !== 'Nessuna' && (
+                              <p className="text-xs text-emerald-300 mt-1">✨ {item.details.options}</p>
+                            )}
+
+                            {/* Fallback to description if no dimensions */}
+                            {!item.details?.dimensions && item.details?.description && (
                               <p className="text-sm text-slate-400">{item.details.description}</p>
                             )}
                             <div className="flex items-center justify-between mt-2">

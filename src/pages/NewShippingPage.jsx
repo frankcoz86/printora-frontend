@@ -325,11 +325,22 @@ const NewShippingPage = () => {
       const perUnit = Number(
         item.price ?? (qty ? (Number(item.total || 0) / qty) : 0)
       );
+
+      // Build options string: dimensions + extras (safe, backward compatible)
+      let optionsText = '';
+      if (item.details?.dimensions) {
+        optionsText = item.details.dimensions;
+      }
+      if (item.details?.options && item.details.options !== 'Nessuna') {
+        optionsText += (optionsText ? ' • ' : '') + item.details.options;
+      }
+
       return {
         name: String(item.name || '').substring(0, 127),
         unit_amount: { currency_code: 'EUR', value: perUnit.toFixed(2) },
         quantity: String(qty),
         category: 'PHYSICAL_GOODS',
+        options: optionsText || '',  // Add options for email template
       };
     });
 
