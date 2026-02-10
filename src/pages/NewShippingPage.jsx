@@ -234,7 +234,7 @@ const NewShippingPage = () => {
     }
   }, [cart, navigate, isCheckingOut]);
 
-  useEffect(() => { setSelectedCarrier(getShippingRate(weight)); }, [weight]);
+  useEffect(() => { setSelectedCarrier(getShippingRate(subtotal)); }, [subtotal]);
 
 
 
