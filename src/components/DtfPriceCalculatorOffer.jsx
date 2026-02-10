@@ -97,6 +97,8 @@ const DtfPriceCalculatorOffer = ({ product, onAddToCart }) => {
     };
 
     const itemDetails = {
+      dimensions: `${fixedWidth}cm x ${length}cm`,  // ← NEW: Show in cart like Banner
+      options: hasFluo ? 'FLUO' : 'Nessuna',         // ← NEW: Show FLUO option if selected
       description: `Dimensioni: ${fixedWidth}cm x ${length}cm`,
       meters,
 
