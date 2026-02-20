@@ -94,7 +94,7 @@ export const useCanvasActions = (fabricCanvasRef, saveState, activeObject, desig
                 scaleX: scale,
                 scaleY: scale,
             });
-            
+
             const applyColor = (target, fillColor) => {
                 if (target.isType('group')) {
                     target.forEachObject(o => applyColor(o, fillColor));
@@ -117,18 +117,18 @@ export const useCanvasActions = (fabricCanvasRef, saveState, activeObject, desig
     const updateProperty = useCallback((property, value, isFinal = true) => {
         const canvas = fabricCanvasRef.current;
         if (!canvas || !activeObject) return;
-        
+
         if (property === 'widthCm' || property === 'heightCm') {
             const valCm = parseFloat(value);
             if (isNaN(valCm) || valCm <= 0) return;
 
             const scale = canvas.cmToPxScale;
             const newSizePx = valCm * scale;
-            
+
             const isWidth = property === 'widthCm';
-            
+
             if (activeObject.isType('textbox')) {
-                 if (isWidth) {
+                if (isWidth) {
                     activeObject.set('width', newSizePx / activeObject.scaleX);
                 } else {
                     // Height is controlled by content for textbox
@@ -233,7 +233,7 @@ export const useCanvasActions = (fabricCanvasRef, saveState, activeObject, desig
 
     const prepareCanvasForExport = useCallback((isFinalSave = false) => {
         const canvas = fabricCanvasRef.current;
-        if (!canvas) return { cleanup: () => {} };
+        if (!canvas) return { cleanup: () => { } };
 
         const originalProps = new Map();
         canvas.getObjects().forEach(obj => {
@@ -280,16 +280,19 @@ export const useCanvasActions = (fabricCanvasRef, saveState, activeObject, desig
 
         const { cleanup } = prepareCanvasForExport(false);
 
+        const DPI = 300;
+        const multiplier = DPI / 72;
+
         const dataURL = canvas.toDataURL({
             format: 'png',
             quality: 1.0,
-            multiplier: 2,
+            multiplier: multiplier,
         });
 
         cleanup();
 
         const link = document.createElement('a');
-        link.download = 'design.png';
+        link.download = 'printora_design_300dpi.png';
         link.href = dataURL;
         document.body.appendChild(link);
         link.click();
@@ -320,7 +323,7 @@ export const useCanvasActions = (fabricCanvasRef, saveState, activeObject, desig
         });
 
         doc.addImage(dataURL, 'PNG', 0, 0, width, height);
-        
+
         const productName = product?.name.replace(/\s+/g, '_') || 'design';
         const dimensions = `${width}x${height}cm`;
         doc.save(`printora_${productName}_${dimensions}_300dpi.pdf`);
@@ -341,4 +344,3 @@ export const useCanvasActions = (fabricCanvasRef, saveState, activeObject, desig
         prepareCanvasForExport,
     };
 };
-  
