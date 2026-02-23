@@ -1,6 +1,8 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { fabric } from 'fabric';
 import jsPDF from 'jspdf';
+import { setPngDpiMetadata } from '@/lib/pngDpiUtils';
+
 
 const useDtfCanvas = (designState, isReady) => {
     const canvasRefs = useRef([]);
@@ -11,7 +13,7 @@ const useDtfCanvas = (designState, isReady) => {
 
     const initCanvas = useCallback((canvasEl, index, json) => {
         if (!designState || !canvasEl || fabricCanvasRefs.current[index]) return;
-        
+
         const parent = canvasEl.closest('.dtf-canvas-container');
         if (!parent) return;
 
@@ -19,7 +21,7 @@ const useDtfCanvas = (designState, isReady) => {
         const parentHeight = parent.clientHeight;
 
         let canvasWidth, canvasHeight;
-        
+
         const canvasAspectRatio = designState.width / designState.height;
         const parentAspectRatio = parentWidth / parentHeight;
 
@@ -51,20 +53,20 @@ const useDtfCanvas = (designState, isReady) => {
         fCanvas.on('selection:created', updateActiveObject);
         fCanvas.on('selection:updated', updateActiveObject);
         fCanvas.on('selection:cleared', () => setActiveObject(null));
-        
+
         fCanvas.on('mouse:down', () => {
             if (fabricCanvasRefs.current.indexOf(fCanvas) !== currentCanvasIndex) {
-                 setCurrentCanvasIndex(fabricCanvasRefs.current.indexOf(fCanvas));
-                 setActiveObject(fCanvas.getActiveObject());
+                setCurrentCanvasIndex(fabricCanvasRefs.current.indexOf(fCanvas));
+                setActiveObject(fCanvas.getActiveObject());
             }
         });
 
         return fCanvas;
     }, [designState, currentCanvasIndex]);
-    
+
     useEffect(() => {
         if (!isReady) return;
-        
+
         const newFabricCanvases = canvasRefs.current.map((canvasEl, index) => {
             if (canvasEl && !fabricCanvasRefs.current[index]) {
                 return initCanvas(canvasEl, index, canvases[index]?.json);
@@ -77,7 +79,7 @@ const useDtfCanvas = (designState, isReady) => {
                 c.dispose();
             }
         });
-        
+
         fabricCanvasRefs.current = newFabricCanvases.filter(Boolean);
 
     }, [canvases, isReady, initCanvas]);
@@ -92,17 +94,21 @@ const useDtfCanvas = (designState, isReady) => {
             return false;
         }
 
-        const multiplier = 300 / 72; // High resolution
+        const DPI = 300;
+        const multiplier = DPI / 72;
 
         fabricCanvasRefs.current.forEach((canvas, index) => {
             if (!canvas || canvas.getObjects().length === 0) return;
 
-            const dataURL = canvas.toDataURL({
+            const rawDataURL = canvas.toDataURL({
                 format: 'png',
                 quality: 1.0,
                 multiplier: multiplier,
             });
-        
+
+            // Embed 300 DPI into the PNG pHYs metadata chunk
+            const dataURL = setPngDpiMetadata(rawDataURL, DPI);
+
             const link = document.createElement('a');
             const productName = designState?.product?.name.replace(/\s+/g, '_') || 'design';
             const dimensions = `${designState?.width}x${designState?.height}cm`;
@@ -113,9 +119,10 @@ const useDtfCanvas = (designState, isReady) => {
             link.click();
             document.body.removeChild(link);
         });
-        
+
         return true;
     }, [fabricCanvasRefs, designState]);
+
 
     return {
         canvasRefs,
