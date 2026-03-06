@@ -307,15 +307,13 @@ const PaymentSuccessPage = () => {
             </div>
           </div>
 
-          <p className="mt-6 text-sm text-gray-400">Riceverai a breve un'email di conferma con tutti i dettagli.</p>
+          <div className="mt-6 flex items-center justify-center gap-2 bg-cyan-900/30 border border-cyan-700/40 rounded-lg px-5 py-3">
+            <span className="text-cyan-300 text-lg">✉️</span>
+            <p className="text-cyan-200 text-sm font-medium">La fattura verrà inviata alla tua email. Riceverai a breve tutti i dettagli dell'ordine.</p>
+          </div>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="w-full sm:w-auto"><Link to="/">Continua lo Shopping</Link></Button>
-            {order?.billing_info && (
-              <Button variant="outline" size="lg" onClick={handleDownloadInvoice} className="w-full sm:w-auto">
-                <Download className="mr-2 h-5 w-5" />Scarica Fattura
-              </Button>
-            )}
           </div>
         </motion.div>
       </div>
