@@ -10,6 +10,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CartSidebar from '@/components/CartSidebar';
 import Loader from '@/components/Loader';
+import MaintenanceBanner from '@/components/MaintenanceBanner';
 
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const FloatingWhatsapp = lazy(() => import('@/components/FloatingWhatsapp'));
@@ -147,6 +148,7 @@ function App() {
 
     return (
         <Elements stripe={stripePromise}>
+            <MaintenanceBanner />
             <div className="min-h-screen bg-slate-900 text-white font-sans">
                 <Suspense fallback={<Loader />}>
                     {isDtfSite ? <DtfSite /> : <MainSite />}
