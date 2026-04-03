@@ -56,6 +56,7 @@ const AppLayout = () => {
     return (
         <div className="flex flex-col min-h-screen">
             {!hideHeaderFooter && <Header />}
+            {!hideHeaderFooter && <MaintenanceBanner />}
             <main className="flex-grow">
                 <Outlet context={{ cartHook }} />
             </main>
@@ -148,7 +149,6 @@ function App() {
 
     return (
         <Elements stripe={stripePromise}>
-            <MaintenanceBanner />
             <div className="min-h-screen bg-slate-900 text-white font-sans">
                 <Suspense fallback={<Loader />}>
                     {isDtfSite ? <DtfSite /> : <MainSite />}
