@@ -9,6 +9,7 @@ import ProductGallery from '@/components/ProductGallery';
 import ProfessionalCallout from '@/components/ProfessionalCallout';
 import ShippingGuarantee from '@/components/ShippingGuarantee';
 import TechnicalSupportCta from '@/components/TechnicalSupportCta';
+import GraficaOfferBlock from '@/components/GraficaOfferBlock';
 import IndustryPricing from '@/components/IndustryPricing';
 import Loader from '@/components/Loader';
 
@@ -99,7 +100,8 @@ const BannerPage = ({ heroTitle, heroSubtitle }) => {
                                         </p>
                                     </div>
                                     <ShippingGuarantee productionTime="24h" deliveryTime="48/72 h" />
-                                    <TechnicalSupportCta productName={bannerProduct.name} />
+                                    <TechnicalSupportCta />
+                                    <GraficaOfferBlock />
                                     <BannerPriceCalculatorOffer product={bannerProduct} onAddToCart={addToCart} />
                                 </div>
                             </motion.div>

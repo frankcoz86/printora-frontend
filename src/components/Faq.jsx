@@ -31,6 +31,10 @@ const faqData = [
     {
         question: "Come posso contattare l'assistenza clienti?",
         answer: "Puoi contattarci tramite il pulsante WhatsApp presente sul sito, inviando una email a info@printora.it, o compilando il form nella pagina Contatti. Siamo attivi dal Lunedì al Venerdì, dalle 9:00 alle 18:00."
+    },
+    {
+        question: "Non ho una grafica pronta — potete aiutarmi?",
+        answer: "Assolutamente sì! Offriamo un servizio di Consulenza Grafica Expert a prezzo fisso di €15. Un grafico dedicato crea o corregge il tuo file in 24 ore, ottimizzato per la stampa: CMYK, risoluzione corretta, margini al vivo. Include una revisione e garanzia rimborso completo. Scopri come funziona sulla pagina ‘Consulenza Grafica’."
     }
 ]
 
