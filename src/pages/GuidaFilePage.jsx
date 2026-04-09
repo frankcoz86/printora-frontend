@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import {
@@ -125,6 +125,7 @@ const OptInForm = ({ variant = 'hero', onSuccess }) => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -146,10 +147,11 @@ const OptInForm = ({ variant = 'hero', onSuccess }) => {
         }),
       });
     } catch {
-      // Backend might not be live yet — still trigger success UX
+      // Backend might not be live yet — still proceed
     } finally {
       setLoading(false);
-      onSuccess({ name: name.trim(), email: email.trim() });
+      const encodedName = encodeURIComponent(name.trim());
+      navigate(`/grazie?source=hvco_file_stampa&name=${encodedName}`);
     }
   };
 

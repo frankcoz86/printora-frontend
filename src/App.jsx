@@ -49,6 +49,7 @@ const GraficaConsultingPage = lazy(() => import('@/pages/GraficaConsultingPage')
 const GraficaConsultingPage1 = lazy(() => import('@/pages/GraficaConsultingPage1'));
 const GuidaEditorPage = lazy(() => import('@/pages/GuidaEditorPage'));
 const GuidaFilePage = lazy(() => import('@/pages/GuidaFilePage'));
+const GraziePage = lazy(() => import('@/pages/GraziePage'));
 
 const AppLayout = () => {
     const location = useLocation();
@@ -124,6 +125,7 @@ const MainSite = () => {
                     <Route path="/consulenza-grafica1" element={<GraficaConsultingPage1 />} />
                     <Route path="/guida-editor" element={<GuidaEditorPage />} />
                     <Route path="/guida-file-stampa" element={<GuidaFilePage />} />
+                    <Route path="/grazie" element={<GraziePage />} />
                 </Route>
                 <Route path="/designer/:productType" element={<DesignerPage />} />
                 <Route path="/dtf-designer" element={<DtfDesignerPage />} />
