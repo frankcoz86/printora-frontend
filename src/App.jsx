@@ -46,6 +46,7 @@ const ReviewsGalleryPage = lazy(() => import('@/pages/ReviewsGalleryPage'));
 const OrderConfirmationPage = lazy(() => import('@/pages/OrderConfirmationPage'));
 const StripeRedirectPage = lazy(() => import('@/pages/StripeRedirectPage'));
 const GraficaConsultingPage = lazy(() => import('@/pages/GraficaConsultingPage'));
+const GraficaConsultingPage1 = lazy(() => import('@/pages/GraficaConsultingPage1'));
 const GuidaEditorPage = lazy(() => import('@/pages/GuidaEditorPage'));
 const GuidaFilePage = lazy(() => import('@/pages/GuidaFilePage'));
 
@@ -120,6 +121,7 @@ const MainSite = () => {
                     <Route path="/termini-e-condizioni" element={<TermsPage />} />
                     <Route path="/conferma-ordine" element={<OrderConfirmationPage />} />
                     <Route path="/consulenza-grafica" element={<GraficaConsultingPage />} />
+                    <Route path="/consulenza-grafica1" element={<GraficaConsultingPage1 />} />
                     <Route path="/guida-editor" element={<GuidaEditorPage />} />
                     <Route path="/guida-file-stampa" element={<GuidaFilePage />} />
                 </Route>
