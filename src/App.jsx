@@ -46,6 +46,8 @@ const ReviewsGalleryPage = lazy(() => import('@/pages/ReviewsGalleryPage'));
 const OrderConfirmationPage = lazy(() => import('@/pages/OrderConfirmationPage'));
 const StripeRedirectPage = lazy(() => import('@/pages/StripeRedirectPage'));
 const GraficaConsultingPage = lazy(() => import('@/pages/GraficaConsultingPage'));
+const GuidaEditorPage = lazy(() => import('@/pages/GuidaEditorPage'));
+const GuidaFilePage = lazy(() => import('@/pages/GuidaFilePage'));
 
 const AppLayout = () => {
     const location = useLocation();
@@ -118,6 +120,8 @@ const MainSite = () => {
                     <Route path="/termini-e-condizioni" element={<TermsPage />} />
                     <Route path="/conferma-ordine" element={<OrderConfirmationPage />} />
                     <Route path="/consulenza-grafica" element={<GraficaConsultingPage />} />
+                    <Route path="/guida-editor" element={<GuidaEditorPage />} />
+                    <Route path="/guida-file-stampa" element={<GuidaFilePage />} />
                 </Route>
                 <Route path="/designer/:productType" element={<DesignerPage />} />
                 <Route path="/dtf-designer" element={<DtfDesignerPage />} />

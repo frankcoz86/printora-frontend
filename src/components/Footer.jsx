@@ -59,6 +59,8 @@ const Footer = () => {
             <p className="font-bold text-white mb-4">Risorse</p>
             <ul className="space-y-2">
               <li><Link to="/consulenza-grafica" className="text-gray-400 hover:text-violet-300 transition">Consulenza Grafica — €15</Link></li>
+              <li><Link to="/guida-editor" className="text-gray-400 hover:text-emerald-300 transition">Guida Gratuita — Crea la Tua Grafica</Link></li>
+              <li><Link to="/guida-file-stampa" className="text-gray-400 hover:text-blue-300 transition">Checklist Pre-Stampa — Doc PDF</Link></li>
               <li><Link to="/banner" className="text-gray-400 hover:text-primary transition">Configura il tuo Banner</Link></li>
               <li><Link to="/recensioni-lavori" className="text-gray-400 hover:text-primary transition">Lavori & Recensioni</Link></li>
             </ul>
