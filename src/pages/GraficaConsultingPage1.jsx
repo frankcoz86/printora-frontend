@@ -143,18 +143,18 @@ const Hero = () => (
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <Link
             to="/banner"
-            className="text-gray-400 hover:text-emerald-300 text-sm flex items-center gap-1.5 transition-colors"
+            className="group flex items-center gap-2 bg-slate-800/40 hover:bg-slate-800/80 border border-white/10 hover:border-emerald-500/30 text-gray-300 hover:text-white rounded-xl px-5 py-3.5 text-sm font-bold backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] hover:-translate-y-0.5"
           >
             Configura il tuo Banner
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 text-emerald-400 group-hover:translate-x-1 transition-transform" />
           </Link>
           <span className="hidden sm:block text-gray-700">·</span>
           <Link
             to="/roll-up"
-            className="text-gray-400 hover:text-violet-300 text-sm flex items-center gap-1.5 transition-colors"
+            className="group flex items-center gap-2 bg-slate-800/40 hover:bg-slate-800/80 border border-white/10 hover:border-violet-500/30 text-gray-300 hover:text-white rounded-xl px-5 py-3.5 text-sm font-bold backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] hover:-translate-y-0.5"
           >
             Configura il tuo Roll-up
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 text-violet-400 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </motion.div>

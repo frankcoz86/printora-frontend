@@ -117,10 +117,11 @@ const Hero = () => (
         <WaButton />
         <Link
           to="/banner"
-          className="text-gray-400 hover:text-emerald-300 text-sm flex items-center gap-1.5 transition-colors"
+          className="group flex items-center gap-2 bg-slate-800/40 hover:bg-slate-800/80 border border-white/10 hover:border-emerald-500/30 text-gray-300 hover:text-white rounded-xl px-6 py-3.5 text-sm font-bold backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] hover:-translate-y-0.5"
         >
-          Hai già la grafica? Configura il tuo banner
-          <ArrowRight className="w-4 h-4" />
+          <span className="text-gray-400 font-normal mr-1">Hai già la grafica?</span>
+          Configura il tuo banner
+          <ArrowRight className="w-4 h-4 text-emerald-400 group-hover:translate-x-1 transition-transform" />
         </Link>
       </motion.div>
 
