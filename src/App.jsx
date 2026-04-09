@@ -10,7 +10,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CartSidebar from '@/components/CartSidebar';
 import Loader from '@/components/Loader';
-import MaintenanceBanner from '@/components/MaintenanceBanner';
 
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const FloatingWhatsapp = lazy(() => import('@/components/FloatingWhatsapp'));
@@ -61,7 +60,6 @@ const AppLayout = () => {
     return (
         <div className="flex flex-col min-h-screen">
             {!hideHeaderFooter && <Header />}
-            {!hideHeaderFooter && <MaintenanceBanner />}
             <main className="flex-grow">
                 <Outlet context={{ cartHook }} />
             </main>
