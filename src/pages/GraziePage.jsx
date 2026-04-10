@@ -93,190 +93,146 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-/* ─── Guide Mockup (mini) ────────────────────────────────── */
-const GuideMockup = ({ v }) => (
-  <div className="relative mx-auto w-full max-w-[200px] shrink-0">
-    <div className={`absolute -bottom-2 -right-2 w-full h-full rounded-xl ${v.accentBg} border ${v.accentBorder}`} />
-    <div className={`relative rounded-xl overflow-hidden border ${v.mockupBorder} shadow-xl ${v.mockupShadow}`}>
-      <div className={`bg-gradient-to-br ${v.mockupAccent} px-4 py-5 text-center`}>
-        <p className="text-white/70 text-[9px] font-bold tracking-[0.2em] uppercase mb-1">{v.guideLabel}</p>
-        <p className="text-white font-extrabold text-xs leading-snug">{v.guideSub}</p>
-      </div>
-      <div className="bg-slate-900 px-4 py-3 space-y-1.5">
-        {v.guideSteps.map((s, i) => (
-          <div key={i} className="flex items-center gap-2">
-            <span className={`w-5 h-5 rounded-full ${v.mockupStepColor} text-[9px] font-black flex items-center justify-center shrink-0 border`}>
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <span className="text-gray-300 text-[10px]">{s}</span>
-          </div>
-        ))}
-      </div>
-      <div className="bg-slate-950 px-4 py-2 flex items-center justify-between">
-        <span className={`${v.mockupFooter} text-[9px] font-bold tracking-wider`}>printora.it</span>
-        <span className="text-gray-600 text-[9px]">PDF</span>
-      </div>
-    </div>
-    <div className="absolute -top-2 -right-2 w-10 h-10 rounded-full bg-emerald-400 flex items-center justify-center shadow-md">
-      <div className="text-center">
-        <p className="text-slate-900 font-black text-[8px] leading-none">100%</p>
-        <p className="text-slate-900 font-black text-[8px] leading-none">FREE</p>
-      </div>
-    </div>
-  </div>
-);
 
-/* ─── Section 1 — Confirmation Hero ─────────────────────── */
+/* ─── Section 1 — Confirmation Strip (compact) ──────────── */
 const ConfirmationHero = ({ v, name }) => (
-  <section className="relative bg-slate-950 overflow-hidden pt-12 pb-16">
-    <div className={`absolute top-[-15%] right-[-5%] w-[700px] h-[700px] ${v.glowColor} rounded-full blur-[120px] pointer-events-none`} />
-    <div className={`absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] ${v.glowColor2} rounded-full blur-[100px] pointer-events-none`} />
-
-    <div className="container mx-auto px-4 relative z-10 max-w-4xl">
+  <section className="relative bg-slate-950 overflow-hidden pt-8 pb-8 border-b border-white/5">
+    <div className="container mx-auto px-4 relative z-10 max-w-3xl">
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="visible"
-        className="text-center"
+        className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-left"
       >
-        {/* Animated checkmark */}
+        {/* Animated checkmark — small */}
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.1 }}
-          className="flex justify-center mb-6"
+          className="shrink-0"
         >
-          <div className="relative">
-            <div className="w-20 h-20 rounded-full bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center">
-              <CheckCircle className="w-10 h-10 text-emerald-400" />
-            </div>
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.5, type: 'spring' }}
-              className="absolute -top-1 -right-1 w-6 h-6 bg-emerald-400 rounded-full flex items-center justify-center text-slate-900 font-black text-xs"
-            >
-              ✓
-            </motion.div>
+          <div className="w-12 h-12 rounded-full bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center">
+            <CheckCircle className="w-6 h-6 text-emerald-400" />
           </div>
         </motion.div>
 
-        <motion.h1
-          variants={fadeUp}
-          className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-4 whitespace-nowrap"
-        >
-          {v.confirmHeadline(name)}
-        </motion.h1>
-
-        <motion.p variants={fadeUp} className="text-gray-400 text-lg mb-8 max-w-xl mx-auto">
-          <span className={`${v.accentClass} font-semibold`}>{v.confirmSub}</span>{' '}
-          è in arrivo nella tua casella email.
-        </motion.p>
-
-        {/* Email confirmation chip */}
-        <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <div className="inline-flex items-center gap-3 bg-slate-800/60 border border-white/10 rounded-2xl px-5 py-3 backdrop-blur-sm">
-            <div className="w-8 h-8 rounded-full bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center">
-              <Mail className="w-4 h-4 text-emerald-400" />
-            </div>
-            <div className="text-left">
-              <p className="text-white text-sm font-semibold">Email in arrivo ✈</p>
-              <p className="text-gray-500 text-xs">Controlla spam / promozioni se non arriva entro 5 min</p>
-            </div>
-          </div>
-
-          {/* Guide mockup thumbnail */}
-          <div className="sm:ml-4">
-            <GuideMockup v={v} />
-          </div>
-        </motion.div>
+        <div>
+          <motion.p
+            variants={fadeUp}
+            className="text-white font-extrabold text-lg md:text-xl leading-snug"
+          >
+            {v.confirmHeadline(name)}
+          </motion.p>
+          <motion.p variants={fadeUp} className="text-gray-400 text-sm mt-1">
+            <span className={`${v.accentClass} font-semibold`}>{v.confirmSub}</span>{' '}
+            è in arrivo nella tua email. Controlla spam se non arriva entro&nbsp;5&nbsp;min.
+          </motion.p>
+        </div>
       </motion.div>
     </div>
   </section>
 );
 
-/* ─── Section 2 — Tripwire Upsell ───────────────────────── */
+/* ─── Section 2 — Tripwire Offer (page centrepiece) ─────── */
 const TripwireUpsell = ({ v }) => (
-  <section className="py-16 bg-slate-900/80 border-y border-white/5">
-    <div className="container mx-auto px-4 max-w-4xl">
+  <section className="relative py-20 bg-slate-950 overflow-hidden">
+    {/* Ambient glow */}
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-violet-600/8 rounded-full blur-[120px] pointer-events-none" />
+
+    <div className="container mx-auto px-4 max-w-4xl relative z-10">
       <motion.div
         variants={stagger}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
+        viewport={{ once: true, amount: 0.1 }}
       >
-        {/* Badge */}
-        <motion.div variants={fadeUp} className="text-center mb-10">
-          <span className="inline-block text-[11px] font-bold tracking-[0.15em] uppercase px-4 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/30 text-violet-300">
-            ⚡ Mentre Aspetti la Email
+        {/* Offer label */}
+        <motion.div variants={fadeUp} className="text-center mb-4">
+          <span className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.18em] uppercase px-4 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/30 text-violet-300">
+            <Zap className="w-3 h-3" /> Offerta Speciale — Solo Per Te
           </span>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white mt-4 leading-tight">
-            Un Passo in Più per la{' '}
-            <span className="text-violet-400">Stampa Perfetta</span>
-          </h2>
         </motion.div>
 
-        {/* Split card */}
+        {/* Primary headline — largest element on the page */}
+        <motion.div variants={fadeUp} className="text-center mb-3">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
+            Vuoi che lo faccia{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-indigo-400">
+              un esperto per te?
+            </span>
+          </h1>
+        </motion.div>
+
+        {/* Subheadline — the truth-based hook */}
+        <motion.div variants={fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
+          <p className="text-gray-300 text-lg leading-relaxed">
+            {v.upsellHook}{' '}
+            Il nostro esperto grafico lo fa per te in{' '}
+            <span className="text-white font-semibold">24 ore</span> —
+            con garanzia rimborso totale se non sei soddisfatto.
+          </p>
+          <p className="text-gray-500 text-sm mt-3">
+            Lo so, sembra assurdo a €15. Ma lo facciamo per ogni nuovo cliente perché sappiamo che tornerai a stampare con noi.
+          </p>
+        </motion.div>
+
+        {/* Offer card — prominent, centred */}
         <motion.div
           variants={fadeUp}
-          className="grid md:grid-cols-2 gap-0 rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40"
+          className="rounded-2xl overflow-hidden border border-violet-500/20 shadow-2xl shadow-violet-900/20 max-w-2xl mx-auto"
         >
-          {/* Left — problem hook */}
-          <div className="bg-slate-800/60 p-8 border-r border-white/5 flex flex-col justify-center">
-            <p className="text-gray-300 text-sm leading-relaxed mb-6">
-              <span className="text-white font-semibold">{v.upsellHook}</span>
-            </p>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              La guida insegna come farlo in autonomia — ma se hai già una bozza o un file e vuoi la <strong className="text-white">garanzia matematica</strong> che esca perfetto, c'è un'opzione più rapida.
-            </p>
-            <div className="mt-6 flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {['G', 'M', 'S'].map((l, i) => (
-                  <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-indigo-700 border-2 border-slate-800 flex items-center justify-center text-white text-xs font-bold">
-                    {l}
-                  </div>
-                ))}
-              </div>
-              <p className="text-gray-400 text-xs"><span className="text-white font-semibold">200+ clienti</span> hanno già usato questo servizio</p>
+          {/* Card header */}
+          <div className="bg-gradient-to-r from-violet-600/30 to-indigo-600/30 px-8 py-5 border-b border-white/8 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <ShieldCheck className="w-5 h-5 text-violet-300" />
+              <span className="text-violet-200 font-bold text-sm uppercase tracking-wider">Consulenza Grafica Expert</span>
+            </div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-gray-500 text-sm line-through">€80+</span>
+              <span className="text-emerald-400 font-extrabold text-3xl">€15</span>
             </div>
           </div>
 
-          {/* Right — offer card */}
-          <div className="bg-slate-900/80 p-8 flex flex-col">
-            <div className="flex items-center gap-2 mb-5">
-              <ShieldCheck className="w-5 h-5 text-violet-400" />
-              <span className="text-violet-300 font-bold text-sm uppercase tracking-wider">Consulenza Grafica Expert</span>
-            </div>
-            <ul className="space-y-3 mb-6 flex-1">
+          {/* Benefits */}
+          <div className="bg-slate-900/70 px-8 py-6">
+            <ul className="space-y-4 mb-8">
               {[
-                'Creiamo o correggiamo la tua grafica in 24h',
-                'File CMYK, risoluzione e margini al vivo corretti',
-                'Garanzia rimborso se non sei soddisfatto',
+                { icon: '🎨', text: 'Creiamo o correggiamo la tua grafica in 24h' },
+                { icon: '✅', text: 'File CMYK, risoluzione e margini al vivo corretti — pronti per la stampa' },
+                { icon: '🔒', text: 'Garanzia rimborso totale se non sei soddisfatto' },
+                { icon: '💬', text: 'Consultazione diretta su WhatsApp — risposta garantita entro 2 ore' },
               ].map((item, i) => (
-                <li key={i} className="flex items-start gap-2.5 text-gray-300 text-sm">
-                  <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  {item}
+                <li key={i} className="flex items-start gap-3 text-gray-200 text-sm">
+                  <span className="text-lg leading-none shrink-0">{item.icon}</span>
+                  <span className="leading-relaxed">{item.text}</span>
                 </li>
               ))}
             </ul>
-            <div className="space-y-3">
-              <div className="flex items-baseline gap-2 mb-1">
-                <span className="text-gray-500 text-sm line-through">Freelance: €80+</span>
-                <span className="text-emerald-400 font-extrabold text-2xl">€15</span>
-                <span className="text-gray-400 text-xs">tutto incluso</span>
+
+            {/* CTA */}
+            <a
+              href={WA_CONSULT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1aad52] text-white font-extrabold rounded-xl px-6 py-5 text-lg shadow-xl shadow-emerald-900/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
+            >
+              <FaWhatsapp className="w-6 h-6 shrink-0" />
+              Voglio la Consulenza — €15 su WhatsApp
+            </a>
+
+            {/* Urgency + social proof */}
+            <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+              <p className="text-gray-500 text-xs">⏳ Solo 3 slot disponibili questa settimana</p>
+              <div className="flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  {['G', 'M', 'S'].map((l, i) => (
+                    <div key={i} className="w-6 h-6 rounded-full bg-gradient-to-br from-violet-500 to-indigo-700 border-2 border-slate-900 flex items-center justify-center text-white text-[9px] font-bold">
+                      {l}
+                    </div>
+                  ))}
+                </div>
+                <p className="text-gray-500 text-xs"><span className="text-gray-300 font-semibold">200+</span> clienti soddisfatti</p>
               </div>
-              <a
-                href={WA_CONSULT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1aad52] text-white font-bold rounded-xl px-6 py-4 text-base shadow-lg shadow-emerald-900/30 hover:-translate-y-0.5 transition-all duration-300"
-              >
-                <FaWhatsapp className="w-5 h-5 shrink-0" />
-                Prenota Ora — €15 via WhatsApp
-              </a>
-              <p className="text-center text-gray-600 text-xs">
-                Risposta garantita entro 2 ore · 3 slot disponibili questa settimana
-              </p>
             </div>
           </div>
         </motion.div>

@@ -16,6 +16,7 @@ import {
   AlertTriangle,
   Sparkles,
   ChevronRight,
+  Star,
 } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 
@@ -54,70 +55,8 @@ const SectionBadge = ({ color = 'emerald', children }) => {
   );
 };
 
-/* ─── PDF Guide Mock-up Visual ───────────────────────────── */
-const GuidaMockup = () => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.95, y: 10 }}
-    animate={{ opacity: 1, scale: 1, y: 0 }}
-    transition={{ duration: 0.6, delay: 0.3 }}
-    className="relative mx-auto w-full max-w-[260px]"
-  >
-    {/* Shadow / depth layer */}
-    <div className="absolute -bottom-3 -right-3 w-full h-full rounded-2xl bg-emerald-500/10 border border-emerald-500/20" />
-    {/* Main card */}
-    <div className="relative rounded-2xl overflow-hidden border border-emerald-500/30 shadow-2xl shadow-emerald-900/40">
-      {/* Cover header */}
-      <div className="bg-gradient-to-br from-emerald-600 to-emerald-800 px-6 py-8 text-center">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 mb-4">
-          <BookOpen className="w-6 h-6 text-white" />
-        </div>
-        <p className="text-emerald-100 text-[10px] font-bold tracking-[0.2em] uppercase mb-1">
-          Mini-Guida Gratuita
-        </p>
-        <h3 className="text-white font-extrabold text-sm leading-tight">
-          GRAFICA FACILE
-        </h3>
-        <p className="text-emerald-100/80 text-xs mt-1 leading-snug">
-          5 Passi per Creare la Tua<br />Grafica Professionale
-        </p>
-      </div>
-      {/* Cover body */}
-      <div className="bg-slate-900 px-5 py-5 space-y-2.5">
-        {[
-          { step: '01', label: 'Dimensioni giuste' },
-          { step: '02', label: 'Carica il tuo logo' },
-          { step: '03', label: 'Scegli i colori' },
-          { step: '04', label: 'Aggiungi i testi' },
-          { step: '05', label: 'Controlla e scarica' },
-        ].map(({ step, label }) => (
-          <div key={step} className="flex items-center gap-2.5">
-            <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[10px] font-black flex items-center justify-center shrink-0">
-              {step}
-            </span>
-            <span className="text-gray-300 text-xs">{label}</span>
-          </div>
-        ))}
-      </div>
-      {/* Footer brand */}
-      <div className="bg-slate-950 px-5 py-3 flex items-center justify-between">
-        <span className="text-emerald-400 text-xs font-bold tracking-wider">
-          printora.it
-        </span>
-        <span className="text-gray-600 text-[10px]">Guida PDF</span>
-      </div>
-    </div>
-    {/* Free badge */}
-    <div className="absolute -top-3 -right-3 w-14 h-14 rounded-full bg-emerald-400 flex items-center justify-center shadow-lg shadow-emerald-400/30">
-      <div className="text-center">
-        <p className="text-slate-900 font-black text-[10px] leading-none">100%</p>
-        <p className="text-slate-900 font-black text-[10px] leading-none">GRATIS</p>
-      </div>
-    </div>
-  </motion.div>
-);
-
 /* ─── Opt-in Form ─────────────────────────────────────────── */
-const OptInForm = ({ variant = 'hero', onSuccess }) => {
+const OptInForm = ({ variant = 'hero' }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -152,49 +91,32 @@ const OptInForm = ({ variant = 'hero', onSuccess }) => {
     }
   };
 
-  const isCompact = variant === 'sticky';
-
   return (
     <form onSubmit={handleSubmit} className="space-y-3 w-full">
-      {!isCompact && (
-        <div>
-          <label htmlFor={`name-${variant}`} className="block text-xs font-semibold text-gray-400 mb-1.5">
-            Il tuo nome
-          </label>
-          <input
-            id={`name-${variant}`}
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="es. Marco"
-            required
-            className="w-full bg-slate-800/70 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/30 transition-all"
-          />
-        </div>
-      )}
-      {isCompact && (
+      <div>
+        <label htmlFor={`name-${variant}`} className="block text-xs font-semibold text-gray-400 mb-1.5">
+          Il tuo nome
+        </label>
         <input
           id={`name-${variant}`}
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Il tuo nome"
+          placeholder="es. Marco"
           required
           className="w-full bg-slate-800/70 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/30 transition-all"
         />
-      )}
+      </div>
       <div>
-        {!isCompact && (
-          <label htmlFor={`email-${variant}`} className="block text-xs font-semibold text-gray-400 mb-1.5">
-            La tua email
-          </label>
-        )}
+        <label htmlFor={`email-${variant}`} className="block text-xs font-semibold text-gray-400 mb-1.5">
+          La tua email
+        </label>
         <input
           id={`email-${variant}`}
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder={isCompact ? 'La tua email' : 'es. marco@ilmionegozio.it'}
+          placeholder="es. marco@ilmionegozio.it"
           required
           className="w-full bg-slate-800/70 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/30 transition-all"
         />
@@ -208,12 +130,12 @@ const OptInForm = ({ variant = 'hero', onSuccess }) => {
       <button
         type="submit"
         disabled={loading}
-        className="w-full flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-60 text-slate-900 font-extrabold rounded-xl px-6 py-4 text-base shadow-lg shadow-emerald-900/40 hover:shadow-emerald-500/30 hover:-translate-y-0.5 transition-all duration-300"
+        className="w-full flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-60 text-slate-900 font-extrabold rounded-xl px-6 py-4 text-base shadow-lg shadow-emerald-900/40 hover:shadow-emerald-500/30 hover:-translate-y-0.5 transition-all duration-300 mt-2"
       >
         <Download className="w-5 h-5 shrink-0" />
         {loading ? 'Un momento…' : 'SCARICA LA GUIDA GRATIS →'}
       </button>
-      <p className="text-center text-gray-500 text-xs flex items-center justify-center gap-1.5">
+      <p className="text-center text-gray-500 text-xs flex items-center justify-center gap-1.5 pt-1">
         <Lock className="w-3 h-3" />
         Nessuno spam. Mai. Puoi cancellare quando vuoi.
       </p>
@@ -221,201 +143,170 @@ const OptInForm = ({ variant = 'hero', onSuccess }) => {
   );
 };
 
-/* ─── Success State ──────────────────────────────────────── */
-const SuccessState = ({ name }) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.95 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.4 }}
-    className="text-center space-y-4 py-4"
-  >
-    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/15 border border-emerald-500/30 mx-auto">
-      <CheckCircle className="w-8 h-8 text-emerald-400" />
-    </div>
-    <div>
-      <h3 className="text-white font-extrabold text-xl">
-        Perfetto{name ? `, ${name}` : ''}! 🎉
-      </h3>
-      <p className="text-gray-400 text-sm mt-2 leading-relaxed">
-        La guida è in arrivo nella tua casella email. <br />
-        Controlla anche la cartella <span className="text-emerald-400 font-semibold">Spam</span> se non la trovi entro 5 minuti.
-      </p>
-    </div>
-    <div className="bg-slate-800/50 border border-emerald-500/20 rounded-xl p-4 text-left space-y-2">
-      <p className="text-emerald-300 text-sm font-bold">Nel frattempo…</p>
-      <p className="text-gray-400 text-xs leading-relaxed">
-        Hai già un'idea di grafica ma non vuoi occupartene tu?
-        Il nostro esperto grafico crea il file per te in 24 ore — prezzo fisso <span className="text-white font-bold">€15</span>.
-      </p>
-      <a
-        href={WA_CONSULT_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-emerald-300 hover:text-emerald-200 text-sm font-semibold transition-colors mt-1"
-      >
-        <FaWhatsapp className="w-4 h-4" />
-        Scopri la Consulenza Grafica €15 →
-      </a>
-    </div>
-  </motion.div>
-);
-
 /* ─── Hero ───────────────────────────────────────────────── */
-const Hero = () => {
-  const [submitted, setSubmitted] = useState(false);
-  const [userData, setUserData] = useState(null);
+const Hero = () => (
+  <section className="relative bg-slate-950 overflow-hidden pt-16 pb-24 lg:pt-24 lg:pb-32">
+    {/* Background glows */}
+    <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none" />
+    <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-500/8 rounded-full blur-[100px] pointer-events-none" />
+    <div className="absolute top-[20%] left-[30%] w-[300px] h-[300px] bg-teal-500/5 rounded-full blur-[80px] pointer-events-none" />
 
-  const handleSuccess = (data) => {
-    setUserData(data);
-    setSubmitted(true);
-  };
+    <div className="container mx-auto px-4 relative z-10">
+      <div className="flex flex-col lg:flex-row items-center gap-14 max-w-7xl mx-auto">
 
-  return (
-    <section className="relative bg-slate-950 overflow-hidden pt-16 pb-24 lg:pt-24 lg:pb-32">
-      {/* Background glows */}
-      <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute top-[20%] left-[30%] w-[300px] h-[300px] bg-violet-500/5 rounded-full blur-[80px] pointer-events-none" />
-
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-16 max-w-7xl mx-auto">
-
-          {/* Left — Copy */}
-          <div className="flex-1 text-center lg:text-left">
-            {/* Audience callout */}
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-8 inline-block"
-            >
-              <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900/80 border border-emerald-500/30 shadow-lg shadow-emerald-500/5 backdrop-blur-sm">
-                <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-emerald-300 text-xs font-bold tracking-wider uppercase">
-                  Per Titolari di Negozio e Ristoratori
-                </span>
-              </div>
-            </motion.div>
-
-            {/* H1 */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.08 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] tracking-tight mb-8"
-            >
-              Vuoi un Banner Professionale <br className="hidden lg:block"/>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-200">
-                per il Tuo Negozio o Evento
+        {/* Left — Copy */}
+        <div className="flex-1 text-center lg:text-left">
+          {/* Audience callout */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 inline-block"
+          >
+            <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900/80 border border-emerald-500/30 shadow-lg shadow-emerald-500/5 backdrop-blur-sm">
+              <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-emerald-300 text-xs font-bold tracking-wider uppercase">
+                Per Titolari di Negozio e Ristoratori
               </span>
-              <br className="hidden lg:block"/>
-              ma Non Hai Idea da Dove Cominciare?
-            </motion.h1>
+            </div>
+          </motion.div>
 
-            {/* Subheadline */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.18 }}
-              className="space-y-6 max-w-2xl mx-auto lg:mx-0"
-            >
-              <p className="text-xl md:text-2xl font-bold text-gray-200">
-                Scarica Gratis la Mini-Guida in 5 Passi.<br/>
-                <span className="text-gray-400 font-medium text-lg md:text-xl">Nessuna Esperienza Grafica Richiesta.</span>
-              </p>
-              <p className="text-base md:text-lg text-gray-400 leading-relaxed">
-                In questa guida gratuita impari a usare il nostro editor online
-                e <strong className="text-gray-200">crei la tua grafica professionale in meno di 15 minuti.</strong> Passo dopo passo. Con esempi reali.
-              </p>
-            </motion.div>
+          {/* H1 */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.08 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.12] tracking-tight mb-8"
+          >
+            Crea la Tua Grafica{' '}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-300">
+              Professionale
+            </span>
+            <br className="hidden lg:block" />
+            in 15 Minuti — da Zero.
+          </motion.h1>
 
-            {/* Trust strip & Social Proof combined */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.35 }}
-              className="mt-12 flex flex-col sm:flex-row items-center gap-8 justify-center lg:justify-start"
-            >
-              <div className="flex flex-col gap-3 text-sm">
+          {/* Subheadline */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.18 }}
+            className="space-y-4 max-w-2xl mx-auto lg:mx-0"
+          >
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+              La mini-guida gratuita in 5 passi per usare l'editor Printora e creare banner, striscioni e roll-up come un professionista.{' '}
+              <strong className="text-white">Senza esperienza grafica. Senza software. Gratis.</strong>
+            </p>
+          </motion.div>
+
+          {/* Trust bullets + social proof */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.35 }}
+            className="mt-10 flex flex-col sm:flex-row items-center gap-8 justify-center lg:justify-start"
+          >
+            <div className="flex flex-col gap-3 text-sm">
+              {[
+                'PDF gratuito, zero costi',
+                'Nessuna app da installare',
+                'In italiano, senza tecnicismi',
+              ].map((t, i) => (
+                <span key={i} className="flex items-center gap-2 text-gray-300 font-medium">
+                  <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <div className="hidden sm:block w-px h-20 bg-white/10" />
+
+            <div className="bg-slate-800/40 backdrop-blur-md rounded-2xl p-4 border border-white/5 flex items-center gap-4 max-w-xs">
+              <div className="flex -space-x-3 shrink-0">
+                {['M', 'L', 'G'].map((letter, i) => (
+                  <div
+                    key={i}
+                    className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 border-2 border-slate-950 flex items-center justify-center text-white text-sm font-bold shadow-md"
+                  >
+                    {letter}
+                  </div>
+                ))}
+              </div>
+              <div className="text-left">
+                <div className="flex text-amber-400 text-[10px] mb-1">{'★'.repeat(5)}</div>
+                <p className="text-gray-400 text-xs leading-snug">
+                  <span className="text-white font-bold">Oltre 200</span> titolari hanno già usato questa guida.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Right — Premium opt-in card (no mockup, just the offer) */}
+        <div className="flex-1 w-full max-w-lg lg:max-w-[460px] mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="relative bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-3xl shadow-[0_24px_80px_-12px_rgba(16,185,129,0.22)] overflow-hidden"
+          >
+            {/* Glossy top border */}
+            <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-60" />
+            {/* Inner glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 bg-emerald-500/8 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="p-8 relative">
+              {/* Card headline */}
+              <div className="mb-6">
+                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 mb-4">
+                  <BookOpen className="w-3 h-3" /> Mini-Guida Gratuita
+                </span>
+                <h2 className="text-2xl font-extrabold text-white leading-snug mt-2">
+                  Grafica Professionale<br />
+                  <span className="text-emerald-400">in 5 Passi</span>
+                </h2>
+                <p className="text-gray-400 text-sm mt-2 leading-relaxed">
+                  Inserisci la tua email e ricevi il PDF subito.
+                </p>
+              </div>
+
+              {/* What's inside — compact */}
+              <div className="bg-slate-800/50 rounded-xl px-4 py-3 mb-6 border border-white/5 space-y-2">
                 {[
-                  'PDF gratuito, zero costi',
-                  'Nessuna app da installare',
-                  'In italiano, senza tecnicismi',
-                ].map((t, i) => (
-                  <span key={i} className="flex items-center gap-2 text-gray-300 font-medium">
-                    <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
-                    {t}
-                  </span>
+                  'Dimensioni, logo, colori, testi e controllo finale',
+                  'Esempi reali da titolari come te',
+                  'Compatibile con il nostro editor online',
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-2.5 text-xs text-gray-300">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    {item}
+                  </div>
                 ))}
               </div>
 
-              <div className="hidden sm:block w-px h-20 bg-white/10" />
+              <OptInForm variant="hero" />
+            </div>
+          </motion.div>
 
-              <div className="bg-slate-800/40 backdrop-blur-md rounded-2xl p-4 border border-white/5 flex items-center gap-4 max-w-xs transition hover:bg-slate-800/60">
-                <div className="flex -space-x-3 shrink-0">
-                  {['M', 'L', 'G'].map((letter, i) => (
-                    <div
-                      key={i}
-                      className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 border-2 border-slate-950 flex items-center justify-center text-white text-sm font-bold shadow-md"
-                    >
-                      {letter}
-                    </div>
-                  ))}
-                </div>
-                <div className="text-left">
-                  <div className="flex text-amber-400 text-[10px] mb-1">
-                    {'★'.repeat(5)}
-                  </div>
-                  <p className="text-gray-400 text-xs leading-snug">
-                    <span className="text-white font-bold">Oltre 200</span> hanno già creato la grafica con questa guida.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right — Combined Mockup + Form Card */}
-          <div className="flex-1 w-full max-w-lg lg:max-w-[480px] mx-auto relative">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="relative bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-3xl shadow-[0_20px_60px_-15px_rgba(16,185,129,0.2)] overflow-hidden"
-            >
-              {/* Glossy top border */}
-              <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-50" />
-              
-              {/* Top part: Mockup presentation */}
-              <div className="bg-slate-950/60 pt-10 pb-8 px-6 border-b border-white/5 relative flex justify-center">
-                <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none" />
-                <GuidaMockup />
-              </div>
-
-              {/* Bottom part: Form */}
-              <div className="p-8 relative">
-                {submitted ? (
-                  <SuccessState name={userData?.name} />
-                ) : (
-                  <>
-                    <div className="text-center mb-6">
-                      <h2 className="text-xl font-extrabold text-white mb-1">
-                        Scarica la Guida Gratis
-                      </h2>
-                      <p className="text-gray-400 text-sm">
-                        Inserisci i tuoi dati per riceverla via email.
-                      </p>
-                    </div>
-                    <OptInForm variant="hero" onSuccess={handleSuccess} />
-                  </>
-                )}
-              </div>
-            </motion.div>
-          </div>
+          {/* Under-card trust note */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="mt-4 flex items-center justify-center gap-4 text-center"
+          >
+            <div className="flex gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+              ))}
+            </div>
+            <p className="text-gray-500 text-xs">4.9/5 · Oltre 200 download questo mese</p>
+          </motion.div>
         </div>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 /* ─── Fascination Bullets ────────────────────────────────── */
 const FascinationBullets = () => (
@@ -469,21 +360,14 @@ const FascinationBullets = () => (
           },
         ].map(({ icon: Icon, color, text }, i) => {
           const iconCls =
-            color === 'amber'
-              ? 'text-amber-400'
-              : color === 'violet'
-              ? 'text-violet-400'
-              : color === 'blue'
-              ? 'text-blue-400'
-              : 'text-emerald-400';
+            color === 'amber' ? 'text-amber-400' :
+            color === 'violet' ? 'text-violet-400' :
+            color === 'blue' ? 'text-blue-400' : 'text-emerald-400';
           const bgCls =
-            color === 'amber'
-              ? 'bg-amber-500/10 border-amber-500/20'
-              : color === 'violet'
-              ? 'bg-violet-500/10 border-violet-500/20'
-              : color === 'blue'
-              ? 'bg-blue-500/10 border-blue-500/20'
-              : 'bg-emerald-500/10 border-emerald-500/20';
+            color === 'amber' ? 'bg-amber-500/10 border-amber-500/20' :
+            color === 'violet' ? 'bg-violet-500/10 border-violet-500/20' :
+            color === 'blue' ? 'bg-blue-500/10 border-blue-500/20' :
+            'bg-emerald-500/10 border-emerald-500/20';
 
           return (
             <motion.div
@@ -510,7 +394,7 @@ const StepsPreview = () => {
       icon: Ruler,
       num: '01',
       title: 'Scegli le dimensioni giuste',
-      desc: 'Come misurare lo spazio e inserirlo nell\'editor. I formati più usati e a cosa servono.',
+      desc: "Come misurare lo spazio e inserirlo nell'editor. I formati più usati e a cosa servono.",
     },
     {
       icon: Upload,
@@ -534,7 +418,7 @@ const StepsPreview = () => {
       icon: CheckSquare,
       num: '05',
       title: 'Controlla e scarica',
-      desc: 'La checklist rapida pre-invio. Come inviare il file direttamente all\'ordine.',
+      desc: "La checklist rapida pre-invio. Come inviare il file direttamente all'ordine.",
     },
   ];
 
@@ -636,7 +520,7 @@ const SocialProof = () => (
             </p>
             <p>
               Il banner è arrivato in 48 ore. I miei clienti mi hanno chiesto dove l'avevo fatto.
-              <span className="text-white font-semibold"> Ho speso €42 invece di €200.</span>»
+              <span className="text-white font-semibold"> Ho speso €42 invece di €200.»</span>
             </p>
           </div>
 
@@ -675,48 +559,32 @@ const SocialProof = () => (
 );
 
 /* ─── Second Opt-in Block ────────────────────────────────── */
-const SecondOptin = () => {
-  const [submitted, setSubmitted] = useState(false);
-  const [userData, setUserData] = useState(null);
-
-  const handleSuccess = (data) => {
-    setUserData(data);
-    setSubmitted(true);
-  };
-
-  return (
-    <section className="py-20 bg-slate-950 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-emerald-900/5 to-blue-900/5 pointer-events-none" />
-      <div className="container mx-auto px-4 max-w-xl relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-slate-800/60 backdrop-blur-sm border border-emerald-500/20 rounded-2xl p-8 shadow-2xl shadow-black/50"
-        >
-          {submitted ? (
-            <SuccessState name={userData?.name} />
-          ) : (
-            <>
-              <div className="text-center mb-6">
-                <SectionBadge color="emerald">Download gratuito</SectionBadge>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-white mt-4 leading-tight">
-                  Pronto a creare la tua grafica{' '}
-                  <span className="text-emerald-400">in 15 minuti?</span>
-                </h2>
-                <p className="text-gray-400 text-sm mt-3">
-                  Ricevi subito la mini-guida gratuita in 5 passi.
-                  Nessuna esperienza richiesta.
-                </p>
-              </div>
-              <OptInForm variant="mid" onSuccess={handleSuccess} />
-            </>
-          )}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
+const SecondOptin = () => (
+  <section className="py-20 bg-slate-950 relative overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-b from-emerald-900/5 to-blue-900/5 pointer-events-none" />
+    <div className="container mx-auto px-4 max-w-xl relative z-10">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="bg-slate-800/60 backdrop-blur-sm border border-emerald-500/20 rounded-2xl p-8 shadow-2xl shadow-black/50"
+      >
+        <div className="text-center mb-6">
+          <SectionBadge color="emerald">Download gratuito</SectionBadge>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mt-4 leading-tight">
+            Pronto a creare la tua grafica{' '}
+            <span className="text-emerald-400">in 15 minuti?</span>
+          </h2>
+          <p className="text-gray-400 text-sm mt-3">
+            Ricevi subito la mini-guida gratuita in 5 passi.
+            Nessuna esperienza richiesta.
+          </p>
+        </div>
+        <OptInForm variant="mid" />
+      </motion.div>
+    </div>
+  </section>
+);
 
 /* ─── Upsell Strip — Consulenza Grafica ─────────────────── */
 const UpsellStrip = () => (
