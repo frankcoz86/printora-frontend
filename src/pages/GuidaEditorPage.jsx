@@ -194,7 +194,7 @@ const Hero = () => (
             className="space-y-4 max-w-2xl mx-auto lg:mx-0"
           >
             <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-              La mini-guida gratuita in 5 passi per usare l'editor Printora e creare banner, striscioni e roll-up come un professionista.{' '}
+              La mini-guida gratuita in 5 passi per usare l'editor Printora e creare <span className="text-emerald-400 font-semibold">banner</span>, striscioni e <span className="text-emerald-400 font-semibold">roll-up</span> come un professionista.{' '}
               <strong className="text-white">Senza esperienza grafica. Senza software. Gratis.</strong>
             </p>
           </motion.div>
@@ -373,12 +373,31 @@ const FascinationBullets = () => (
             <motion.div
               key={i}
               variants={fadeUp}
-              className="flex items-start gap-4 bg-slate-800/30 rounded-xl px-5 py-4 border border-white/5 hover:border-white/10 transition-colors"
+              className="group relative flex items-start gap-3 sm:gap-4 bg-slate-800/30 rounded-xl px-5 py-4 border border-white/5 hover:border-white/10 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20 overflow-hidden"
             >
-              <div className={`shrink-0 w-9 h-9 rounded-lg ${bgCls} border flex items-center justify-center`}>
-                <Icon className={`w-4 h-4 ${iconCls}`} />
+              {/* Ghost number in background */}
+              <div className={`absolute -right-2 -bottom-4 text-7xl font-black ${iconCls} opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-300 pointer-events-none select-none`}>
+                {i + 1}
               </div>
-              <p className="text-gray-300 text-sm leading-relaxed pt-1">{text}</p>
+
+              {/* Icon Container */}
+              <div className={`shrink-0 w-10 h-10 rounded-xl ${bgCls} border flex items-center justify-center relative z-10 group-hover:scale-105 transition-transform duration-300`}>
+                <Icon className={`w-[18px] h-[18px] ${iconCls}`} />
+              </div>
+              
+              {/* Number Element */}
+              <div className="shrink-0 pt-2.5 relative z-10">
+                <div className="flex items-center justify-center pr-1 border-r border-white/10 h-5">
+                  <span className={`text-[10px] font-black tracking-[0.1em] ${iconCls} opacity-80`}>
+                    0{i + 1}
+                  </span>
+                </div>
+              </div>
+
+              {/* Text Element */}
+              <p className="text-gray-300 text-sm leading-relaxed pt-1.5 relative z-10 flex-1 pr-2">
+                {text}
+              </p>
             </motion.div>
           );
         })}
