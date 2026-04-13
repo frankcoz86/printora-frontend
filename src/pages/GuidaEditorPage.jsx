@@ -87,7 +87,7 @@ const OptInForm = ({ variant = 'hero' }) => {
     } finally {
       setLoading(false);
       const encodedName = encodeURIComponent(name.trim());
-      navigate(`/grazie?source=hvco_editor&name=${encodedName}`);
+      navigate(`/grazie-editor?name=${encodedName}`);
     }
   };
 

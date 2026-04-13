@@ -88,7 +88,7 @@ const OptInForm = ({ variant = 'hero' }) => {
     } finally {
       setLoading(false);
       const encodedName = encodeURIComponent(name.trim());
-      navigate(`/grazie?source=hvco_file_stampa&name=${encodedName}`);
+      navigate(`/grazie-file-stampa?name=${encodedName}`);
     }
   };
 
