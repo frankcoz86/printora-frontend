@@ -278,15 +278,15 @@ const ChecklistPreview = () => {
 
           {/* Service cards */}
           <motion.div variants={fadeUp} className="border-t border-white/5 pt-10">
-            <p className="text-center text-gray-600 text-xs font-bold uppercase tracking-widest mb-6">Vuoi che lo facciamo noi direttamente?</p>
+            <p className="text-center text-gray-500 text-sm font-bold uppercase tracking-widest mb-8">Vuoi che lo facciamo noi direttamente?</p>
             <div className="grid sm:grid-cols-3 gap-4">
               {services.map((s, i) => (
                 <div key={i} className="group bg-slate-950 border border-white/6 hover:border-blue-500/25 rounded-2xl p-6 text-center transition-all duration-300">
                   <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/15 group-hover:border-blue-500/30 flex items-center justify-center text-blue-400 mx-auto mb-4 transition-colors">
                     {s.icon}
                   </div>
-                  <h4 className="text-white font-bold text-sm mb-2">{s.title}</h4>
-                  <p className="text-gray-500 text-xs leading-relaxed">{s.desc}</p>
+                  <h4 className="text-white font-bold text-base mb-2">{s.title}</h4>
+                  <p className="text-gray-400 text-sm leading-relaxed">{s.desc}</p>
                 </div>
               ))}
             </div>
