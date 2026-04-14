@@ -12,7 +12,7 @@ const FloatingWhatsapp = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-8 right-8 bg-green-500 text-white h-16 rounded-full flex items-center justify-center shadow-lg z-30 group"
+      className="fixed bottom-[67px] right-8 bg-green-500 text-white h-16 rounded-full flex items-center justify-center shadow-lg z-30 group"
       initial={{ scale: 0, opacity: 0, x: 100 }}
       animate={{ scale: 1, opacity: 1, x: 0 }}
       transition={{ delay: 1, duration: 0.5, type: 'spring' }}

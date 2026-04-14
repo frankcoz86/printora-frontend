@@ -3,9 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  CheckCircle, Mail, BookOpen, Palette, Clock, Star, ArrowRight,
-  Zap, Shield, Copy, TrendingUp, TrendingDown, Gift, ChevronRight,
-  MoveHorizontal
+  CheckCircle, Mail, Palette, Star,
+  Zap, Shield, Copy, ChevronRight,
+  MoveHorizontal, Sparkles
 } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 
@@ -18,11 +18,10 @@ const fadeUp = {
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.12 } } };
 
 /* ═══════════════════════════════════════
-   HERO — Warm professional welcome
+   HERO
 ═══════════════════════════════════════ */
 const Hero = ({ name }) => (
-  <section className="relative bg-slate-950 overflow-hidden pt-16 pb-20 px-4">
-    {/* Ambient glow */}
+  <section className="relative bg-slate-950 overflow-hidden pt-20 pb-24 px-6">
     <div className="absolute inset-0 pointer-events-none">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-emerald-500/8 rounded-full blur-[120px]" />
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-violet-500/6 rounded-full blur-[100px]" />
@@ -30,46 +29,37 @@ const Hero = ({ name }) => (
     </div>
 
     <div className="relative z-10 max-w-3xl mx-auto text-center">
-      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', damping: 14, delay: 0.1 }}
-        className="flex justify-center mb-8">
-        <div className="relative">
-          <div className="absolute inset-0 bg-emerald-500/30 blur-2xl rounded-full scale-150 animate-pulse" />
-          <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-[0_0_40px_rgba(52,211,153,0.4)]">
-            <CheckCircle className="w-10 h-10 text-white" />
-          </div>
-        </div>
-      </motion.div>
-
-      <motion.div variants={stagger} initial="hidden" animate="visible">
+      <motion.div variants={stagger} initial="hidden" animate="visible" className="flex flex-col items-center gap-5">
         <motion.div variants={fadeUp}>
-          <span className="inline-block bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-5">
+          <span className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-[0.22em] px-5 py-2 rounded-full">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             Registrazione completata
           </span>
         </motion.div>
 
         <motion.h1 variants={fadeUp}
-          className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-[1.08] tracking-tight mb-4">
+          className="text-4xl sm:text-5xl md:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight">
           {name ? `Grazie, ${name}!` : 'Grazie!'}{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">
             La guida è in arrivo.
           </span>
         </motion.h1>
 
-        <motion.p variants={fadeUp} className="text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-8">
+        <motion.p variants={fadeUp} className="text-gray-400 text-lg leading-relaxed max-w-2xl mx-auto">
           Controlla la tua casella di posta — anche la cartella spam. Troverai la tua
           <strong className="text-white"> Mini-Guida Grafica Professionale in 5 Passi</strong> già pronta.
         </motion.p>
 
         <motion.div variants={fadeUp}
-          className="inline-flex items-center gap-3 bg-slate-900 border border-white/10 rounded-2xl px-6 py-4 text-sm">
-          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+          className="inline-flex items-center gap-3 bg-slate-900 border border-white/10 rounded-2xl px-6 py-3.5 text-sm">
+          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0">
             <Mail className="w-4 h-4 text-emerald-400" />
           </div>
           <div className="text-left">
             <p className="text-white font-semibold text-sm">Email inviata adesso</p>
             <p className="text-gray-500 text-xs">Controlla anche la cartella Promozioni o Spam</p>
           </div>
-          <div className="ml-2 flex items-center gap-1.5">
+          <div className="ml-1 flex items-center gap-1.5 shrink-0">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-emerald-400 text-xs font-bold">Live</span>
           </div>
@@ -78,6 +68,161 @@ const Hero = ({ name }) => (
     </div>
   </section>
 );
+
+/* ═══════════════════════════════════════
+   SECTION DIVIDER
+═══════════════════════════════════════ */
+const SectionDivider = () => (
+  <div className="py-5 bg-slate-950">
+    <div className="max-w-3xl mx-auto px-6">
+      <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/35 to-transparent" />
+    </div>
+  </div>
+);
+
+/* ═══════════════════════════════════════
+   ELEGANT OFFER SECTION
+═══════════════════════════════════════ */
+const ElegantOffer = () => {
+  const lineItems = [
+    { emoji: '🎨', label: 'Design grafico su misura', value: '€ 40' },
+    { emoji: '🖨️', label: 'File print-ready CMYK & DPI', value: '€ 20' },
+    { emoji: '📱', label: 'Versione social in regalo', value: '€ 15' },
+    { emoji: '🔄', label: 'Revisioni fino alla perfezione', value: '€ 10' },
+  ];
+
+  return (
+    <section className="py-24 bg-slate-950 relative overflow-hidden">
+
+
+      <div className="max-w-3xl mx-auto px-6 relative z-10">
+        <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.05 }}>
+
+          {/* BADGE */}
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <span className="inline-block bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-black uppercase tracking-[0.25em] px-5 py-2 rounded-full">
+              Offerta Esclusiva per i Nuovi Iscritti
+            </span>
+          </motion.div>
+
+          {/* HEADLINE */}
+          <motion.div variants={fadeUp} className="text-center mb-5">
+            <h2 className="text-4xl sm:text-5xl font-black text-white leading-[1.1] tracking-tight">
+              Vuoi la tua grafica fatta
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
+                da professionisti — a €15?
+              </span>
+            </h2>
+          </motion.div>
+
+          {/* RATIONALE */}
+          <motion.div variants={fadeUp} className="text-center mb-12">
+            <p className="text-gray-400 text-lg leading-relaxed max-w-2xl mx-auto">
+              Le agenzie chiedono da <span className="text-white font-semibold">€80 a €200</span> per un singolo banner. Noi lo facciamo per soli <span className="text-emerald-400 font-bold">€15</span> — disposti a lavorare in perdita sul tuo primo ordine, certi che diventerai un cliente abituale.
+            </p>
+          </motion.div>
+
+          {/* ── MANIFESTO OFFER CARD ── */}
+          <motion.div variants={fadeUp} className="relative">
+
+
+
+            <div className="relative bg-slate-900 rounded-3xl overflow-hidden border border-white/8 shadow-[0_20px_80px_rgba(0,0,0,0.5)]">
+
+              {/* ── HEADER BAND ── */}
+              <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-b border-emerald-500/15 px-8 py-5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  <div>
+                    <p className="text-white font-black text-sm tracking-wide uppercase">Servizio "Fatto per Te"</p>
+                    <p className="text-emerald-400/70 text-xs">Design professionale · Consegna garantita in 24h</p>
+                  </div>
+                </div>
+                <div className="hidden sm:flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-emerald-400 text-[10px] font-black uppercase tracking-wider">Attivo ora</span>
+                </div>
+              </div>
+
+              {/* ── LINE ITEMS ── */}
+              <div className="px-8 pt-7 pb-3 space-y-1">
+                <p className="text-gray-600 text-[10px] font-black uppercase tracking-widest mb-5">Cosa è incluso nel servizio</p>
+                {lineItems.map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -12 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.08, duration: 0.4 }}
+                    className="flex items-center justify-between py-3 border-b border-white/[0.04] group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-xl w-7 text-center">{item.emoji}</span>
+                      <span className="text-gray-300 text-sm group-hover:text-white transition-colors">{item.label}</span>
+                    </div>
+                    <span className="text-gray-500 text-sm font-mono tabular-nums line-through decoration-red-500/40">{item.value}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* ── SUBTOTAL / MARKET VALUE ── */}
+              <div className="mx-8 mt-4 mb-0 flex items-center justify-between py-3 border-t border-white/10">
+                <p className="text-gray-500 text-sm">Valore totale di mercato</p>
+                <p className="text-gray-500 text-base font-black line-through decoration-red-500/50">€ 85</p>
+              </div>
+
+              {/* ── DOTTED SEPARATOR ── */}
+              <div className="mx-8 border-t border-dashed border-white/10 my-0" />
+
+              {/* ── FINAL PRICE ── */}
+              <div className="mx-8 flex items-center justify-between py-5">
+                <div>
+                  <p className="text-white font-black text-lg">Il tuo prezzo oggi</p>
+                  <p className="text-gray-500 text-xs mt-0.5">Solo per chi si iscrive oggi · Posti limitati</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-5xl font-black text-white tracking-tighter leading-none">€15</p>
+                  <p className="text-emerald-400 text-xs font-bold mt-1">– 82% di sconto</p>
+                </div>
+              </div>
+
+              {/* ── TRUST STRIP ── */}
+              <div className="grid grid-cols-3 divide-x divide-white/5 border-t border-white/5 mx-0">
+                {[
+                  { icon: '🛡️', label: 'Garanzia rimborso' },
+                  { icon: '⚡', label: 'Consegna in 24h' },
+                  { icon: '🔄', label: 'Nessun abbonamento' },
+                ].map((t, i) => (
+                  <div key={i} className="flex flex-col items-center gap-2 py-5 px-3">
+                    <span className="text-[22px]">{t.icon}</span>
+                    <span className="text-gray-400 text-xs font-bold text-center leading-tight">{t.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* ── CTA ── */}
+              <div className="px-8 pb-8 pt-5">
+                <a href={WA_URL} target="_blank" rel="noopener noreferrer"
+                  className="group flex items-center justify-center gap-3 w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-black text-lg rounded-2xl py-5 px-6 shadow-[0_8px_32px_rgba(52,211,153,0.4)] hover:shadow-[0_8px_48px_rgba(52,211,153,0.55)] transition-all duration-300">
+                  <FaWhatsapp className="w-6 h-6" />
+                  Sì, voglio la grafica fatta da voi — €15
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
+                <p className="text-center text-gray-600 text-xs mt-4">
+                  Risposta WhatsApp in &lt; 2 min · Nessun obbligo
+                </p>
+              </div>
+
+            </div>
+          </motion.div>
+
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 /* ═══════════════════════════════════════
    WHAT'S INSIDE THE GUIDE
@@ -91,26 +236,32 @@ const GuidePreview = () => {
     { num: '05', icon: '⚡', title: 'Errori da Evitare Sempre', desc: 'I 7 errori che rovinano anche la grafica più curata — e come non commetterli mai.' },
   ];
 
+  const services = [
+    { icon: <Palette className="w-5 h-5" />, title: 'Design su Misura', desc: 'Zero template. Ogni grafica è creata da zero per il tuo brand e i tuoi obiettivi.' },
+    { icon: <Shield className="w-5 h-5" />, title: 'Pronto per la Stampa', desc: 'File CMYK, DPI perfetti e margini corretti. Nessun problema in tipografia, garantito.' },
+    { icon: <Zap className="w-5 h-5" />, title: 'Consegna in 24 ore', desc: 'Dal tuo messaggio WhatsApp al file finito, in meno di un giorno lavorativo.' },
+  ];
+
   return (
     <section className="py-20 bg-slate-900/60 border-y border-white/5">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-3xl mx-auto px-6">
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
           <motion.div variants={fadeUp} className="text-center mb-12">
             <span className="inline-block bg-violet-500/10 border border-violet-500/30 text-violet-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
               Cosa hai appena ricevuto
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white">
+            <h2 className="text-4xl sm:text-5xl font-black text-white">
               La tua Guida in <span className="text-violet-400">5 Capitoli</span>
             </h2>
-            <p className="text-gray-400 mt-3 max-w-xl mx-auto">
+            <p className="text-gray-400 text-lg leading-relaxed mt-3 max-w-xl mx-auto">
               Ogni capitolo è pensato per portarti da zero a grafiche professionali — passo dopo passo.
             </p>
           </motion.div>
 
-          <div className="space-y-3">
+          <div className="space-y-3 mb-14">
             {chapters.map((ch, i) => (
               <motion.div key={i} variants={fadeUp}
-                className="group relative flex items-start gap-5 bg-slate-900 hover:bg-slate-800/80 border border-white/6 hover:border-violet-500/20 rounded-2xl px-5 py-5 transition-all duration-300">
+                className="group relative flex items-start gap-5 bg-slate-900 hover:bg-slate-800/80 border border-white/6 hover:border-violet-500/20 rounded-2xl px-6 py-5 transition-all duration-300">
                 <div className="shrink-0 flex flex-col items-center gap-2">
                   <span className="text-[10px] font-black text-gray-600 tracking-widest">{ch.num}</span>
                   <span className="text-2xl">{ch.icon}</span>
@@ -123,6 +274,23 @@ const GuidePreview = () => {
               </motion.div>
             ))}
           </div>
+
+          {/* Service cards */}
+          <motion.div variants={fadeUp} className="border-t border-white/5 pt-10">
+            <p className="text-center text-gray-600 text-xs font-bold uppercase tracking-widest mb-6">Vuoi che lo facciamo noi direttamente?</p>
+            <div className="grid sm:grid-cols-3 gap-4">
+              {services.map((s, i) => (
+                <div key={i} className="group bg-slate-950 border border-white/6 hover:border-emerald-500/25 rounded-2xl p-6 text-center transition-all duration-300">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/15 group-hover:border-emerald-500/30 flex items-center justify-center text-emerald-400 mx-auto mb-4 transition-colors">
+                    {s.icon}
+                  </div>
+                  <h4 className="text-white font-bold text-sm mb-2">{s.title}</h4>
+                  <p className="text-gray-500 text-xs leading-relaxed">{s.desc}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
         </motion.div>
       </div>
     </section>
@@ -142,16 +310,16 @@ const EmailRoadmap = () => {
 
   return (
     <section className="py-20 bg-slate-950">
-      <div className="max-w-3xl mx-auto px-4">
+      <div className="max-w-3xl mx-auto px-6">
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
           <motion.div variants={fadeUp} className="text-center mb-12">
             <span className="inline-block bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
               Il tuo percorso formativo
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white">
+            <h2 className="text-4xl sm:text-5xl font-black text-white">
               Cosa riceverai <span className="text-amber-400">nei prossimi giorni</span>
             </h2>
-            <p className="text-gray-400 mt-3">Abbiamo preparato un percorso che ti porta da zero a esperto passo dopo passo.</p>
+            <p className="text-gray-400 text-lg leading-relaxed mt-3">Abbiamo preparato un percorso che ti porta da zero a esperto passo dopo passo.</p>
           </motion.div>
 
           <div className="relative">
@@ -159,14 +327,14 @@ const EmailRoadmap = () => {
             <div className="space-y-4">
               {emails.map((e, i) => (
                 <motion.div key={i} variants={fadeUp}
-                  className="flex items-start gap-4 bg-slate-900 border border-white/6 hover:border-amber-500/20 rounded-2xl px-5 py-4 transition-all duration-300 group">
+                  className="flex items-start gap-4 bg-slate-900 border border-white/6 hover:border-amber-500/20 rounded-2xl px-6 py-4 transition-all duration-300 group">
                   <div className="shrink-0 w-14 h-14 rounded-2xl bg-slate-800 border border-white/8 flex flex-col items-center justify-center gap-0.5 relative z-10">
                     <span className="text-xl leading-none">{e.icon}</span>
                     <span className="text-amber-500 text-[9px] font-black uppercase tracking-wide leading-none">{e.day}</span>
                   </div>
                   <div className="pt-1">
                     <p className="text-white font-bold text-sm group-hover:text-amber-300 transition-colors">{e.label}</p>
-                    <p className="text-gray-500 text-xs mt-0.5">{e.desc}</p>
+                    <p className="text-gray-500 text-sm mt-0.5 leading-relaxed">{e.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -207,17 +375,17 @@ const BeforeAfter = () => {
 
   return (
     <section className="py-20 bg-slate-900">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-5xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="text-center mb-10">
           <span className="inline-block bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
             Qualità Printora in azione
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-white mb-3">
+          <h2 className="text-4xl sm:text-5xl font-black text-white mb-3">
             Vedi la differenza che fa<br />
             <span className="text-teal-400">un design professionale</span>
           </h2>
-          <p className="text-gray-400 text-sm">Trascina lo slider per confrontare</p>
+          <p className="text-gray-400 text-lg">Trascina lo slider per confrontare</p>
         </motion.div>
 
         <motion.div
@@ -229,7 +397,6 @@ const BeforeAfter = () => {
           onMouseDown={startDrag}
           onTouchStart={startDrag}
         >
-          {/* Professional side */}
           <div className="absolute inset-0 bg-gradient-to-br from-slate-800 via-emerald-950/80 to-slate-900 flex flex-col items-start justify-center p-8 sm:p-14">
             <div className="text-emerald-400 text-xs font-black uppercase tracking-widest mb-3">✓ Design Printora</div>
             <h3 className="text-white text-3xl sm:text-4xl font-black leading-tight mb-4">
@@ -240,7 +407,6 @@ const BeforeAfter = () => {
             </div>
           </div>
 
-          {/* Amateur side */}
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-gray-100 to-orange-50 flex flex-col items-start justify-center p-8 sm:p-14"
             style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
             <div className="text-red-500 text-xs font-black uppercase tracking-widest mb-3">✗ Template generico</div>
@@ -252,7 +418,6 @@ const BeforeAfter = () => {
             </div>
           </div>
 
-          {/* Handle */}
           <div className="absolute inset-y-0 w-0.5 bg-white/80 z-20 pointer-events-none shadow-[0_0_12px_rgba(255,255,255,0.6)]"
             style={{ left: `${pos}%`, transform: 'translateX(-50%)' }}>
             <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-9 h-9 bg-white rounded-full shadow-xl flex items-center justify-center">
@@ -267,186 +432,7 @@ const BeforeAfter = () => {
   );
 };
 
-/* ═══════════════════════════════════════
-   ROI CALCULATOR
-═══════════════════════════════════════ */
-const RoiCalculator = () => {
-  const [hourlyRate, setHourlyRate] = useState(20);
-  const [hours, setHours] = useState(3);
-  const [perMonth, setPerMonth] = useState(2);
 
-  const diyCost = hourlyRate * hours * perMonth;
-  const ourCost = 15 * perMonth;
-  const savings = diyCost - ourCost;
-
-  return (
-    <section className="py-20 bg-slate-950">
-      <div className="max-w-3xl mx-auto px-4">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="text-center mb-12">
-          <span className="inline-block bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
-            Calcolatore gratuito
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-white mb-3">
-            Quanto vale il tuo tempo?
-          </h2>
-          <p className="text-gray-400">Calcola il costo reale della grafica fai-da-te vs il servizio Printora</p>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="bg-slate-900 border border-white/8 rounded-3xl p-7 sm:p-10 shadow-2xl">
-          <div className="space-y-7 mb-8">
-            {[
-              { label: 'Valore della tua ora lavorativa', val: `€${hourlyRate}/h`, value: hourlyRate, setter: setHourlyRate, min: 10, max: 100, step: 5, color: 'emerald' },
-              { label: 'Ore per creare una grafica da solo', val: `${hours} ore`, value: hours, setter: setHours, min: 1, max: 12, step: 1, color: 'violet' },
-              { label: 'Grafiche che crei ogni mese', val: `${perMonth} grafiche`, value: perMonth, setter: setPerMonth, min: 1, max: 10, step: 1, color: 'amber' },
-            ].map((item, i) => (
-              <div key={i}>
-                <div className="flex justify-between mb-2">
-                  <span className="text-gray-400 text-sm">{item.label}</span>
-                  <span className={`font-black text-base ${item.color === 'emerald' ? 'text-emerald-400' : item.color === 'violet' ? 'text-violet-400' : 'text-amber-400'}`}>{item.val}</span>
-                </div>
-                <input type="range" min={item.min} max={item.max} step={item.step}
-                  value={item.value} onChange={e => item.setter(Number(e.target.value))}
-                  className={`w-full h-2 rounded-full appearance-none cursor-pointer bg-slate-700 ${item.color === 'emerald' ? 'accent-emerald-500' : item.color === 'violet' ? 'accent-violet-500' : 'accent-amber-500'}`} />
-              </div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="bg-slate-800/80 border border-white/5 rounded-2xl p-5 text-center">
-              <div className="flex items-center justify-center gap-1 text-gray-500 mb-2 text-xs font-bold uppercase tracking-wide">
-                <TrendingDown className="w-3.5 h-3.5" /> Fai-da-te
-              </div>
-              <div className="text-3xl font-black text-white">€{diyCost}</div>
-              <div className="text-gray-600 text-xs mt-1">al mese in tempo perso</div>
-            </div>
-            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-5 text-center">
-              <div className="flex items-center justify-center gap-1 text-emerald-400 mb-2 text-xs font-bold uppercase tracking-wide">
-                <TrendingUp className="w-3.5 h-3.5" /> Con Printora
-              </div>
-              <div className="text-3xl font-black text-white">€{ourCost}</div>
-              <div className="text-emerald-500/60 text-xs mt-1">al mese, tutto incluso</div>
-            </div>
-          </div>
-
-          {savings > 0 && (
-            <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 rounded-2xl p-4 text-center">
-              <p className="text-gray-400 text-sm mb-0.5">Risparmio mensile risparmio reale:</p>
-              <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">€{savings}</p>
-            </div>
-          )}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-/* ═══════════════════════════════════════
-   ELEGANT OFFER SECTION — Soft sell
-═══════════════════════════════════════ */
-const ElegantOffer = () => {
-  const items = [
-    '🎨 Design grafico personalizzato (non un template)',
-    '📐 Impaginazione professionale pronta per la stampa',
-    '✨ Ottimizzazione risoluzione e anti-sgranatura',
-    '📱 BONUS: Versione adattata per Instagram / Facebook',
-  ];
-
-  return (
-    <section className="py-20 bg-slate-900/60 border-y border-white/5 relative overflow-hidden">
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute right-0 top-0 w-[300px] h-[300px] bg-violet-500/5 rounded-full blur-[80px] pointer-events-none" />
-
-      <div className="max-w-4xl mx-auto px-4 relative z-10">
-        <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
-
-          <motion.div variants={fadeUp} className="text-center mb-12">
-            <span className="inline-block bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
-              Un passaggio in più — solo per te
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
-              Hai scaricato la guida.<br />
-              <span className="text-emerald-400">Vuoi che la grafica la facciamo noi?</span>
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
-              Per i nuovi iscritti offriamo il servizio completo di design grafico a <strong className="text-white">soli €15</strong> invece di €80 —
-              è il nostro modo per presentarci e guadagnarci la tua fiducia.
-            </p>
-          </motion.div>
-
-          <motion.div variants={fadeUp}
-            className="bg-gradient-to-br from-slate-900 to-slate-950 border border-emerald-500/15 rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(52,211,153,0.07)]">
-
-            {/* Card top */}
-            <div className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-white/5 bg-emerald-500/5">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-                  <Gift className="w-5 h-5 text-emerald-400" />
-                </div>
-                <div>
-                  <p className="text-white font-bold text-sm">Servizio "Fatto per Te"</p>
-                  <p className="text-gray-500 text-xs">Design professionale in 24 ore</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-gray-500 text-xs line-through">€80+</p>
-                <p className="text-emerald-400 font-black text-2xl leading-tight">€15</p>
-              </div>
-            </div>
-
-            {/* Items */}
-            <div className="px-6 sm:px-8 py-6 space-y-3">
-              {items.map((item, i) => (
-                <motion.div key={i} variants={fadeUp}
-                  className="flex items-center gap-3 text-gray-300 text-sm py-1">
-                  <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
-                  {item}
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Rationale */}
-            <div className="px-6 sm:px-8 pb-6">
-              <div className="bg-slate-800/50 border border-white/5 rounded-2xl px-5 py-4 mb-6">
-                <p className="text-gray-400 text-sm leading-relaxed italic">
-                  "Offriamo questo servizio a €15 perché vogliamo dimostrarti la nostra qualità.
-                  Sappiamo che chi prova Printora, torna sempre."
-                </p>
-                <p className="text-emerald-400 font-bold text-xs mt-2">— Il Team Printora</p>
-              </div>
-
-              <motion.a
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                href={WA_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 w-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-black text-lg rounded-2xl py-4 px-6 shadow-[0_4px_24px_rgba(37,211,102,0.3)] hover:shadow-[0_4px_40px_rgba(37,211,102,0.5)] transition-all duration-300"
-              >
-                <FaWhatsapp className="w-6 h-6" />
-                Sì, voglio la grafica fatta da voi — €15
-                <ChevronRight className="w-5 h-5 opacity-70" />
-              </motion.a>
-
-              <p className="text-center text-gray-600 text-xs mt-3">
-                Risposta in meno di 100 secondi · Consegna in 24h · Garanzia rimborso totale
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Guarantee strip */}
-          <motion.div variants={fadeUp}
-            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-gray-500">
-            <span className="flex items-center gap-2"><Shield className="w-4 h-4 text-emerald-500" /> Garanzia rimborso totale</span>
-            <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Nessun costo nascosto</span>
-            <span className="flex items-center gap-2"><Zap className="w-4 h-4 text-emerald-500" /> Consegna in 24 ore</span>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
 
 /* ═══════════════════════════════════════
    SOCIAL PROOF
@@ -459,13 +445,13 @@ const SocialProof = () => {
 
   return (
     <section className="py-20 bg-slate-950">
-      <div className="max-w-3xl mx-auto px-4">
+      <div className="max-w-3xl mx-auto px-6">
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
           <motion.div variants={fadeUp} className="text-center mb-10">
             <div className="flex items-center justify-center gap-0.5 mb-3">
               {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />)}
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white">Cosa dicono i nostri clienti</h2>
+            <h2 className="text-4xl sm:text-5xl font-black text-white">Cosa dicono i nostri clienti</h2>
           </motion.div>
 
           <div className="grid sm:grid-cols-2 gap-5">
@@ -475,7 +461,7 @@ const SocialProof = () => {
                 <div className="flex gap-0.5 mb-4">
                   {[...Array(r.stars)].map((_, si) => <Star key={si} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
                 </div>
-                <p className="text-gray-300 text-sm leading-relaxed flex-1 italic mb-4">"{r.text}"</p>
+                <p className="text-gray-300 text-base leading-relaxed flex-1 italic mb-4">"{r.text}"</p>
                 <div className="flex items-center gap-3 border-t border-white/5 pt-4">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-black text-sm">
                     {r.name[0]}
@@ -508,10 +494,10 @@ const ShareSection = () => {
 
   return (
     <section className="py-16 bg-slate-900/40 border-t border-white/5">
-      <div className="max-w-2xl mx-auto px-4 text-center">
+      <div className="max-w-3xl mx-auto px-6 text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <h3 className="text-xl font-bold text-white mb-2">Conosci qualcuno che ne ha bisogno?</h3>
-          <p className="text-gray-500 text-sm mb-6">Condividi la guida gratuita con colleghi o amici — è un regalo utile.</p>
+          <p className="text-gray-400 text-base leading-relaxed mb-6">Condividi la guida gratuita con colleghi o amici — è un regalo utile.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a href={`https://wa.me/?text=Ho trovato questa guida gratuita di Printora sulla grafica professionale!%20${url}`}
               target="_blank" rel="noopener noreferrer"
@@ -531,7 +517,7 @@ const ShareSection = () => {
 };
 
 /* ═══════════════════════════════════════
-   STICKY BAR — Minimal & polished
+   STICKY BAR
 ═══════════════════════════════════════ */
 const StickyBar = () => {
   const [show, setShow] = useState(false);
@@ -549,7 +535,7 @@ const StickyBar = () => {
           transition={{ type: 'spring', damping: 22 }}
           className="fixed bottom-0 inset-x-0 z-50 bg-slate-950/96 backdrop-blur-lg border-t border-emerald-500/15 shadow-[0_-4px_30px_rgba(52,211,153,0.1)]"
         >
-          <div className="max-w-4xl mx-auto flex items-center justify-between gap-4 px-4 py-3">
+          <div className="max-w-3xl mx-auto flex items-center justify-between gap-4 px-6 py-3">
             <div className="hidden sm:block">
               <p className="text-white font-bold text-sm">Grafica Professionale · Solo €15</p>
               <p className="text-emerald-400/70 text-xs">Consegna in 24h · Garanzia rimborso</p>
@@ -582,11 +568,11 @@ const GrazieEditorPage = () => {
 
       <div className="bg-slate-950 min-h-screen font-sans">
         <Hero name={name} />
+        <SectionDivider />
+        <ElegantOffer />
         <GuidePreview />
         <EmailRoadmap />
         <BeforeAfter />
-        <RoiCalculator />
-        <ElegantOffer />
         <SocialProof />
         <ShareSection />
         <div className="h-20" />
