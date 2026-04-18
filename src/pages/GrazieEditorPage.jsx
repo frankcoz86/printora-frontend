@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   CheckCircle, Mail, Palette, Star,
   Zap, Shield, Copy, ChevronRight,
-  MoveHorizontal, Sparkles
+  MoveHorizontal, Sparkles, Lightbulb, Layout, Type, Printer
 } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 
@@ -269,44 +269,88 @@ const HowItWorksOffer = () => {
 };
 
 /* ═══════════════════════════════════════
-   EMAIL SEQUENCE TEASER
+   THE INTERNAL PROCESS
 ═══════════════════════════════════════ */
-const EmailRoadmap = () => {
-  const emails = [
-    { day: 'Oggi', icon: '📬', label: 'La tua Mini-Guida', desc: 'La guida completa in PDF: 5 passi per grafiche professionali.' },
-    { day: 'Domani', icon: '📖', label: 'L\'errore #1 dei principianti', desc: 'Quello che rende amatoriale anche la grafica più curata.' },
-    { day: 'Giorno 3', icon: '🎨', label: 'Colori che vendono', desc: 'Come scegliere la palette perfetta per attirare il tuo cliente ideale.' },
-    { day: 'Giorno 5', icon: '📈', label: 'Case study reale', desc: 'Come Marco ha raddoppiato gli ingressi in negozio con un unico banner.' },
+const InternalProcess = () => {
+  const steps = [
+    {
+      icon: <Lightbulb className="w-6 h-6" />,
+      title: '1. Analisi Strategica',
+      desc: 'Non ci limitiamo a "mettere in bella". Il nostro grafico analizza il tuo brand e l\'obiettivo della tua campagna per capire quale messaggio debba catturare l\'attenzione per primo.',
+      bg: 'bg-amber-500/10',
+      border: 'border-amber-500/20',
+      text: 'text-amber-400'
+    },
+    {
+      icon: <Layout className="w-6 h-6" />,
+      title: '2. Architettura del Layout',
+      desc: 'Costruiamo un\'ossatura grafica solida. Posizioniamo il tuo logo, i testi principali e la call-to-action sfruttando i principi della gerarchia visiva per massimizzare l\'impatto.',
+      bg: 'bg-orange-500/10',
+      border: 'border-orange-500/20',
+      text: 'text-orange-400'
+    },
+    {
+      icon: <Type className="w-6 h-6" />,
+      title: '3. Design e Psicologia del Colore',
+      desc: 'Scegliamo font leggibili a distanza e applichiamo contrasti cromatici studiati. Bilanciamo attentamente gli elementi con gli spazi vuoti per restituire un percepito premium.',
+      bg: 'bg-rose-500/10',
+      border: 'border-rose-500/20',
+      text: 'text-rose-400'
+    },
+    {
+      icon: <Printer className="w-6 h-6" />,
+      title: '4. Generazione Esecutivo',
+      desc: 'Il tocco tecnico finale: convertiamo tutto in CMYK, aggiungiamo i 3mm di abbondanza esterni necessari per il taglio e ti consegniamo un file "blindato", impeccabile per la stampa.',
+      bg: 'bg-emerald-500/10',
+      border: 'border-emerald-500/20',
+      text: 'text-emerald-400'
+    }
   ];
 
   return (
-    <section className="py-20 bg-slate-950">
-      <div className="max-w-3xl mx-auto px-6">
+    <section className="py-24 bg-slate-950 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(245,158,11,0.03)_0%,transparent_70%)] pointer-events-none" />
+      
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
-          <motion.div variants={fadeUp} className="text-center mb-12">
+          <motion.div variants={fadeUp} className="text-center mb-20">
             <span className="inline-block bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
-              Il tuo percorso formativo
+              Cosa Succede Ora?
             </span>
             <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
-              Cosa riceverai <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400">nei prossimi giorni</span>
+              L'officina <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400">creativa interna</span>
             </h2>
-            <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto mt-4 mb-6">Abbiamo preparato un percorso che ti porta da zero a esperto passo dopo passo.</p>
+            <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto mt-4">
+              Una volta inviatoci il tuo brief, il nostro team entra in azione. Niente template pre-fatti: ecco il nostro processo su misura.
+            </p>
           </motion.div>
 
           <div className="relative">
-            <div className="absolute left-[27px] top-8 bottom-4 w-px bg-gradient-to-b from-amber-500/40 via-amber-500/20 to-transparent hidden sm:block" />
-            <div className="space-y-4">
-              {emails.map((e, i) => (
-                <motion.div key={i} variants={fadeUp}
-                  className="flex items-start gap-4 bg-slate-900 border border-white/6 hover:border-amber-500/20 rounded-2xl px-6 py-4 transition-all duration-300 group">
-                  <div className="shrink-0 w-14 h-14 rounded-2xl bg-slate-800 border border-white/8 flex flex-col items-center justify-center gap-0.5 relative z-10">
-                    <span className="text-xl leading-none">{e.icon}</span>
-                    <span className="text-amber-500 text-[9px] font-black uppercase tracking-wide leading-none">{e.day}</span>
+            <div className="absolute left-7 md:left-1/2 top-4 bottom-4 w-px bg-gradient-to-b from-amber-500/50 via-orange-500/20 to-transparent md:-translate-x-1/2" />
+            
+            <div className="space-y-10 md:space-y-16">
+              {steps.map((step, i) => (
+                <motion.div key={i} variants={fadeUp} className={`relative flex flex-col md:flex-row items-start md:items-center ${i % 2 === 0 ? '' : 'md:flex-row-reverse'}`}>
+                  
+                  <div className="hidden md:block md:w-1/2" />
+
+                  <div className="absolute left-0 md:relative md:left-auto md:w-14 items-center justify-center flex z-10 md:mx-auto md:shrink-0">
+                    <div className="w-14 h-14 rounded-2xl bg-slate-950 border border-white/10 p-1 shadow-xl">
+                      <div className={`w-full h-full rounded-xl ${step.bg} flex items-center justify-center ${step.text}`}>
+                        {step.icon}
+                      </div>
+                    </div>
                   </div>
-                  <div className="pt-1">
-                    <p className="text-white font-bold text-sm group-hover:text-amber-300 transition-colors">{e.label}</p>
-                    <p className="text-gray-500 text-sm mt-0.5 leading-relaxed">{e.desc}</p>
+                  
+                  <div className="w-full pl-20 md:pl-0 md:w-1/2">
+                    <div className={`md:${i % 2 === 0 ? 'pr-12 lg:pr-16' : 'pl-12 lg:pl-16'}`}>
+                      <div className={`bg-slate-900 border border-white/5 hover:${step.border} rounded-2xl p-7 transition-all duration-300 relative group shadow-[0_4px_20px_rgba(0,0,0,0.3)]`}>
+                        <h3 className="text-white font-bold text-xl mb-3">{step.title}</h3>
+                        <p className="text-gray-400 text-[15px] md:text-base leading-relaxed">{step.desc}</p>
+                      </div>
+                    </div>
                   </div>
+
                 </motion.div>
               ))}
             </div>
@@ -542,7 +586,7 @@ const GrazieEditorPage = () => {
         <SectionDivider />
         <ElegantOffer />
         <HowItWorksOffer />
-        <EmailRoadmap />
+        <InternalProcess />
         <BeforeAfter />
         <SocialProof />
         <ShareSection />

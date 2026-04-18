@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CheckCircle, Mail, Star, Shield, Copy, ChevronRight, Zap,
-  ScanEye, CheckCircle2, Sparkles
+  ScanEye, CheckCircle2, Sparkles, Search, Palette, Ruler, FileCheck
 } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 
@@ -271,44 +271,88 @@ const HowItWorksOffer = () => {
 };
 
 /* ═══════════════════════════════════════
-   EMAIL SEQUENCE
+   THE INTERNAL PROCESS
 ═══════════════════════════════════════ */
-const EmailRoadmap = () => {
-  const emails = [
-    { day: 'Oggi', icon: '📬', label: 'La tua Checklist Pre-Stampa', desc: 'PDF completo in 7 punti: tutti i controlli prima di mandare il file in tipografia.' },
-    { day: 'Domani', icon: '🎨', label: 'I neri corretti per la stampa', desc: 'La formula esatta per neri ricchi che non sbiadiscono in stampa.' },
-    { day: 'Giorno 3', icon: '🔍', label: 'Come le tipografie "aggiustano" i file', desc: 'Quello che fanno ai tuoi file senza dirti nulla — e come proteggere il tuo lavoro.' },
-    { day: 'Giorno 5', icon: '💡', label: 'Case study: €500 risparmiati', desc: 'Come uno studio ha evitato una ristampa da €500 grazie a 3 controlli di 5 minuti.' },
+const InternalProcess = () => {
+  const steps = [
+    {
+      icon: <Search className="w-6 h-6" />,
+      title: '1. Scansione Strutturale',
+      desc: 'I nostri software professionali aprono il tuo PDF per cercare insidie invisibili: trasparenze problematiche, font non incorporati e livelli non unificati.',
+      bg: 'bg-indigo-500/10',
+      border: 'border-indigo-500/20',
+      text: 'text-indigo-400'
+    },
+    {
+      icon: <Palette className="w-6 h-6" />,
+      title: '2. Conversione Colore Profilata',
+      desc: 'Individuiamo ogni elemento in RGB e lo convertiamo scrupolosamente in CMYK usando profili colore specifici (es. FOGRA39), evitando che in stampa risulti "spento" o grigiastro.',
+      bg: 'bg-blue-500/10',
+      border: 'border-blue-500/20',
+      text: 'text-blue-400'
+    },
+    {
+      icon: <Ruler className="w-6 h-6" />,
+      title: '3. Margini e Risoluzione',
+      desc: 'Misuriamo la densità dei pixel (DPI) alla dimensione di stampa reale e verifichiamo che i margini d\'abbondanza (bleed) siano corretti, così il taglio non intaccherà i testi.',
+      bg: 'bg-cyan-500/10',
+      border: 'border-cyan-500/20',
+      text: 'text-cyan-400'
+    },
+    {
+      icon: <FileCheck className="w-6 h-6" />,
+      title: '4. Generazione File Esecutivo',
+      desc: 'Un tecnico esperto ricontrolla il risultato finale, appiattisce il file e lo esporta nel formato di stampa blindato. Ora è pronto per entrare in produzione senza sorprese.',
+      bg: 'bg-emerald-500/10',
+      border: 'border-emerald-500/20',
+      text: 'text-emerald-400'
+    }
   ];
 
   return (
-    <section className="py-20 bg-slate-950">
-      <div className="max-w-3xl mx-auto px-6">
+    <section className="py-24 bg-slate-950 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.03)_0%,transparent_70%)] pointer-events-none" />
+      
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
-          <motion.div variants={fadeUp} className="text-center mb-12">
-            <span className="inline-block bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
-              Il tuo percorso formativo
+          <motion.div variants={fadeUp} className="text-center mb-20">
+            <span className="inline-block bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
+              Dietro Le Quinte
             </span>
             <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
-              Cosa riceverai <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400">nei prossimi giorni</span>
+              Cosa fa il nostro <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Reparto Tecnico?</span>
             </h2>
-            <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto mt-4 mb-6">Ogni email ti porta un livello più in alto nella gestione professionale dei file di stampa.</p>
+            <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto mt-4">
+              Una volta inviato il tuo file, inizia il vero lavoro. Ecco il rigoroso processo interno che applichiamo per renderlo impeccabile.
+            </p>
           </motion.div>
 
           <div className="relative">
-            <div className="absolute left-[27px] top-8 bottom-4 w-px bg-gradient-to-b from-amber-500/40 via-amber-500/15 to-transparent hidden sm:block" />
-            <div className="space-y-4">
-              {emails.map((e, i) => (
-                <motion.div key={i} variants={fadeUp}
-                  className="flex items-start gap-4 bg-slate-900 border border-white/6 hover:border-amber-500/20 rounded-2xl px-6 py-4 transition-all duration-300 group">
-                  <div className="shrink-0 w-14 h-14 rounded-2xl bg-slate-800 border border-white/8 flex flex-col items-center justify-center gap-0.5 relative z-10">
-                    <span className="text-xl leading-none">{e.icon}</span>
-                    <span className="text-amber-500 text-[9px] font-black uppercase tracking-wide leading-none">{e.day}</span>
+            <div className="absolute left-7 md:left-1/2 top-4 bottom-4 w-px bg-gradient-to-b from-blue-500/50 via-indigo-500/20 to-transparent md:-translate-x-1/2" />
+            
+            <div className="space-y-10 md:space-y-16">
+              {steps.map((step, i) => (
+                <motion.div key={i} variants={fadeUp} className={`relative flex flex-col md:flex-row items-start md:items-center ${i % 2 === 0 ? '' : 'md:flex-row-reverse'}`}>
+                  
+                  <div className="hidden md:block md:w-1/2" />
+
+                  <div className="absolute left-0 md:relative md:left-auto md:w-14 items-center justify-center flex z-10 md:mx-auto md:shrink-0">
+                    <div className="w-14 h-14 rounded-2xl bg-slate-950 border border-white/10 p-1 shadow-xl">
+                      <div className={`w-full h-full rounded-xl ${step.bg} flex items-center justify-center ${step.text}`}>
+                        {step.icon}
+                      </div>
+                    </div>
                   </div>
-                  <div className="pt-1">
-                    <p className="text-white font-bold text-sm group-hover:text-amber-300 transition-colors">{e.label}</p>
-                    <p className="text-gray-500 text-sm mt-0.5 leading-relaxed">{e.desc}</p>
+                  
+                  <div className="w-full pl-20 md:pl-0 md:w-1/2">
+                    <div className={`md:${i % 2 === 0 ? 'pr-12 lg:pr-16' : 'pl-12 lg:pl-16'}`}>
+                      <div className={`bg-slate-900 border border-white/5 hover:${step.border} rounded-2xl p-7 transition-all duration-300 relative group shadow-[0_4px_20px_rgba(0,0,0,0.3)]`}>
+                        <h3 className="text-white font-bold text-xl mb-3">{step.title}</h3>
+                        <p className="text-gray-400 text-[15px] md:text-base leading-relaxed">{step.desc}</p>
+                      </div>
+                    </div>
                   </div>
+
                 </motion.div>
               ))}
             </div>
@@ -570,7 +614,7 @@ const GrazieFileStampaPage = () => {
         <SectionDivider />
         <ElegantOffer />
         <HowItWorksOffer />
-        <EmailRoadmap />
+        <InternalProcess />
         <RadarDemo />
         <SocialProof />
         <ShareSection />
