@@ -21,7 +21,7 @@ const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.12 } }
    HERO
 ═══════════════════════════════════════ */
 const Hero = ({ name }) => (
-  <section className="relative bg-slate-950 overflow-hidden pt-20 pb-24 px-6">
+  <section className="relative bg-slate-950 overflow-hidden pt-10 pb-8 px-6">
     <div className="absolute inset-0 pointer-events-none">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-emerald-500/8 rounded-full blur-[120px]" />
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-violet-500/6 rounded-full blur-[100px]" />
@@ -29,41 +29,22 @@ const Hero = ({ name }) => (
     </div>
 
     <div className="relative z-10 max-w-3xl mx-auto text-center">
-      <motion.div variants={stagger} initial="hidden" animate="visible" className="flex flex-col items-center gap-5">
+      <motion.div variants={stagger} initial="hidden" animate="visible" className="flex flex-col items-center gap-3">
         <motion.div variants={fadeUp}>
-          <span className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-[0.22em] px-5 py-2 rounded-full">
+          <span className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             Registrazione completata
           </span>
         </motion.div>
 
         <motion.h1 variants={fadeUp}
-          className="text-4xl sm:text-5xl md:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight">
-          {name ? `Grazie, ${name}!` : 'Grazie!'}{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">
-            La guida è in arrivo.
-          </span>
+          className="text-2xl sm:text-3xl font-black text-white leading-tight tracking-tight">
+          {name ? `Grazie, ${name}!` : 'Grazie!'} La guida è in arrivo via email.
         </motion.h1>
 
-        <motion.p variants={fadeUp} className="text-gray-400 text-lg leading-relaxed max-w-2xl mx-auto">
-          Controlla la tua casella di posta — anche la cartella spam. Troverai la tua
-          <strong className="text-white"> Mini-Guida Grafica Professionale in 5 Passi</strong> già pronta.
+        <motion.p variants={fadeUp} className="text-gray-400 text-[13px] sm:text-sm mt-1 max-w-lg mx-auto">
+          Controlla la tua casella di posta — anche la cartella spam. Troverai la tua <strong className="text-white">Mini-Guida Grafica</strong> già pronta.
         </motion.p>
-
-        <motion.div variants={fadeUp}
-          className="inline-flex items-center gap-3 bg-slate-900 border border-white/10 rounded-2xl px-6 py-3.5 text-sm">
-          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0">
-            <Mail className="w-4 h-4 text-emerald-400" />
-          </div>
-          <div className="text-left">
-            <p className="text-white font-semibold text-sm">Email inviata adesso</p>
-            <p className="text-gray-500 text-xs">Controlla anche la cartella Promozioni o Spam</p>
-          </div>
-          <div className="ml-1 flex items-center gap-1.5 shrink-0">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-emerald-400 text-xs font-bold">Live</span>
-          </div>
-        </motion.div>
       </motion.div>
     </div>
   </section>
@@ -92,41 +73,38 @@ const ElegantOffer = () => {
   ];
 
   return (
-    <section className="py-24 bg-slate-950 relative overflow-hidden">
+    <section className="pt-8 pb-24 bg-slate-950 relative overflow-hidden">
 
 
-      <div className="max-w-3xl mx-auto px-6 relative z-10">
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.05 }}>
 
           {/* BADGE */}
-          <motion.div variants={fadeUp} className="text-center mb-8">
-            <span className="inline-block bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-black uppercase tracking-[0.25em] px-5 py-2 rounded-full">
+          <motion.div variants={fadeUp} className="text-center mb-6">
+            <span className="inline-block bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[13px] font-black uppercase tracking-[0.25em] px-6 py-2.5 rounded-full">
               Offerta Esclusiva per i Nuovi Iscritti
             </span>
           </motion.div>
 
           {/* HEADLINE */}
-          <motion.div variants={fadeUp} className="text-center mb-5">
-            <h2 className="text-4xl sm:text-5xl font-black text-white leading-[1.1] tracking-tight">
-              Vuoi la tua grafica fatta
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
-                da professionisti — a €15?
+          <motion.div variants={fadeUp} className="text-center mb-6">
+            <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
+              Vuoi Grafiche che Convertono?
+              <span className="block mt-2 sm:mt-3 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400">
+                Lascia fare agli Esperti — Solo €15
               </span>
             </h2>
           </motion.div>
 
           {/* RATIONALE */}
           <motion.div variants={fadeUp} className="text-center mb-12">
-            <p className="text-gray-400 text-lg leading-relaxed max-w-2xl mx-auto">
-              Le agenzie chiedono da <span className="text-white font-semibold">€80 a €200</span> per un singolo banner. Noi lo facciamo per soli <span className="text-emerald-400 font-bold">€15</span> — disposti a lavorare in perdita sul tuo primo ordine, certi che diventerai un cliente abituale.
+            <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
+              Le agenzie chiedono da <span className="text-white font-bold">€80 a €200</span> per un singolo banner. Noi lo facciamo per soli <span className="text-emerald-400 font-black text-xl">€15</span> — disposti a lavorare in perdita sul tuo primo ordine, certi che diventerai un cliente abituale.
             </p>
           </motion.div>
 
           {/* ── MANIFESTO OFFER CARD ── */}
-          <motion.div variants={fadeUp} className="relative">
-
-
-
+          <motion.div variants={fadeUp} className="relative max-w-3xl mx-auto">
             <div className="relative bg-slate-900 rounded-3xl overflow-hidden border border-white/8 shadow-[0_20px_80px_rgba(0,0,0,0.5)]">
 
               {/* ── HEADER BAND ── */}
@@ -250,10 +228,10 @@ const GuidePreview = () => {
             <span className="inline-block bg-violet-500/10 border border-violet-500/30 text-violet-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
               Cosa hai appena ricevuto
             </span>
-            <h2 className="text-4xl sm:text-5xl font-black text-white">
-              La tua Guida in <span className="text-violet-400">5 Capitoli</span>
+            <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
+              La tua Guida in <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">5 Capitoli</span>
             </h2>
-            <p className="text-gray-400 text-lg leading-relaxed mt-3 max-w-xl mx-auto">
+            <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto mt-4 mb-6">
               Ogni capitolo è pensato per portarti da zero a grafiche professionali — passo dopo passo.
             </p>
           </motion.div>
@@ -316,10 +294,10 @@ const EmailRoadmap = () => {
             <span className="inline-block bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
               Il tuo percorso formativo
             </span>
-            <h2 className="text-4xl sm:text-5xl font-black text-white">
-              Cosa riceverai <span className="text-amber-400">nei prossimi giorni</span>
+            <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
+              Cosa riceverai <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400">nei prossimi giorni</span>
             </h2>
-            <p className="text-gray-400 text-lg leading-relaxed mt-3">Abbiamo preparato un percorso che ti porta da zero a esperto passo dopo passo.</p>
+            <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto mt-4 mb-6">Abbiamo preparato un percorso che ti porta da zero a esperto passo dopo passo.</p>
           </motion.div>
 
           <div className="relative">
@@ -381,11 +359,11 @@ const BeforeAfter = () => {
           <span className="inline-block bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
             Qualità Printora in azione
           </span>
-          <h2 className="text-4xl sm:text-5xl font-black text-white mb-3">
+          <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg mb-4 mt-2">
             Vedi la differenza che fa<br />
-            <span className="text-teal-400">un design professionale</span>
+            <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-300">un design professionale</span>
           </h2>
-          <p className="text-gray-400 text-lg">Trascina lo slider per confrontare</p>
+          <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto mb-6">Trascina lo slider per confrontare</p>
         </motion.div>
 
         <motion.div
@@ -451,7 +429,7 @@ const SocialProof = () => {
             <div className="flex items-center justify-center gap-0.5 mb-3">
               {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />)}
             </div>
-            <h2 className="text-4xl sm:text-5xl font-black text-white">Cosa dicono i nostri clienti</h2>
+            <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg mb-6 mt-2">Cosa dicono i nostri clienti</h2>
           </motion.div>
 
           <div className="grid sm:grid-cols-2 gap-5">
