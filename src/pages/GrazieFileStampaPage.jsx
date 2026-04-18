@@ -75,7 +75,7 @@ const ElegantOffer = () => {
     <section className="pt-8 pb-24 bg-slate-950 relative overflow-hidden">
 
 
-      <div className="max-w-3xl mx-auto px-6 relative z-10">
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.05 }}>
 
           {/* BADGE */}
@@ -87,10 +87,10 @@ const ElegantOffer = () => {
 
           {/* HEADLINE */}
           <motion.div variants={fadeUp} className="text-center mb-6">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
-              Evita Ristampe Costose con il Nostro
+            <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
+              Evita Errori di Stampa Costosi
               <span className="block mt-2 sm:mt-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-blue-400">
-                Controllo File Premium — a soli €15
+                Controllo File Premium — Solo €15
               </span>
             </h2>
           </motion.div>
