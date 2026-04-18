@@ -203,72 +203,65 @@ const ElegantOffer = () => {
 };
 
 /* ═══════════════════════════════════════
-   WHAT'S INSIDE THE GUIDE
+   HOW THE OFFER WORKS
 ═══════════════════════════════════════ */
-const GuidePreview = () => {
-  const chapters = [
-    { num: '01', icon: '🎨', title: 'I Fondamentali della Composizione', desc: 'Come scegliere layout e gerarchie visive che guidano l\'occhio del cliente dove vuoi tu.' },
-    { num: '02', icon: '🖋️', title: 'Tipografia che Comunica Professionalità', desc: 'Combinazioni di font che danno autorevolezza al tuo brand, anche partendo da zero.' },
-    { num: '03', icon: '🌈', title: 'La Psicologia del Colore per il Marketing', desc: 'Come scegliere palette cromatiche che trasmettono esattamente il messaggio giusto.' },
-    { num: '04', icon: '📐', title: 'File Perfetti per la Stampa', desc: 'CMYK, DPI, margini di abbondanza — tutto spiegato in modo semplice e pratico.' },
-    { num: '05', icon: '⚡', title: 'Errori da Evitare Sempre', desc: 'I 7 errori che rovinano anche la grafica più curata — e come non commetterli mai.' },
-  ];
-
-  const services = [
-    { icon: <Palette className="w-5 h-5" />, title: 'Design su Misura', desc: 'Zero template. Ogni grafica è creata da zero per il tuo brand e i tuoi obiettivi.' },
-    { icon: <Shield className="w-5 h-5" />, title: 'Pronto per la Stampa', desc: 'File CMYK, DPI perfetti e margini corretti. Nessun problema in tipografia, garantito.' },
-    { icon: <Zap className="w-5 h-5" />, title: 'Consegna in 24 ore', desc: 'Dal tuo messaggio WhatsApp al file finito, in meno di un giorno lavorativo.' },
+const HowItWorksOffer = () => {
+  const points = [
+    { icon: <Palette className="w-6 h-6" />, title: 'Esperti In-House', desc: 'Nessun freelance esterno. I nostri grafici sono in sede e pronti a lavorare sul tuo progetto per abbattere i costi.' },
+    { icon: <Shield className="w-6 h-6" />, title: 'Soddisfatti o Rimborsati', desc: 'Se la grafica non ti convince dopo la revisione, ti restituiamo i €15 al 100%. Senza burocrazia. Nessun rischio per te.' },
+    { icon: <Zap className="w-6 h-6" />, title: 'Nessun Vincolo', desc: 'Nessun abbonamento. Paghi solo €15 per la grafica. Lo facciamo perché siamo certi che stamperai sempre con noi.' },
+    { icon: <CheckCircle className="w-6 h-6" />, title: 'Pronto in 24 Ore', desc: 'Zero attese. Inviaci testi e logo via WhatsApp e ricevi il file perfetto per la stampa in 24 ore lavorative.' },
   ];
 
   return (
-    <section className="py-20 bg-slate-900/60 border-y border-white/5">
-      <div className="max-w-3xl mx-auto px-6">
+    <section className="py-20 bg-slate-900/60 border-y border-white/5 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
+      
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
-          <motion.div variants={fadeUp} className="text-center mb-12">
-            <span className="inline-block bg-violet-500/10 border border-violet-500/30 text-violet-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
-              Cosa hai appena ricevuto
-            </span>
-            <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
-              La tua Guida in <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">5 Capitoli</span>
-            </h2>
-            <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto mt-4 mb-6">
-              Ogni capitolo è pensato per portarti da zero a grafiche professionali — passo dopo passo.
-            </p>
-          </motion.div>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            
+            <motion.div variants={fadeUp} className="max-w-xl">
+              <span className="inline-block bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-6">
+                Come Funziona L'Offerta
+              </span>
+              <h2 className="text-4xl sm:text-5xl font-black text-white leading-[1.1] tracking-tight drop-shadow-lg mb-6">
+                Perché offriamo la<br/>
+                <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">Grafica a soli €15?</span>
+              </h2>
+              <div className="space-y-5 text-gray-300 text-lg">
+                <p>
+                  Sappiamo che sembra strano offrire una grafica completa a <strong className="text-white">soli €15</strong>, quando normalmente costa <strong className="text-white">tra gli €80 e i €200</strong>.
+                </p>
+                <p>
+                  Ma c'è un motivo: il blocco più grande che i clienti hanno prima di stampare, è l'avere un file pronto e professionale.
+                </p>
+                <p>
+                  Noi vogliamo rimuovere questo ostacolo. <strong className="text-white">Siamo disposti a darti il lavoro dei nostri grafici quasi gratis</strong>, perché crediamo ciecamente nella qualità delle nostre stampe.
+                </p>
+                <p className="italic text-emerald-400 font-medium">
+                  Una volta vista la bontà del nostro servizio, sappiamo che diventerai un cliente abituale per tutte le tue stampe future.
+                </p>
+              </div>
+            </motion.div>
 
-          <div className="space-y-3 mb-14">
-            {chapters.map((ch, i) => (
-              <motion.div key={i} variants={fadeUp}
-                className="group relative flex items-start gap-5 bg-slate-900 hover:bg-slate-800/80 border border-white/6 hover:border-violet-500/20 rounded-2xl px-6 py-5 transition-all duration-300">
-                <div className="shrink-0 flex flex-col items-center gap-2">
-                  <span className="text-[10px] font-black text-gray-600 tracking-widest">{ch.num}</span>
-                  <span className="text-2xl">{ch.icon}</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-white font-bold text-base mb-1 group-hover:text-violet-300 transition-colors">{ch.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{ch.desc}</p>
-                </div>
-                <CheckCircle className="w-5 h-5 text-emerald-500/40 group-hover:text-emerald-500 transition-colors shrink-0 mt-0.5" />
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Service cards */}
-          <motion.div variants={fadeUp} className="border-t border-white/5 pt-10">
-            <p className="text-center text-gray-500 text-sm font-bold uppercase tracking-widest mb-8">Vuoi che lo facciamo noi direttamente?</p>
-            <div className="grid sm:grid-cols-3 gap-4">
-              {services.map((s, i) => (
-                <div key={i} className="group bg-slate-950 border border-white/6 hover:border-emerald-500/25 rounded-2xl p-6 text-center transition-all duration-300">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/15 group-hover:border-emerald-500/30 flex items-center justify-center text-emerald-400 mx-auto mb-4 transition-colors">
-                    {s.icon}
+            <div className="grid sm:grid-cols-2 gap-4">
+              {points.map((pt, i) => (
+                <motion.div key={i} variants={fadeUp} 
+                  className="bg-slate-900 border border-white/6 hover:border-emerald-500/20 rounded-2xl p-6 transition-all duration-300 group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                    {pt.icon}
                   </div>
-                  <h4 className="text-white font-bold text-base mb-2">{s.title}</h4>
-                  <p className="text-gray-400 text-sm leading-relaxed">{s.desc}</p>
-                </div>
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/15 flex items-center justify-center text-emerald-400 mb-5 relative z-10 transition-colors group-hover:border-emerald-500/30 group-hover:bg-emerald-500/20">
+                    {pt.icon}
+                  </div>
+                  <h3 className="text-white font-bold text-lg mb-3 relative z-10">{pt.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed relative z-10">{pt.desc}</p>
+                </motion.div>
               ))}
             </div>
-          </motion.div>
 
+          </div>
         </motion.div>
       </div>
     </section>
@@ -548,7 +541,7 @@ const GrazieEditorPage = () => {
         <Hero name={name} />
         <SectionDivider />
         <ElegantOffer />
-        <GuidePreview />
+        <HowItWorksOffer />
         <EmailRoadmap />
         <BeforeAfter />
         <SocialProof />

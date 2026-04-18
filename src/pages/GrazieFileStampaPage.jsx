@@ -205,74 +205,65 @@ const ElegantOffer = () => {
 };
 
 /* ═══════════════════════════════════════
-   CHECKLIST PREVIEW
+   HOW THE OFFER WORKS
 ═══════════════════════════════════════ */
-const ChecklistPreview = () => {
+const HowItWorksOffer = () => {
   const points = [
-    { num: '01', icon: '🎨', title: 'Profilo Colore Corretto', desc: 'RGB va bene sullo schermo, ma la stampa richiede CMYK con profilo FOGRA39. Impariamo a convertire senza perdere qualità.' },
-    { num: '02', icon: '📐', title: 'Margine di Abbondanza (Bleed)', desc: '3mm oltre il bordo di taglio: il piccolo segreto che previene i bordi bianchi nella stampa finale.' },
-    { num: '03', icon: '🖼️', title: 'Risoluzione Minima 300 DPI', desc: 'Le immagini a 72 DPI sembrano perfette sullo schermo ma escono sgranate in stampa. Come verificarlo in anticipo.' },
-    { num: '04', icon: '✏️', title: 'Font Convertiti in Tracciati', desc: 'Senza questa operazione il font viene sostituito con caratteri di default. Come evitarlo definitivamente.' },
-    { num: '05', icon: '🔲', title: 'Nero Ricco vs Nero Puro', desc: 'Il nero puro stampa grigio. Il nero ricco (C60 M40 Y40 K100) stampa bello scuro. La formula esatta è qui.' },
-    { num: '06', icon: '📄', title: 'Formato File Corretto', desc: 'PDF, TIFF o JPG? Quale usare in quale caso. Le impostazioni di esportazione che fanno la differenza.' },
-    { num: '07', icon: '✅', title: 'Checklist Finale Pre-Invio', desc: 'I 7 controlli da fare sempre prima di mandare il file in tipografia — nessun errore sfugge più.' },
-  ];
-
-  const services = [
-    { icon: <ScanEye className="w-5 h-5" />, title: 'Controllo Tecnico Totale', desc: 'DPI, CMYK, font, sovrastampe: ogni dettaglio analizzato prima della stampa.' },
-    { icon: <Shield className="w-5 h-5" />, title: 'Correzione Margini & Bleed', desc: '3mm di abbondanza aggiunti per un taglio perfetto, senza bordi bianchi.' },
-    { icon: <Zap className="w-5 h-5" />, title: 'Risultato in 24 Ore', desc: 'File print-ready consegnato in meno di un giorno lavorativo, garantito.' },
+    { icon: <ScanEye className="w-6 h-6" />, title: 'Tecnici In-House', desc: 'Ogni giorno i nostri tecnici analizzano decine di file prima della stampa. Nessuna agenzia terza, abbattiamo i costi.' },
+    { icon: <Shield className="w-6 h-6" />, title: 'Garanzia Ristampa', desc: 'Se mandiamo in stampa il file riparato e c\'è un difetto tecnico, la ristampa è a nostro carico. Rischio zero per te.' },
+    { icon: <Zap className="w-6 h-6" />, title: 'Nessun Vincolo', desc: 'Nessun abbonamento, paghi solo €15. È il nostro modo per conquistare la tua fiducia e farti stampare da noi in futuro.' },
+    { icon: <CheckCircle className="w-6 h-6" />, title: 'Pronto in 24 Ore', desc: 'Analisi DPI, CMYK e margini in tempi record. Il tuo file sarà perfetto e pronto per la stampa in 24 ore lavorative.' },
   ];
 
   return (
-    <section className="py-20 bg-slate-900/60 border-y border-white/5">
-      <div className="max-w-3xl mx-auto px-6">
+    <section className="py-20 bg-slate-900/60 border-y border-white/5 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+      
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
-          <motion.div variants={fadeUp} className="text-center mb-12">
-            <span className="inline-block bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
-              Cosa hai appena ricevuto
-            </span>
-            <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
-              La tua Checklist in <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">7 Punti Critici</span>
-            </h2>
-            <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto mt-4 mb-6">
-              Ogni punto elimina un errore specifico che costa soldi in ristampe. Tienila sempre a portata di mano.
-            </p>
-          </motion.div>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            
+            <motion.div variants={fadeUp} className="max-w-xl">
+              <span className="inline-block bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-6">
+                Come Funziona L'Offerta
+              </span>
+              <h2 className="text-4xl sm:text-5xl font-black text-white leading-[1.1] tracking-tight drop-shadow-lg mb-6">
+                Perché analizziamo il<br/>
+                <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">File a soli €15?</span>
+              </h2>
+              <div className="space-y-5 text-gray-300 text-lg">
+                <p>
+                  In una tipografia tradizionale o in agenzia, un preflight su un file e le eventuali correzioni tecniche possono arrivare a costare <strong className="text-white">€80 o persino €150</strong>.
+                </p>
+                <p>
+                  Noi <strong className="text-white">lo facciamo per soli €15.</strong> E il motivo è semplice: sappiamo che la paura di sbagliare i colori o i bordi è ciò che trattiene i clienti dal mandare in stampa i propri file.
+                </p>
+                <p>
+                  Siamo disposti a darti il tempo dei nostri tecnici praticamente gratis, perché crediamo che <strong className="text-white">una volta che avrai in mano una stampa impeccabile, diventerai nostro cliente abituale.</strong>
+                </p>
+                <p className="italic text-blue-400 font-medium">
+                  Questo controllo tecnico è il nostro investimento nella tua creatività.
+                </p>
+              </div>
+            </motion.div>
 
-          <div className="space-y-3 mb-14">
-            {points.map((pt, i) => (
-              <motion.div key={i} variants={fadeUp}
-                className="group relative flex items-start gap-5 bg-slate-900 hover:bg-slate-800/80 border border-white/6 hover:border-blue-500/20 rounded-2xl px-6 py-5 transition-all duration-300">
-                <div className="shrink-0 flex flex-col items-center gap-2">
-                  <span className="text-[10px] font-black text-gray-600 tracking-widest">{pt.num}</span>
-                  <span className="text-2xl">{pt.icon}</span>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-white font-bold text-base mb-1 group-hover:text-blue-300 transition-colors">{pt.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{pt.desc}</p>
-                </div>
-                <CheckCircle className="w-5 h-5 text-blue-500/40 group-hover:text-blue-500 transition-colors shrink-0 mt-0.5" />
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Service cards */}
-          <motion.div variants={fadeUp} className="border-t border-white/5 pt-10">
-            <p className="text-center text-gray-500 text-sm font-bold uppercase tracking-widest mb-8">Vuoi che lo facciamo noi direttamente?</p>
-            <div className="grid sm:grid-cols-3 gap-4">
-              {services.map((s, i) => (
-                <div key={i} className="group bg-slate-950 border border-white/6 hover:border-blue-500/25 rounded-2xl p-6 text-center transition-all duration-300">
-                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/15 group-hover:border-blue-500/30 flex items-center justify-center text-blue-400 mx-auto mb-4 transition-colors">
-                    {s.icon}
+            <div className="grid sm:grid-cols-2 gap-4">
+              {points.map((pt, i) => (
+                <motion.div key={i} variants={fadeUp} 
+                  className="bg-slate-900 border border-white/6 hover:border-blue-500/20 rounded-2xl p-6 transition-all duration-300 group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                    {pt.icon}
                   </div>
-                  <h4 className="text-white font-bold text-base mb-2">{s.title}</h4>
-                  <p className="text-gray-400 text-sm leading-relaxed">{s.desc}</p>
-                </div>
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/15 flex items-center justify-center text-blue-400 mb-5 relative z-10 transition-colors group-hover:border-blue-500/30 group-hover:bg-blue-500/20">
+                    {pt.icon}
+                  </div>
+                  <h3 className="text-white font-bold text-lg mb-3 relative z-10">{pt.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed relative z-10">{pt.desc}</p>
+                </motion.div>
               ))}
             </div>
-          </motion.div>
 
+          </div>
         </motion.div>
       </div>
     </section>
@@ -578,7 +569,7 @@ const GrazieFileStampaPage = () => {
         <Hero name={name} />
         <SectionDivider />
         <ElegantOffer />
-        <ChecklistPreview />
+        <HowItWorksOffer />
         <EmailRoadmap />
         <RadarDemo />
         <SocialProof />
