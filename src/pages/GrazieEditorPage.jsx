@@ -89,9 +89,9 @@ const ElegantOffer = () => {
           {/* HEADLINE */}
           <motion.div variants={fadeUp} className="text-center mb-6">
             <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
-              Vuoi Grafiche che Convertono?
+              Vuoi Grafiche Efficaci?
               <span className="block mt-2 sm:mt-3 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400">
-                Lascia fare agli Esperti, Solo €15
+                Lascia fare agli Esperti
               </span>
             </h2>
           </motion.div>

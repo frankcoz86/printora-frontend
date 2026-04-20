@@ -90,7 +90,7 @@ const ElegantOffer = () => {
             <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
               Evita Errori di Stampa Costosi
               <span className="block mt-2 sm:mt-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-blue-400">
-                Controllo File Premium, Solo €15
+                Controllo File Premium
               </span>
             </h2>
           </motion.div>

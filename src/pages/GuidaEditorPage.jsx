@@ -183,7 +183,7 @@ const Hero = () => (
               Professionale
             </span>
             <br className="hidden lg:block" />
-            in 15 Minuti, da Zero.
+            in 15 Minuti, Banner & Rollup da Zero.
           </motion.h1>
 
           {/* Subheadline */}
