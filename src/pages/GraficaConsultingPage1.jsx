@@ -50,7 +50,7 @@ const CheckItem = ({ children }) => (
   </li>
 );
 
-const WaButton = ({ label = 'Prenota la Consulenza Grafica — €15', full = false }) => (
+const WaButton = ({ label = 'Prenota la Consulenza Grafica €15', full = false }) => (
   <a
     href={WA_URL}
     target="_blank"
@@ -129,7 +129,7 @@ const Hero = () => (
       >
         Il nostro esperto grafico studia il tuo brief, crea la grafica su misura per le
         dimensioni reali del tuo banner o roll-up e ti consegna il file in CMYK, alla
-        risoluzione corretta, con i margini al vivo — pronto per andare in stampa senza sorprese.
+        risoluzione corretta, con i margini al vivo, pronto per andare in stampa senza sorprese.
       </motion.p>
 
       {/* CTAs */}
@@ -139,7 +139,7 @@ const Hero = () => (
         transition={{ duration: 0.5, delay: 0.3 }}
         className="flex flex-col sm:flex-row items-center justify-center gap-4"
       >
-        <WaButton label="Prenota la Consulenza — €15" />
+        <WaButton label="Prenota la Consulenza €15" />
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <Link
             to="/banner"
@@ -209,11 +209,11 @@ const ProductShowcase = () => (
           </div>
           <p className="text-gray-400 text-sm leading-relaxed">
             Striscioni orizzontali e verticali per negozi, eventi, fiere, sagre e allestimenti outdoor.
-            La grafica deve bilanciare impatto a distanza e leggibilità — la creiamo alle dimensioni reali del tuo spazio.
+            La grafica deve bilanciare impatto a distanza e leggibilità, la creiamo alle dimensioni reali del tuo spazio.
           </p>
           <ul className="space-y-1.5 text-sm text-gray-300">
             {[
-              'Dimensioni personalizzate — dal 50×100cm al 6m',
+              'Dimensioni personalizzate, dal 50×100cm al 6m',
               'File corretto per stampa PVC UV-resistente',
               'Area sicura calcolata su bordi e occhielli',
             ].map((t, i) => (
@@ -241,7 +241,7 @@ const ProductShowcase = () => (
           </div>
           <p className="text-gray-400 text-sm leading-relaxed">
             Totem verticali per stand fieristici, reception, presentazioni e punti vendita.
-            Il roll-up ha una gerarchia visiva specifica — headline in alto, claim al centro, logo in basso.
+            Il roll-up ha una gerarchia visiva specifica: headline in alto, claim al centro, logo in basso.
             La gestiamo noi.
           </p>
           <ul className="space-y-1.5 text-sm text-gray-300">
@@ -303,9 +303,9 @@ const Problem = () => (
           </p>
           <ul className="space-y-2 text-gray-300 text-sm">
             {[
-              'Risoluzione insufficiente — il banner esce sgranato a grandezza naturale',
-              'Colori in RGB invece di CMYK — vengono completamente diversi dal monitor',
-              'Margini al vivo mancanti — il contenuto viene tagliato dai rifili o dagli occhielli',
+              'Risoluzione insufficiente, il banner esce sgranato a grandezza naturale',
+              'Colori in RGB invece di CMYK, vengono completamente diversi dal monitor',
+              'Margini al vivo mancanti, il contenuto viene tagliato dai rifili o dagli occhielli',
               'Testo troppo vicino ai bordi o troppo piccolo per essere letto a 3 metri',
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-2">
@@ -340,7 +340,7 @@ const Solution = () => (
             <span className="text-emerald-400">3 passi.</span>
           </h2>
           <p className="text-gray-400 mt-3 max-w-xl mx-auto">
-            Ci dici cosa ti serve — banner, roll-up o entrambi — noi creiamo o correggiamo la grafica
+            Ci dici cosa ti serve, banner, roll-up o entrambi, noi creiamo o correggiamo la grafica
             alle dimensioni esatte. Entro 24 ore il file è in mano tua.
           </p>
         </motion.div>
@@ -355,7 +355,7 @@ const Solution = () => (
             {
               step: '02', Icon: Brush, color: 'emerald',
               title: 'Creiamo la grafica su misura',
-              desc: 'Banner PVC o roll-up — file in CMYK, risoluzione adeguata alla grandezza reale, margini al vivo inclusi. Pronto per la stampa.',
+              desc: 'Banner PVC o roll-up, file in CMYK, risoluzione adeguata alla grandezza reale, margini al vivo inclusi. Pronto per la stampa.',
             },
             {
               step: '03', Icon: Package, color: 'violet',
@@ -412,7 +412,7 @@ const Credentials = () => (
         className="grid grid-cols-2 md:grid-cols-4 gap-4"
       >
         {[
-          { Icon: BadgeCheck, text: 'Produzione interna — conosciamo la macchina grande formato' },
+          { Icon: BadgeCheck, text: 'Produzione interna, conosciamo la macchina grande formato' },
           { Icon: Users,      text: 'Centinaia di banner e roll-up stampati ogni mese' },
           { Icon: FileCheck,  text: 'Verifica professionale file inclusa su ogni ordine' },
           { Icon: Zap,        text: 'Risposta WhatsApp entro 2 ore in orario lavorativo' },
@@ -443,7 +443,7 @@ const Benefits = () => (
       >
         <motion.div variants={fadeUp} className="text-center mb-10">
           <h2 className="text-3xl font-extrabold text-white">
-            Cosa facciamo — cosa ottieni
+            Cosa facciamo e cosa ottieni
           </h2>
         </motion.div>
 
@@ -452,9 +452,9 @@ const Benefits = () => (
           className="overflow-hidden rounded-2xl border border-white/10"
         >
           {[
-            ['Brief via WhatsApp (banner o roll-up)', 'Capito subito — dimensioni, formato, colori, messaggio'],
+            ['Brief via WhatsApp (banner o roll-up)', 'Capito subito, dimensioni, formato, colori, messaggio'],
             ['Creazione grafica da zero o correzione file', 'File da professionista, calibrato per la stampa grande formato'],
-            ['Dimensionamento esatto del supporto', 'Ogni millimetro rispettato — nessun contenuto tagliato'],
+            ['Dimensionamento esatto del supporto', 'Ogni millimetro rispettato, nessun contenuto tagliato'],
             ['CMYK + risoluzione corretta (min. 100 dpi)', 'Colori fedeli e stampa nitida anche a 2–3 metri di distanza'],
             ['Margini al vivo e area sicura', 'Banner e roll-up non vengono tagliati dove non devono'],
             ['Consegna entro 24 ore lavorative', 'Il tuo evento non aspetta, la tua fiera non slitta'],
@@ -494,7 +494,7 @@ const Fascination = () => (
           Quello che nessuno ti dice su banner e roll-up
         </motion.h2>
         {[
-          'L\'errore sul colore che fa venire il tuo banner grigio invece di blu — e come lo blocchiamo in pre-stampa',
+          'L\'errore sul colore che fa venire il tuo banner grigio invece di blu e come lo blocchiamo in pre-stampa',
           'Perché un roll-up fatto su Canva quasi sempre esce con i bordi bianchi e i testi tagliati',
           'Come il nostro grafico crea in 24 ore la grafica che un\'agenzia esterna ti farebbe aspettare una settimana',
           'La differenza tra €80 di un grafico freelance e €15 del nostro esperto banner (non è quello che pensi)',
@@ -556,7 +556,7 @@ const SocialProof = () => (
               <FaWhatsapp className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="text-white text-sm font-semibold">Printora — Grafica Banner & Roll-up</p>
+              <p className="text-white text-sm font-semibold">Printora Grafica Banner & Roll-up</p>
               <p className="text-emerald-200 text-xs">Messaggi verificati</p>
             </div>
           </div>
@@ -567,7 +567,7 @@ const SocialProof = () => (
                 <div className="bg-[#1f2c34] rounded-2xl rounded-tl-sm px-4 py-3 max-w-sm shadow-md">
                   <p className="text-white text-sm leading-relaxed">"{t.text}"</p>
                   <div className="mt-2 pt-2 border-t border-white/10 flex items-center justify-between gap-4">
-                    <span className="text-emerald-400 text-xs font-bold">— {t.name}</span>
+                    <span className="text-emerald-400 text-xs font-bold">{t.name}</span>
                     <div className="text-right">
                       <span className="text-gray-500 text-[11px] block">{t.role}, {t.city}</span>
                       <span className="text-violet-400 text-[10px] font-semibold">{t.product}</span>
@@ -597,7 +597,7 @@ const TheOffer = () => (
         <motion.div variants={fadeUp} className="text-center">
           <SectionBadge color="violet">L'Offerta</SectionBadge>
           <h2 className="text-3xl md:text-4xl font-extrabold text-white mt-4">
-            Grafica per Banner & Roll-up —{' '}
+            Grafica per Banner & Roll-up,{' '}
             <span className="text-emerald-400">€15 fissi</span>
           </h2>
           <p className="text-gray-500 text-sm mt-2">Un prezzo. Qualunque sia la dimensione, il formato, la complessità.</p>
@@ -624,7 +624,7 @@ const TheOffer = () => (
           className="bg-emerald-950/30 rounded-2xl p-5 border border-emerald-500/20"
         >
           <p className="text-emerald-300 font-bold text-sm uppercase tracking-wider mb-3">
-            🎁 Bonus inclusi — solo per chi prenota oggi
+            🎁 Bonus inclusi, solo per chi prenota oggi
           </p>
           <ul className="space-y-2 text-gray-300 text-sm">
             {[
@@ -684,12 +684,12 @@ const TheOffer = () => (
         >
           "Perché €15 e non €80? Il nostro grafico è interno, conosce le macchine di stampa,
           sa esattamente come deve essere un file di banner o roll-up per uscire perfetto.
-          È un investimento nella tua stampa — non un favore."
+          È un investimento nella tua stampa, non un favore."
         </motion.p>
 
         {/* CTA */}
         <motion.div variants={fadeUp} className="pt-2">
-          <WaButton full label="Prenota la Consulenza Grafica — €15" />
+          <WaButton full label="Prenota la Consulenza Grafica €15" />
           <p className="text-center text-gray-500 text-xs mt-3">
             Via WhatsApp · Risposta garantita entro 2 ore
           </p>
@@ -767,7 +767,7 @@ const Guarantee = () => (
         </h3>
         <p className="text-gray-300 leading-relaxed">
           Se la grafica del tuo banner o roll-up consegnata non ti soddisfa dopo la revisione,
-          ti rimborsiamo i <span className="text-emerald-400 font-bold">€15 integralmente</span> —
+          ti rimborsiamo i <span className="text-emerald-400 font-bold">€15 integralmente</span>,
           senza domande, senza burocrazia.
         </p>
         <p className="text-gray-500 text-sm font-semibold">

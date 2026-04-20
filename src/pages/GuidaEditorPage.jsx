@@ -183,7 +183,7 @@ const Hero = () => (
               Professionale
             </span>
             <br className="hidden lg:block" />
-            in 15 Minuti — da Zero.
+            in 15 Minuti, da Zero.
           </motion.h1>
 
           {/* Subheadline */}
@@ -331,7 +331,7 @@ const FascinationBullets = () => (
           {
             icon: AlertTriangle,
             color: 'amber',
-            text: "L'errore #1 che fa sembrare amatoriale anche la grafica più curata — (#3 ti sorprenderà)",
+            text: "L'errore #1 che fa sembrare amatoriale anche la grafica più curata, (#3 ti sorprenderà)",
           },
           {
             icon: Palette,
@@ -351,7 +351,7 @@ const FascinationBullets = () => (
           {
             icon: AlertTriangle,
             color: 'amber',
-            text: 'Le 3 cose che NON devi mai mettere vicino ai bordi — e perché vengono tagliate',
+            text: 'Le 3 cose che NON devi mai mettere vicino ai bordi, e perché vengono tagliate',
           },
           {
             icon: Sparkles,
@@ -529,7 +529,7 @@ const SocialProof = () => (
               tipografo di fiducia mi chiedeva €200 per fare un banner. Troppo.
             </p>
             <p>
-              Ho trovato Printora su Instagram. Non avevo mai creato una grafica in vita mia — uso il telefono
+              Ho trovato Printora su Instagram. Non avevo mai creato una grafica in vita mia, uso il telefono
               per mandare messaggi, punto.
             </p>
             <p>
@@ -617,7 +617,7 @@ const UpsellStrip = () => (
       >
         <div className="flex-1 text-center md:text-left">
           <span className="inline-block text-[11px] font-bold tracking-[0.15em] uppercase px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/30 text-violet-300 mb-3">
-            🎨 Alternativa — Nessuna Fatica
+            🎨 Alternativa, Nessuna Fatica
           </span>
           <h3 className="text-white font-extrabold text-lg leading-tight">
             Preferisci che lo faccia{' '}
@@ -625,7 +625,7 @@ const UpsellStrip = () => (
           </h3>
           <p className="text-gray-400 text-sm mt-2 leading-relaxed">
             Se hai il logo e una bozza di idea, il nostro grafico crea il file professionale
-            in 24 ore — CMYK, risoluzione corretta, margini al vivo.
+            in 24 ore, CMYK, risoluzione corretta, margini al vivo.
             <span className="text-white font-semibold"> Prezzo fisso €15. Garanzia rimborso.</span>
           </p>
         </div>
@@ -668,12 +668,12 @@ const SelfServeStrip = () => (
 const GuidaEditorPage = () => (
   <>
     <Helmet>
-      <title>Crea la Tua Grafica in 5 Passi — Guida Gratuita | Printora</title>
+      <title>Crea la Tua Grafica in 5 Passi, Guida Gratuita | Printora</title>
       <meta
         name="description"
         content="Scarica gratis la mini-guida in 5 passi per creare la tua grafica professionale per banner e striscioni. Nessuna esperienza richiesta. Passo dopo passo, con esempi reali. Per titolari di negozio, ristoratori e organizzatori di eventi."
       />
-      <meta property="og:title" content="Crea la Tua Grafica in 5 Passi — Guida Gratuita | Printora" />
+      <meta property="og:title" content="Crea la Tua Grafica in 5 Passi, Guida Gratuita | Printora" />
       <meta
         property="og:description"
         content="Guida gratuita per creare la tua grafica professionale in meno di 15 minuti. Nessuna esperienza richiesta."

@@ -43,7 +43,7 @@ const Hero = ({ name }) => (
         </motion.h1>
 
         <motion.p variants={fadeUp} className="text-gray-400 text-[13px] sm:text-sm mt-1 max-w-lg mx-auto">
-          Controlla la tua casella di posta — anche la cartella spam. Troverai la tua <strong className="text-white">Mini-Guida Grafica</strong> già pronta.
+          Controlla la tua casella di posta, anche la cartella spam. Troverai la tua <strong className="text-white">Mini-Guida Grafica</strong> già pronta.
         </motion.p>
       </motion.div>
     </div>
@@ -91,7 +91,7 @@ const ElegantOffer = () => {
             <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
               Vuoi Grafiche che Convertono?
               <span className="block mt-2 sm:mt-3 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400">
-                Lascia fare agli Esperti — Solo €15
+                Lascia fare agli Esperti, Solo €15
               </span>
             </h2>
           </motion.div>
@@ -99,7 +99,7 @@ const ElegantOffer = () => {
           {/* RATIONALE */}
           <motion.div variants={fadeUp} className="text-center mb-12">
             <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
-              Le agenzie chiedono da <span className="text-white font-bold">€80 a €200</span> per un singolo banner. Noi lo facciamo per soli <span className="text-emerald-400 font-black text-xl">€15</span> — disposti a lavorare in perdita sul tuo primo ordine, certi che diventerai un cliente abituale.
+              Le agenzie chiedono da <span className="text-white font-bold">€80 a €200</span> per un singolo banner. Noi lo facciamo per soli <span className="text-emerald-400 font-black text-xl">€15</span>, disposti a lavorare in perdita sul tuo primo ordine, certi che diventerai un cliente abituale.
             </p>
           </motion.div>
 
@@ -185,7 +185,7 @@ const ElegantOffer = () => {
                 <a href={WA_URL} target="_blank" rel="noopener noreferrer"
                   className="group flex items-center justify-center gap-3 w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-black text-lg rounded-2xl py-5 px-6 shadow-[0_8px_32px_rgba(52,211,153,0.4)] hover:shadow-[0_8px_48px_rgba(52,211,153,0.55)] transition-all duration-300">
                   <FaWhatsapp className="w-6 h-6" />
-                  Sì, voglio la grafica fatta da voi — €15
+                  Sì, voglio la grafica fatta da voi €15
                   <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </a>
                 <p className="text-center text-gray-600 text-xs mt-4">
@@ -512,7 +512,7 @@ const ShareSection = () => {
       <div className="max-w-3xl mx-auto px-6 text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <h3 className="text-xl font-bold text-white mb-2">Conosci qualcuno che ne ha bisogno?</h3>
-          <p className="text-gray-400 text-base leading-relaxed mb-6">Condividi la guida gratuita con colleghi o amici — è un regalo utile.</p>
+          <p className="text-gray-400 text-base leading-relaxed mb-6">Condividi la guida gratuita con colleghi o amici, è un regalo utile.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a href={`https://wa.me/?text=Ho trovato questa guida gratuita di Printora sulla grafica professionale!%20${url}`}
               target="_blank" rel="noopener noreferrer"
@@ -558,7 +558,7 @@ const StickyBar = () => {
             <a href={WA_URL} target="_blank" rel="noopener noreferrer"
               className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-bold rounded-xl px-5 py-2.5 text-sm shadow-md">
               <FaWhatsapp className="w-4 h-4" />
-              Grafica Fatta da Noi — €15
+              Grafica Fatta da Noi €15
             </a>
           </div>
         </motion.div>

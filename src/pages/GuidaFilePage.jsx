@@ -336,12 +336,12 @@ const FascinationBullets = () => (
           {
             icon: Maximize,
             color: 'amber',
-            text: 'Il motivo per cui il tuo banner viene "tagliato" ai bordi — e la soluzione definitiva in 30 secondi',
+            text: 'Il motivo per cui il tuo banner viene "tagliato" ai bordi, e la soluzione definitiva in 30 secondi',
           },
           {
             icon: Crosshair,
             color: 'emerald',
-            text: 'La risoluzione che devi avere davvero (NO, non è 300dpi come dicono tutti — ti spieghiamo perché)',
+            text: 'La risoluzione che devi avere davvero (NO, non è 300dpi come dicono tutti, ti spieghiamo perché)',
           },
           {
             icon: AlertTriangle,
@@ -653,12 +653,12 @@ const SelfServeStrip = () => (
 const GuidaFilePage = () => (
   <>
     <Helmet>
-      <title>Checklist File di Stampa Perfetto — Guida Gratuita | Printora</title>
+      <title>Checklist File di Stampa Perfetto, Guida Gratuita | Printora</title>
       <meta
         name="description"
         content="Il tuo file viene sempre sbagliato in stampa? Scarica la checklist professionale gratuita in 7 punti per Designer, Agenzie e Stampatori e non sprechi mai più un ordine."
       />
-      <meta property="og:title" content="Checklist File di Stampa Perfetto — Guida Gratuita | Printora" />
+      <meta property="og:title" content="Checklist File di Stampa Perfetto, Guida Gratuita | Printora" />
       <meta
         property="og:description"
         content="Scarica gratis la checklist usata dai professionisti Printora per mandare in stampa senza sorprese."

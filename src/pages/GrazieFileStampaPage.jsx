@@ -42,7 +42,7 @@ const Hero = ({ name }) => (
         </motion.h1>
 
         <motion.p variants={fadeUp} className="text-gray-400 text-[13px] sm:text-sm mt-1 max-w-lg mx-auto">
-          Controlla la tua casella di posta — anche la cartella spam. Troverai la tua <strong className="text-white">Checklist Pre-Stampa</strong> subito disponibile.
+          Controlla la tua casella di posta, anche la cartella spam. Troverai la tua <strong className="text-white">Checklist Pre-Stampa</strong> subito disponibile.
         </motion.p>
       </motion.div>
     </div>
@@ -90,7 +90,7 @@ const ElegantOffer = () => {
             <h2 className="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-lg">
               Evita Errori di Stampa Costosi
               <span className="block mt-2 sm:mt-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-blue-400">
-                Controllo File Premium — Solo €15
+                Controllo File Premium, Solo €15
               </span>
             </h2>
           </motion.div>
@@ -98,7 +98,7 @@ const ElegantOffer = () => {
           {/* RATIONALE */}
           <motion.div variants={fadeUp} className="text-center mb-12">
             <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
-              Un reparto prestampa in agenzia costa da <span className="text-white font-bold">€80 a €150</span> per analizzare e correggere un file. Noi lo facciamo per soli <span className="text-blue-400 font-black text-xl">€15</span> — con garanzia ristampa gratuita inclusa — perché vogliamo dimostrarti dal vivo la nostra qualità.
+              Un reparto prestampa in agenzia costa da <span className="text-white font-bold">€80 a €150</span> per analizzare e correggere un file. Noi lo facciamo per soli <span className="text-blue-400 font-black text-xl">€15</span>, con garanzia ristampa gratuita inclusa, perché vogliamo dimostrarti dal vivo la nostra qualità.
             </p>
           </motion.div>
 
@@ -187,7 +187,7 @@ const ElegantOffer = () => {
                 <a href={WA_URL} target="_blank" rel="noopener noreferrer"
                   className="group flex items-center justify-center gap-3 w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white font-black text-lg rounded-2xl py-5 px-6 shadow-[0_8px_32px_rgba(59,130,246,0.4)] hover:shadow-[0_8px_48px_rgba(59,130,246,0.55)] transition-all duration-300">
                   <FaWhatsapp className="w-6 h-6" />
-                  Sì, controllate il mio file — €15
+                  Sì, controllate il mio file €15
                   <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </a>
                 <p className="text-center text-gray-600 text-xs mt-4">
@@ -438,7 +438,7 @@ const RadarDemo = () => {
                   className="space-y-3">
                   <div className="text-emerald-400 font-bold mb-4 flex items-center gap-2">
                     <CheckCircle2 className="w-5 h-5" />
-                    CORREZIONE COMPLETATA — File 100% Print-Ready
+                    CORREZIONE COMPLETATA, File 100% Print-Ready
                   </div>
                   {errors.map((err, i) => (
                     <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.12 }}
@@ -540,7 +540,7 @@ const ShareSection = () => {
       <div className="max-w-3xl mx-auto px-6 text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <h3 className="text-xl font-bold text-white mb-2">Conosci un collega che stampa spesso?</h3>
-          <p className="text-gray-400 text-base leading-relaxed mb-6">Condividi la checklist — potrebbe risparmiargli una ristampa costosa.</p>
+          <p className="text-gray-400 text-base leading-relaxed mb-6">Condividi la checklist, potrebbe risparmiargli una ristampa costosa.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a href={`https://wa.me/?text=Questa checklist di Printora mi ha già salvato da errori in stampa!%20${url}`}
               target="_blank" rel="noopener noreferrer"
@@ -580,13 +580,13 @@ const StickyBar = () => {
         >
           <div className="max-w-3xl mx-auto flex items-center justify-between gap-4 px-6 py-3">
             <div className="hidden sm:block">
-              <p className="text-white font-bold text-sm">Preflight & Correzione File — Solo €15</p>
+              <p className="text-white font-bold text-sm">Preflight & Correzione File, Solo €15</p>
               <p className="text-blue-400/70 text-xs">Controllo esperto · Garanzia ristampa · Risultato 24h</p>
             </div>
             <a href={WA_URL} target="_blank" rel="noopener noreferrer"
               className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-bold rounded-xl px-5 py-2.5 text-sm shadow-md">
               <FaWhatsapp className="w-4 h-4" />
-              Controllo File — €15
+              Controllo File €15
             </a>
           </div>
         </motion.div>
